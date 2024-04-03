@@ -17,4 +17,5 @@ export const NAV_LINK = {
   IMPORT_ORDER: "/home/warehouse/importOrder",
   PROFILE: "/home/profile",
   SHELF: "/home/shelf",
+  STAFF: "/home/staff",
 };

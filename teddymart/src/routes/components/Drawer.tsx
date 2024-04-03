@@ -17,6 +17,7 @@ import {
 } from "react-icons/bs";
 import { FaBarsProgress } from "react-icons/fa6";
 import { BiBox } from "react-icons/bi";
+import { MdOutlinePeople } from "react-icons/md";
 import { Menu } from "antd";
 import { useTranslation } from "react-i18next";
 import { Divider } from "antd";
@@ -78,6 +79,11 @@ export default function Drawer() {
           name: t("drawer.supplier"),
           link: NAV_LINK.SUPPLIER,
           icon1: <BsTruck size={20} />,
+        },
+        {
+          name: t("drawer.staff"),
+          link: NAV_LINK.STAFF,
+          icon1: <MdOutlinePeople size={20} />,
         },
       ],
     },

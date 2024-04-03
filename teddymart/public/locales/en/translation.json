@@ -51,7 +51,8 @@
     "warehouse": "Warehouse",
     "report": "Report",
     "signOut": "Sign out",
-    "shelf": "Shelf"
+    "shelf": "Shelf",
+    "staff":"Staff"
   },
   "manager": {
     "userId": "User ID",
@@ -165,6 +166,9 @@
     "debt": "Debt",
     "gender": "Gender",
     "note": "Note",
+    "staff":"Staff",
+    "addNewStaff":"Add New Staff",
+    "updateStaff":"Update Staff",
     "addNewCustomer": "Add New Customer",
     "addNewSupplier": "Add New Supplier",
     "supplierName": "Supplier Name",
@@ -344,7 +348,17 @@
     "certificate": "Certificate",
     "uploadImage": "Upload Image"
   },
-
+  "staff":{
+    "id":"Staff ID",
+    "staffName":"Staff Name",
+    "phoneNumber":"Phone Number",
+    "email":"Email",
+    "address":"Address",
+    "gender":"Gender",
+    "type":"Type",
+    "salary":"Salary (VND / month)",
+    "note":"Note"
+  },
   "fillData": "Please fill full required fields",
   "noData": "No data",
   "rowsPerPage": "Number of rows per page: ",
@@ -365,7 +379,8 @@
     "voucher": "Voucher",
     "groupProduct": "Group Product",
     "profile": "Profile",
-    "shelf": "Shelf"
+    "shelf": "Shelf",
+    "staff":"Staff"
   },
   "on": "on",
   "profile": {

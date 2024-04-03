@@ -11,6 +11,17 @@ declare type TPartner = {
   totalBuyAmount?: number;
   debt?: number;
 };
+declare type TStaff = {
+  id: string;
+  staffName: string;
+  phoneNumber: string;
+  email: string;
+  address: string;
+  gender: "female" | "male";
+  type: string;
+  salary: number;
+  note: string;
+};
 
 declare type TManager = {
   userId: string;

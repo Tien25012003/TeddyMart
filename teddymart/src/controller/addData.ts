@@ -19,7 +19,8 @@ type params = {
     | TProduct
     | TOrder
     | TShelf
-    | TWarehouse;
+    | TWarehouse
+    | TStaff;
 };
 const addData = async ({ data, table, id }: params) => {
   let userId = window.localStorage.getItem("USER_ID");

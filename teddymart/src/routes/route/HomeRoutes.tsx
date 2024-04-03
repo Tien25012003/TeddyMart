@@ -22,6 +22,7 @@ import { useLocation } from "react-router-dom";
 import { useMemo } from "react";
 import Profile from "views/Profile/Profile";
 import ShelfScreen from "views/Shelf/ShelfScreen";
+import StaffScreen from "views/Partner/StaffScreen";
 
 export default function HomeRoutes() {
   const { openDrawer } = useSelector((state: RootState) => state.controlSlice);
@@ -40,6 +41,11 @@ export default function HomeRoutes() {
       path: "supplier",
       element: <SupplierScreen />,
       name: t("header.supplier"),
+    },
+    {
+      path: "staff",
+      element: <StaffScreen />,
+      name: t("header.staff"),
     },
     {
       path: "warehouse",
