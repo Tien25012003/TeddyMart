@@ -120,7 +120,7 @@ export default function LoginScreen() {
           }
           await onFetchData(userCredential.user.uid);
           window.localStorage.setItem("USER_ID", userCredential.user.uid);
-          Hotjar.identify("USER_ID", { userProperty: "value" });
+          Hotjar.identify("USER_ID", { email: data.userName });
           //console.log("login success");
         })
         .catch((e) => {
@@ -166,7 +166,7 @@ export default function LoginScreen() {
           }
           await onFetchData(userCredential.user.uid);
           window.localStorage.setItem("USER_ID", userCredential.user.uid);
-          Hotjar.identify("USER_ID", { userProperty: "value" });
+          Hotjar.identify("USER_ID", { email: data.userName });
         })
         .catch((e) => {
           setError("password", {
