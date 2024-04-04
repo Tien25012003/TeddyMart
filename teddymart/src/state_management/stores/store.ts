@@ -12,11 +12,12 @@ const persistConfig = {
 const pReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: rootReducer,
+  //reducer: rootReducer,
+  reducer: pReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
   // devTools: window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 });
-// export const persistor = persistStore(store);
+export const persistor = persistStore(store);
