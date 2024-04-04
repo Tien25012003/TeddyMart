@@ -37,6 +37,7 @@ import {
   updateNotifications,
 } from "state_management/slices/notificationSlice";
 import { uploadStaff } from "state_management/slices/staffSlice";
+import Hotjar from "@hotjar/browser";
 
 type Inputs = {
   userName: string;
@@ -65,6 +66,7 @@ export default function LoginScreen() {
     formState: { errors },
   } = useForm<Inputs>();
   const onLogin: SubmitHandler<Inputs> = async (data) => {
+    Hotjar.event("Click Login");
     setLoading(true);
     const snapshot = await getDocs(collection(db, "Manager"));
     const user = snapshot.docs.find(

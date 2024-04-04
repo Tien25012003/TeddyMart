@@ -105,6 +105,7 @@ export default function ReportScreen() {
   }, [REPORTS, time.from, time.to]);
 
   const onClickCard = (name: string) => {
+    Hotjar.event("Report Screen --- Click Card");
     let tmp = cards.map((c) => {
       if (c.name === name) {
         return {
