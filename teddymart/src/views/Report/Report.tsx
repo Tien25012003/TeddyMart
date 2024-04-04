@@ -11,13 +11,6 @@ import { useState, useEffect, useMemo } from "react";
 import { COLORS } from "constants/colors";
 import { useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
-import { Button } from "antd";
-import { addDBPartnerTable } from "firebase-tools/addDbPartnerTable";
-import { addDbVoucherTable } from "firebase-tools/addDbVoucherTable";
-import { addDbGroupProduct } from "firebase-tools/addDbGroupProduct";
-import { addDBProduct } from "firebase-tools/addDbProduct";
-import { addDbWarehouse } from "firebase-tools/addDbWarehouse";
-import { addDbOrder } from "firebase-tools/addDbOrder";
 
 export default function ReportScreen() {
   const initialValue = {

@@ -7,6 +7,10 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import { useHistory, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { NAV_LINK } from "routes/components/NAV_LINK";
+import Hotjar from "@hotjar/browser";
+const siteId = 3926064;
+const hotjarVersion = 6;
+Hotjar.init(siteId, hotjarVersion);
 const App = () => {
   return (
     <Provider store={store}>
