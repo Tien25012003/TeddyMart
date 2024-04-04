@@ -16,6 +16,8 @@ import { deletePartner } from "state_management/slices/partnerSlice";
 import { message } from "antd";
 import { PartnerTable } from "components/TableComponent";
 import AddNewStaffForm from "./Components/AddNewStaff";
+import StaffTable from "components/TableComponent/components/StaffTable";
+import { deleteStaff } from "state_management/slices/staffSlice";
 
 const StaffScreen = () => {
   const { t } = useTranslation();
@@ -79,9 +81,9 @@ const StaffScreen = () => {
   const onDeleteMultiShelf = () => {
     if (selectedRows.length !== 0) {
       selectedRows.forEach(async (item) => {
-        await deleteData({ id: item, table: "Partner" });
-        dispatch(deletePartner({ partnerId: item }));
-        message.success(t("partner.deletePartner"));
+        await deleteData({ id: item, table: "Staff" });
+        dispatch(deleteStaff({ id: item }));
+        message.success(t("partner.deleteStaff"));
         setOpen(false);
         setSelectedRows([]);
       });
@@ -163,7 +165,7 @@ const StaffScreen = () => {
           setOpen={setOpen}
           onConfirm={onDeleteMultiShelf}
         />
-        <PartnerTable
+        <StaffTable
           isCustomer={false}
           filterOption={filterOptions}
           search={search}

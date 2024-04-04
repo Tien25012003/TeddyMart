@@ -141,6 +141,7 @@
     "gender": "Giới tính",
     "note": "Ghi chú",
     "updateStaff":"Cập nhật nhân viên",
+    "deleteStaff":"Xóa nhân viên",
 
     "addNewStaff":"Thêm nhân viên",
     "addNewCustomer": "Thêm khách hàng",

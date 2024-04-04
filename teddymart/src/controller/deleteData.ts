@@ -9,7 +9,8 @@ type params = {
     | "Product"
     | "Orders"
     | "Ware_House"
-    | "Shelf";
+    | "Shelf"
+    | "Staff";
 };
 const deleteData = async ({ id, table }: params) => {
   let userId = window.localStorage.getItem("USER_ID");

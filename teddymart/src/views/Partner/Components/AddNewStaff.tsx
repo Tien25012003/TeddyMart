@@ -12,6 +12,7 @@ import {
   updatePartner,
 } from "state_management/slices/partnerSlice";
 import { addData, updateData } from "controller/addData";
+import { addNewStaff } from "state_management/slices/staffSlice";
 
 type Props = {
   openAddNewStaff: boolean;
@@ -63,13 +64,14 @@ export default function AddNewStaffForm({
 
     if (isAdd) {
       //   dispatch(addNewPartner(newData));
-      addData({ data: newData, table: "Partner", id: newData.id });
+      addData({ data: newData, table: "Staff", id: newData.id });
+      dispatch(addNewStaff(data));
       message.success(t("partner.addSuccess"));
     } else {
       //   dispatch(updatePartner({ partnerId: data.id, newData: newData }));
       await updateData({
         data: newData,
-        table: "Partner",
+        table: "Staff",
         id: newData.id,
       });
       message.success(t("partner.updateSuccess"));
@@ -87,7 +89,7 @@ export default function AddNewStaffForm({
       salary: 0,
 
       note: "",
-      type: "Customer",
+      type: "",
     });
   };
 
@@ -112,7 +114,7 @@ export default function AddNewStaffForm({
       footer={false}
       title={
         <h1 className="pr-8 text-3xl">
-          {isAdd ? t("partner.addNewStaff") : t("partner.updateCustomer")}
+          {isAdd ? t("partner.addNewStaff") : t("partner.updateStaff")}
         </h1>
       }
       width={"60%"}

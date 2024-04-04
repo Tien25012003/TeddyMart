@@ -169,6 +169,7 @@
     "staff":"Staff",
     "addNewStaff":"Add New Staff",
     "updateStaff":"Update Staff",
+    "deleteStaff":"Delete Staff",
     "addNewCustomer": "Add New Customer",
     "addNewSupplier": "Add New Supplier",
     "supplierName": "Supplier Name",

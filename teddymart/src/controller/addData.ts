@@ -10,7 +10,8 @@ type params = {
     | "Shelf"
     | "Product"
     | "Orders"
-    | "Ware_House";
+    | "Ware_House"
+    | "Staff";
 
   data:
     | TVoucher

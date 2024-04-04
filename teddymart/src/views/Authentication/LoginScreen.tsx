@@ -36,6 +36,7 @@ import {
   TNotification,
   updateNotifications,
 } from "state_management/slices/notificationSlice";
+import { uploadStaff } from "state_management/slices/staffSlice";
 
 type Inputs = {
   userName: string;
@@ -192,6 +193,9 @@ export default function LoginScreen() {
       }),
       getData(`/Manager/${userId}/Partner`).then((data: TPartner[]) => {
         dispatch(uploadPartner(data));
+      }),
+      getData(`/Manager/${userId}/Staff`).then((data: TStaff[]) => {
+        dispatch(uploadStaff(data));
       }),
       new Promise((resolve) => {
         getData(`/Manager/${userId}/Ware_House`).then((data: TWarehouse[]) => {
