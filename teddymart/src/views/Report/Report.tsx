@@ -15,10 +15,7 @@ import Hotjar from "@hotjar/browser";
 
 export default function ReportScreen() {
   useEffect(() => {
-    if (Hotjar.isReady()) {
-      Hotjar.identify("USER_ID", { userProperty: "value" });
-      Hotjar.stateChange("/report");
-    }
+    Hotjar.stateChange("/home/report");
   }, []);
   const initialValue = {
     outcome: 0,

@@ -57,6 +57,10 @@ export default function LoginScreen() {
       navigate(NAV_LINK.REPORT);
     }
     setLoading(false);
+
+    if (Hotjar.isReady()) {
+      Hotjar.stateChange("/");
+    }
   }, []);
   const {
     register,
@@ -66,7 +70,7 @@ export default function LoginScreen() {
     formState: { errors },
   } = useForm<Inputs>();
   const onLogin: SubmitHandler<Inputs> = async (data) => {
-    Hotjar.event("Click Login");
+    Hotjar.event("Login Screen --- Click Login");
     setLoading(true);
     const snapshot = await getDocs(collection(db, "Manager"));
     const user = snapshot.docs.find(
@@ -116,6 +120,7 @@ export default function LoginScreen() {
           }
           await onFetchData(userCredential.user.uid);
           window.localStorage.setItem("USER_ID", userCredential.user.uid);
+          Hotjar.identify("USER_ID", { userProperty: "value" });
           //console.log("login success");
         })
         .catch((e) => {
@@ -161,6 +166,7 @@ export default function LoginScreen() {
           }
           await onFetchData(userCredential.user.uid);
           window.localStorage.setItem("USER_ID", userCredential.user.uid);
+          Hotjar.identify("USER_ID", { userProperty: "value" });
         })
         .catch((e) => {
           setError("password", {
