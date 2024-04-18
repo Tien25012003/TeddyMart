@@ -21,7 +21,7 @@ const AddNewVoucherForm = ({ openAddVoucher, setOpenAddVoucher }: Props) => {
   const [dateFrom, setDateFrom] = useState<Date>(new Date());
   const [dateTo, setDateTo] = useState<Date>(new Date());
   const [discountAmount, setDiscountAmount] = useState("");
-  const { userId } = useSelector((state: RootState) => state.manager);
+  const userId = localStorage.getItem('USER_ID')
   const dispatch = useDispatch();
   const formatDate = (date: Date) => {
     const y = date.getFullYear();

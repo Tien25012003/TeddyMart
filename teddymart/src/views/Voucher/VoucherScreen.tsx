@@ -19,7 +19,7 @@ function VoucherScreen() {
   const [openUpdateVoucher, setOpenUpdateVoucher] = useState(false);
   const [openWarningDelete, setOpenWarningDelete] = useState(false);
   const [editContent, setEditContent] = useState<TVoucher>();
-  const { userId } = useSelector((state: RootState) => state.manager);
+  const userId = localStorage.getItem('USER_ID')
   const [voucherId, setVoucherId] = useState("");
   const dispatch = useDispatch();
   const openEditForm = (voucher: TVoucher) => {

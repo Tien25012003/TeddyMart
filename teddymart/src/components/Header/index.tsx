@@ -30,7 +30,7 @@ export default function Header({
   const { openDrawer } = useSelector((state: RootState) => state.controlSlice);
   const notifications =
     useSelector((state: RootState) => state.notificationSlice) ?? [];
-  const { userId } = useSelector((state: RootState) => state.manager);
+  const userId = localStorage.getItem('USER_ID')
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
