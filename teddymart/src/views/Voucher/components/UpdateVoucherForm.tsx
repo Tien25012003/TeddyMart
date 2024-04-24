@@ -23,7 +23,7 @@ const UpdateVoucherForm = ({
   const [discountAmount, setDiscountAmount] = useState(
     data?.discountAmount.toString()
   );
-  const { userId } = useSelector((state: RootState) => state.manager);
+  const userId = localStorage.getItem('USER_ID')
   const dispatch = useDispatch();
   const onUpdateVoucher = () => {
     const dataUpdate: TVoucher = {

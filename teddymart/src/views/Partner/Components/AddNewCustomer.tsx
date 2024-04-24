@@ -33,7 +33,7 @@ export default function AddNewCustomerForm({
   );
 
   const { t } = useTranslation();
-  const { userId } = useSelector((state: RootState) => state.manager);
+  const userId = localStorage.getItem('USER_ID')
   const dispatch = useDispatch();
   const onChange = (value: string, fieldName: string) => {
     setData({

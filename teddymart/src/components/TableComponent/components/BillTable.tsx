@@ -26,6 +26,7 @@ import { deleteOrderFirebase } from "utils/appUtils";
 import DropdownComponent from "components/DropdownComponent";
 import TextComponent from "components/TextComponent";
 import { Popover } from "antd";
+import { SellerName } from "./SellerName";
 type TStatus = "unpaid" | "paid";
 const COLOR_STATUS = new Map([
   ["unpaid", "#FF0000"],
@@ -117,7 +118,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
       ...filterOption,
     };
     const bills = useSelector((state: RootState) => state.order);
-    const { userId } = useSelector((state: RootState) => state.manager);
+    const userId = localStorage.getItem('USER_ID')
     const [tmpData, setTmpData] = useState(bills);
     const [openListProduct, setOpenListProduct] = useState(false);
     const [listProduct, setListProduct] = useState<TListProduct[]>([]);
@@ -371,7 +372,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                       )}
                       {options.receiver && (
                         <td className="border border-gray-300 p-2 text-sm">
-                          {content.receiver}
+                          <SellerName id = {content.receiver}/>
                         </td>
                       )}
                       {options.listProduct && (
@@ -413,7 +414,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                       )}
                       {options.seller && (
                         <td className="border border-gray-300 p-2 text-sm">
-                          {content.type === "Export" ? content.seller : null}
+                          {content.type === "Export" ? <SellerName id = {content.seller}/> : null}
                         </td>
                       )}
 

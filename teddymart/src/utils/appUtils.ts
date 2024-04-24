@@ -8,7 +8,7 @@ import {
 import { db } from "firebaseConfig";
 import { store } from "state_management/stores/store";
 type params = {
-  prefix: "ORD" | "VCH" | "P" | "GP" | "PD" | "S" | "WH";
+  prefix: "ORD" | "VCH" | "P" | "GP" | "PD" | "S" | "WH" |"ST";
 };
 const createID = ({ prefix }: params): string => {
   return `${prefix}${Math.floor(Math.random() * 100000)}`;

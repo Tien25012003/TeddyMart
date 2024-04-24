@@ -3,6 +3,7 @@ import { addData, updateData } from "controller/addData";
 import {
   ADD_ORDER,
   ADD_STAFF,
+  ADD_STAFF_ACCOUNT,
   DELETE_STAFF,
   RESET_ALL_STORES,
 } from "state_management/actions/actions";
@@ -12,6 +13,9 @@ const staffSlice = createSlice({
   initialState: [],
   reducers: {
     addNewStaff: (state: TStaff[], action: PayloadAction<TStaff>) => {
+      state.unshift(action.payload);
+    },
+    addNewStaffAccount: (state: TStaffAccount[], action: PayloadAction<TStaffAccount>) => {
       state.unshift(action.payload);
     },
     uploadStaff: (state: TStaff[], action: PayloadAction<TStaff[]>) => {
@@ -53,8 +57,24 @@ const staffSlice = createSlice({
         }
       }
     );
+    // builder.addCase(
+    //   ADD_STAFF_ACCOUNT,
+    //   (state: TStaffAccount[], action: PayloadAction<TStaffAccount>) => {
+    //     const order = action.payload;
+    //     const index = state.findIndex((s) => s.id === order.id);
+    //     if (index !== -1) {
+    //       addData({
+    //         data: {
+    //           ...state[index],
+    //         },
+    //         table: "Staff",
+    //         id: state[index].id,
+    //       });
+    //     }
+    //   }
+    // );
   },
 });
-export const { addNewStaff, updateStaff, uploadStaff, deleteStaff } =
+export const { addNewStaff, updateStaff, uploadStaff, deleteStaff, addNewStaffAccount } =
   staffSlice.actions;
 export default staffSlice.reducer;

@@ -50,7 +50,7 @@ export default function SaleScreen() {
   const [openAddForm, setOpenAddForm] = useState(false);
   const [date, setDate] = useState<{ from: Date; to: Date }>();
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const { userId } = useSelector((state: RootState) => state.manager);
+  const userId = localStorage.getItem('USER_ID')
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [openEdit, setOpenEdit] = useState(false);

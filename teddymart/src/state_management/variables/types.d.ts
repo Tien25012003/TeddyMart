@@ -23,6 +23,14 @@ declare type TStaff = {
   note: string;
 };
 
+declare type TStaffAccount = {
+  id: string,
+  email: string,
+  password: string,
+  managerId: string,
+  username?: string,
+}
+
 declare type TManager = {
   userId: string;
   shopName?: string;

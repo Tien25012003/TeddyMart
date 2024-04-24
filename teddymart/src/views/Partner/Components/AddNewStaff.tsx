@@ -11,8 +11,8 @@ import {
   addNewPartner,
   updatePartner,
 } from "state_management/slices/partnerSlice";
-import { addData, updateData } from "controller/addData";
-import { addNewStaff } from "state_management/slices/staffSlice";
+import { addData, addStaffAccountData, updateData } from "controller/addData";
+import { addNewStaff, addNewStaffAccount, updateStaff } from "state_management/slices/staffSlice";
 
 type Props = {
   openAddNewStaff: boolean;
@@ -34,7 +34,7 @@ export default function AddNewStaffForm({
   );
 
   const { t } = useTranslation();
-  const { userId } = useSelector((state: RootState) => state.manager);
+  const userId = localStorage.getItem('USER_ID')
   const dispatch = useDispatch();
   const onChange = (value: string, fieldName: string) => {
     setData({
@@ -59,21 +59,30 @@ export default function AddNewStaffForm({
       note: data.note,
       gender: selectedGender as "female" | "male",
       type: "Customer",
-      salary: data.salary,
+      salary: data.salary,  
     };
+
+    const newAccountData: TStaffAccount  = {
+      id: newData.id,
+      email: data.email,
+      password: "123456789",
+      managerId : window.localStorage.getItem("USER_ID"),
+    }
 
     if (isAdd) {
       //   dispatch(addNewPartner(newData));
       addData({ data: newData, table: "Staff", id: newData.id });
-      dispatch(addNewStaff(data));
+      addStaffAccountData(newAccountData, newAccountData.id )
+      dispatch(addNewStaff({...data, id: newData.id}));
       message.success(t("partner.addSuccess"));
     } else {
-      //   dispatch(updatePartner({ partnerId: data.id, newData: newData }));
+        // dispatch(updatePartner({ partnerId: data.id, newData: newData }));
       await updateData({
         data: newData,
         table: "Staff",
         id: newData.id,
       });
+      dispatch(updateStaff({id: newData.id, newData}))
       message.success(t("partner.updateSuccess"));
     }
 

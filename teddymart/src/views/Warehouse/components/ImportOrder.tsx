@@ -50,7 +50,7 @@ export default function ImportOrder() {
   const [date, setDate] = useState<{ from: Date; to: Date }>();
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [products, setProducts] = useState<TProduct[]>([]);
-  const { userId } = useSelector((state: RootState) => state.manager);
+  const userId = localStorage.getItem('USER_ID')
   const dispatch = useDispatch();
   const { t } = useTranslation();
 

@@ -3,7 +3,7 @@ import { db } from "firebaseConfig";
 
 type params = {
   id: string;
-  table:
+  table?:
     | "Voucher"
     | "Partner"
     | "Group_Product"
@@ -21,11 +21,20 @@ type params = {
     | TOrder
     | TShelf
     | TWarehouse
-    | TStaff;
+    | TStaff
+    | TStaffAccount;
 };
 const addData = async ({ data, table, id }: params) => {
   let userId = window.localStorage.getItem("USER_ID");
   await setDoc(doc(db, `/Manager/${userId}/${table}`, id), data)
+    .then(() => {
+      console.log(">>>>>>>>>> Add Data >>>>>>>>>>");
+    })
+    .catch((e) => console.log(e));
+};
+
+const addStaffAccountData = async (data : TStaffAccount, id: string) => {
+  await setDoc(doc(db, `Staff`, id), data)
     .then(() => {
       console.log(">>>>>>>>>> Add Data >>>>>>>>>>");
     })
@@ -41,4 +50,4 @@ const updateData = async ({ data, table, id }: params) => {
     })
     .catch((e) => console.log(e));
 };
-export { addData, updateData };
+export { addData, updateData, addStaffAccountData };
