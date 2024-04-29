@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchComponent from "components/SearchComponent";
 import ButtonComponent from "components/ButtonComponent";
 import { COLORS } from "constants/colors";
@@ -26,6 +26,7 @@ export default function ShelfScreen() {
   const [search, setSearch] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
   const [open, setOpen] = useState(false);
+  const [isDisable, setIsDisable] = useState(false);
   const [dataInput, setDataInput] = useState<TShelf>({
     shelfId: "",
     shelfName: "",
@@ -84,6 +85,11 @@ export default function ShelfScreen() {
     }
   };
 
+  useEffect(() => {
+    if(localStorage.getItem("ROLE") === 'Staff')
+      setIsDisable(true)
+  }, [])
+
   return (
     <div className="w-full">
       <div
@@ -109,11 +115,13 @@ export default function ShelfScreen() {
               }}
               backgroundColor={COLORS.checkbox_bg}
               style={{ marginRight: 12 }}
+              isDisable={isDisable}
             />
             <ButtonComponent
               label={t("shelf.addNewShelf")}
               onClick={() => setOpenAddForm(true)}
               iconLeft={<TiPlus style={{ fontSize: 22 }} />}
+              isDisable={isDisable}
             />
           </div>
         </div>

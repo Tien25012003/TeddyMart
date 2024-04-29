@@ -1,7 +1,7 @@
 import Header from "components/Header";
 import { PartnerTable } from "components/TableComponent";
 import FieldSupplier from "./Components/FieldSupplier";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   AlertModal,
   BtnExport,
@@ -33,6 +33,7 @@ export default function CustomerScreen() {
   const dispatch = useDispatch();
   const SUPPLIERS = useSelector((state: RootState) => state.partnerSlice);
   const [supplier, setsupplier] = useState(SUPPLIERS[0]?.partnerId);
+  const [isDisable, setIsDisable] = useState(false);
 
   const [opernAddNewSupplier, setOpernAddNewSupplier] = useState(false);
   const [listFilter, setListFilter] = useState([
@@ -96,6 +97,11 @@ export default function CustomerScreen() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if(localStorage.getItem("ROLE") === "Staff")
+      setIsDisable(true);
+  },[])
+
   const onDeleteMultiShelf = () => {
     if (selectedRows.length !== 0) {
       selectedRows.forEach(async (item) => {
@@ -141,6 +147,7 @@ export default function CustomerScreen() {
                 }}
                 backgroundColor={COLORS.checkbox_bg}
                 style={{ marginRight: 12 }}
+                isDisable={isDisable}
               />
               <BtnExport
                 fileName={
@@ -158,6 +165,7 @@ export default function CustomerScreen() {
                     style={{ marginRight: 10, color: "white", fontSize: 22 }}
                   />
                 }
+                isDisable={isDisable}
               />
             </div>
           </div>
