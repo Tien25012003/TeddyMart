@@ -21,6 +21,7 @@ import { storage } from "firebaseConfig";
 import { deleteProductWarehouse } from "state_management/slices/warehouseSlice";
 import { updateShelf } from "state_management/slices/shelfSlice";
 import { updateData } from "controller/addData";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 export type Input = {
   productId: string;
   productName: string;
@@ -42,6 +43,7 @@ export default function ProductScreen() {
   const PRODUCT = useSelector((state: RootState) => state.product);
   const shelfs = useSelector((state: RootState) => state.shelf);
   const WAREHOUSE = useSelector((state: RootState) => state.warehouseSlice);
+  const [isDisable, setIsDisable] = useState(false)
   const OPTIONS = [
     t("button.createdAtNewest"),
     t("button.createdAtOldest"),
@@ -174,6 +176,11 @@ export default function ProductScreen() {
     }
   };
 
+  useEffect (() => {
+    if(localStorage.getItem('ROLE') === 'Staff')
+      setIsDisable(true)
+  }, [])
+
   return (
     <Spin spinning={loading}>
       <div className="w-full">
@@ -210,6 +217,7 @@ export default function ProductScreen() {
               }}
               backgroundColor={COLORS.checkbox_bg}
               style={{ marginInline: 12 }}
+              isDisable={isDisable}
             />
             <BtnExport
               fileName={
@@ -223,6 +231,7 @@ export default function ProductScreen() {
               label={t("product.addNewProduct")}
               onClick={() => setOpenAddForm(true)}
               iconLeft={<BiPlus size={20} color="white" />}
+              isDisable = {isDisable}
             />
           </div>
           <div className="flex items-center my-2">

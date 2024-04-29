@@ -10,7 +10,7 @@ import {
 import DropdownComponent from "components/DropdownComponent";
 import { BillTable } from "components/TableComponent";
 import TextInputComponent from "components/TextInputComponent";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BiSearch, BiTrash, BiPlus } from "react-icons/bi";
 import { BsFileExcel } from "react-icons/bs";
@@ -54,6 +54,7 @@ export default function SaleScreen() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [openEdit, setOpenEdit] = useState(false);
+  const [isDisable, setIsDisable] = useState(false);
   const initialFilter = useMemo(
     () => [
       {
@@ -94,6 +95,11 @@ export default function SaleScreen() {
     ],
     [t]
   );
+
+  useEffect(() => {
+    if (localStorage.getItem("ROLE") === "Staff")
+      setIsDisable(true);
+  }, [])
 
   const [listFilter, setListFilter] = useState(initialFilter);
   const objectFilter = useMemo(() => {
@@ -195,8 +201,9 @@ export default function SaleScreen() {
             <ButtonComponent
               label={t("button.delete")}
               onClick={() => setOpenAlertModal(true)}
-              style={{ backgroundColor: "#EA5A47", marginInline: 12 }}
+              style={{  backgroundColor: "#EA5A47", marginInline: 12 }}
               iconLeft={<BiTrash size={20} color="white" />}
+              // isDisable= {isDisable}
             />
 
             <BtnExport

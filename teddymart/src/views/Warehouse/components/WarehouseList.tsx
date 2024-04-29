@@ -1,4 +1,4 @@
-import React, { useState, useDeferredValue, useRef } from "react";
+import React, { useState, useDeferredValue, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import TextInputComponent from "components/TextInputComponent";
 import Header from "components/Header";
@@ -31,6 +31,12 @@ export default function WarehouseList() {
   const [defaultWarehouse, setDefaultWarehouse] = useState(false);
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [isDisable, setIsDisable] = useState(false);
+
+  useEffect(() => {
+    if(localStorage.getItem("ROLE") === "Staff") 
+      setIsDisable(true)
+  }, [])
 
   const OPTIONS = [
     t("button.createdAtNewest"),
@@ -97,6 +103,7 @@ export default function WarehouseList() {
               }}
               backgroundColor={COLORS.checkbox_bg}
               style={{ borderWidth: 0 }}
+              isDisable={isDisable}
             />
 
             <div className="w-3" />
@@ -113,6 +120,7 @@ export default function WarehouseList() {
                 setOpenAddForm(true);
               }}
               iconLeft={<BiPlus size={20} color="white" />}
+              isDisable={isDisable}
             />
           </div>
         </div>
