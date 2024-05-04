@@ -6,13 +6,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
 import { useTranslation } from "react-i18next";
 import { Modal, message } from "antd";
-import { createID } from "utils/appUtils";
+import { createID, generateRandomPassword, sendEmail } from "utils/appUtils";
 import {
   addNewPartner,
   updatePartner,
 } from "state_management/slices/partnerSlice";
 import { addData, addStaffAccountData, updateData } from "controller/addData";
-import { addNewStaff, addNewStaffAccount, updateStaff } from "state_management/slices/staffSlice";
+import {
+  addNewStaff,
+  addNewStaffAccount,
+  updateStaff,
+} from "state_management/slices/staffSlice";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { create } from "domain";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "firebaseConfig";
 
 type Props = {
   openAddNewStaff: boolean;
@@ -32,9 +40,11 @@ export default function AddNewStaffForm({
   const [selectedGender, setSelectedGender] = useState<string>(
     isAdd ? "female" : data.gender.toLocaleLowerCase()
   );
-
+  const auth = getAuth();
+  const manager = useSelector((state: RootState) => state.manager);
+  console.log(auth);
   const { t } = useTranslation();
-  const userId = localStorage.getItem('USER_ID')
+  const userId = localStorage.getItem("USER_ID");
   const dispatch = useDispatch();
   const onChange = (value: string, fieldName: string) => {
     setData({
@@ -42,11 +52,31 @@ export default function AddNewStaffForm({
       [fieldName]: value,
     });
   };
-
+  const addNewAccount = async (data: TStaff, password: string) => {
+    await createUserWithEmailAndPassword(auth, data.email, password)
+      .then(async (userCredential) => {
+        await setDoc(doc(db, "Manager", userCredential.user.uid), {
+          emailVerified: true,
+          email: data.email,
+          password: password,
+          userName: data.staffName,
+          managerId: manager.userId,
+          shopName: manager.shopName,
+          userId: userCredential.user.uid,
+          role: "Staff",
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   const onAddNewCustomer = async () => {
+    const password = generateRandomPassword();
+
     const trimmedName = data.staffName.trim();
     const trimmedPhone = data.phoneNumber.trim();
-    if (!trimmedName || !trimmedPhone) {
+    const trimmedEmail = data.email.trim();
+    if (!trimmedName || !trimmedPhone || !trimmedEmail) {
       message.warning(t("partner.fill"));
       return;
     }
@@ -58,31 +88,33 @@ export default function AddNewStaffForm({
       address: data.address,
       note: data.note,
       gender: selectedGender as "female" | "male",
-      type: "Customer",
-      salary: data.salary,  
+      type: "Staff",
+      salary: data.salary,
     };
 
-    const newAccountData: TStaffAccount  = {
+    const newAccountData: TStaffAccount = {
       id: newData.id,
       email: data.email,
-      password: "123456789",
-      managerId : window.localStorage.getItem("USER_ID"),
-    }
+      password: password,
+      managerId: window.localStorage.getItem("USER_ID"),
+    };
 
     if (isAdd) {
-      //   dispatch(addNewPartner(newData));
+      //dispatch(addNewPartner(newData));
       addData({ data: newData, table: "Staff", id: newData.id });
-      addStaffAccountData(newAccountData, newAccountData.id )
-      dispatch(addNewStaff({...data, id: newData.id}));
+      addStaffAccountData(newAccountData, newAccountData.id);
+      dispatch(addNewStaff({ ...data, id: newData.id }));
+      sendEmail(data.email, data.staffName, password);
+      addNewAccount(data, password);
       message.success(t("partner.addSuccess"));
     } else {
-        // dispatch(updatePartner({ partnerId: data.id, newData: newData }));
+      // dispatch(updatePartner({ partnerId: data.id, newData: newData }));
       await updateData({
         data: newData,
         table: "Staff",
         id: newData.id,
       });
-      dispatch(updateStaff({id: newData.id, newData}))
+      dispatch(updateStaff({ id: newData.id, newData }));
       message.success(t("partner.updateSuccess"));
     }
 
@@ -109,12 +141,10 @@ export default function AddNewStaffForm({
         : COLORS.defaultWhite,
     [data.staffName, data.phoneNumber]
   );
-  const color = useMemo(
-    () =>
-      data.staffName !== "" && data.phoneNumber !== ""
-        ? COLORS.defaultWhite
-        : COLORS.lightGray,
-    [data.staffName, data.phoneNumber]
+  const isDisabledButton = useMemo(
+    () => data.staffName === "" || data.phoneNumber === "" || data.email === "",
+
+    [data.staffName, data.phoneNumber, data.email]
   );
   return (
     <Modal
@@ -193,7 +223,10 @@ export default function AddNewStaffForm({
             </tr>
             <tr>
               <td className="pr-8 py-6">
-                <p>{t("staff.email")}</p>
+                <p>
+                  {t("staff.email")}
+                  <span className="text-red-600">*</span>
+                </p>
               </td>
               <td>
                 <TextInputComponent
@@ -261,10 +294,9 @@ export default function AddNewStaffForm({
         <ButtonComponent
           label={t("button.save")}
           backgroundColor={backgroundColor}
-          color={color}
-          onClick={() => {
-            onAddNewCustomer();
-          }}
+          disabled={isDisabledButton}
+          color={isDisabledButton ? COLORS.extra_gray : COLORS.mediumBlack}
+          onClick={onAddNewCustomer}
         />
         <ButtonComponent
           label={t("button.close")}

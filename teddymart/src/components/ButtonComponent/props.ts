@@ -73,4 +73,8 @@ export type ButtonProps = {
    * @type {React.CSSProperties} style of button
    */
   style?: React.CSSProperties;
+  /**
+   * @type {boolean} disable button
+   */
+  disabled?: boolean;
 };

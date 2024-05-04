@@ -16,9 +16,11 @@ const ButtonComponent: React.FC<ButtonProps> = ({
   maxWidth,
   backgroundColor = COLORS.darkYellow,
   style,
+  disabled = false,
 }) => {
   return (
     <Button
+      disabled={disabled}
       style={{
         backgroundColor: backgroundColor,
         padding: `${paddingVertical}px ${paddingHorizontal}px`,
