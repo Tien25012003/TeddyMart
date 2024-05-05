@@ -80,12 +80,12 @@ export default function Drawer() {
           link: NAV_LINK.SUPPLIER,
           icon1: <BsTruck size={20} />,
         },
-        {
+        localStorage.getItem("ROLE") !== "Staff" && {
           name: t("drawer.staff"),
           link: NAV_LINK.STAFF,
           icon1: <MdOutlinePeople size={20} />,
-        },
-      ],
+        } 
+      ].filter(Boolean) as DrawerProps[],
     },
     {
       name: t("drawer.product"),
@@ -115,7 +115,7 @@ export default function Drawer() {
       link: NAV_LINK.WAREHOUSE,
       icon1: <BiBox size={25} />,
     },
-    {
+    localStorage.getItem("ROLE") !== "Staff" &&{
       name: t("drawer.report"),
       link: NAV_LINK.REPORT,
       icon1: <BsBarChartLine size={25} />,
@@ -125,7 +125,7 @@ export default function Drawer() {
       link: "SignOut",
       icon1: <BsBoxArrowInLeft size={25} />,
     },
-  ];
+  ].filter(Boolean) as DrawerProps[];
 
   const chooseColor = useCallback(
     (name: string, link: string) => {

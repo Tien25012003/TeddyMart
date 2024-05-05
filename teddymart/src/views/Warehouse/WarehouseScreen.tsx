@@ -21,13 +21,13 @@ export default function WarehouseScreen() {
       icon: <FaList color={COLORS.blue} size={30} />,
       link: NAV_LINK.WAREHOUSE_LIST,
     },
-    {
+    localStorage.getItem("ROLE") !== "Staff" && {
       title: t("warehouse.importOrder"),
       subTitle: t("warehouse.manageImportOrder"),
       icon: <FaArrowRightToBracket color={COLORS.blue} size={30} />,
       link: NAV_LINK.IMPORT_ORDER,
     },
-  ];
+  ].filter(Boolean);
   const location = useLocation();
   const navigate = useNavigate();
 
