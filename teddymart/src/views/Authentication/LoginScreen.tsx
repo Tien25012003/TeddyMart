@@ -51,7 +51,7 @@ export default function LoginScreen() {
 
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState("Manager");
+  // const [role, setRole] = useState("Manager");
   const dispatch = useDispatch();
   const { t } = useTranslation();
   useEffect(() => {
@@ -73,83 +73,84 @@ export default function LoginScreen() {
     formState: { errors },
   } = useForm<Inputs>();
   const onLogin: SubmitHandler<Inputs> = async (data) => {
-      Hotjar.event("Login Screen --- Click Login");
-      setLoading(true);
-      let snapshot;
-      if(role === 'Manager')
-        snapshot = await getDocs(collection(db, "Manager"));
-      else
-        snapshot = await getDocs(collection(db, "Staff"));
-      const user = snapshot.docs.find(
-        (d) =>
-          (d.data().email === data.userName ||
-          d.data().userName === data.userName) && (d.data().password === data.password)
-      );
-      console.log("user", user.data());
+    Hotjar.event("Login Screen --- Click Login");
+    setLoading(true);
+    // if(role === 'Manager')
+    let snapshot = await getDocs(collection(db, "Manager"));
+    // else
+    //   snapshot = await getDocs(collection(db, "Staff"));
+    const user = snapshot.docs.find(
+      (d) =>
+        (d.data().email === data.userName ||
+          d.data().userName === data.userName) &&
+        d.data().password === data.password
+    );
+    console.log("user", user.data());
 
-      if (!user) {
-        setError("userName", {
-          type: "custom",
-          message: t("login.errUser"),
-        });
-        setLoading(false);
-        return;
-      }
-      if(role === 'Manager') {
-        await signInWithEmailAndPassword(auth, user.data().email, data.password)
-        .then(async (userCredential) => {
-          if (!userCredential.user.emailVerified) {
-            setError("userName", {
-              type: "custom",
-              message: t("login.errVerify"),
-            });
-            return;
-          }
-          if (user.data().password !== data.password) {
-            updateDoc(doc(db, "Manager", userCredential.user.uid), {
-              password: data.password,
-              emailVerified: true,
-            }).then(async () => {
-              await getDoc(doc(db, "Manager", userCredential.user.uid)).then(
-                (d) => {
-                  let { emailVerified, ...rest } = d.data();
-                  dispatch(uploadManager(rest as TManager));
-                }
-              );
-            });
-          } else {
-            await updateDoc(doc(db, "Manager", userCredential.user.uid), {
-              emailVerified: true,  
-            });
+    if (!user) {
+      setError("userName", {
+        type: "custom",
+        message: t("login.errUser"),
+      });
+      setLoading(false);
+      return;
+    }
+    // if(role === 'Manager') {
+    await signInWithEmailAndPassword(auth, user.data().email, data.password)
+      .then(async (userCredential) => {
+        if (!userCredential.user.emailVerified) {
+          setError("userName", {
+            type: "custom",
+            message: t("login.errVerify"),
+          });
+          return;
+        }
+        if (user.data().password !== data.password) {
+          updateDoc(doc(db, "Manager", userCredential.user.uid), {
+            password: data.password,
+            emailVerified: true,
+          }).then(async () => {
             await getDoc(doc(db, "Manager", userCredential.user.uid)).then(
               (d) => {
                 let { emailVerified, ...rest } = d.data();
                 dispatch(uploadManager(rest as TManager));
               }
             );
-          }
+          });
+        } else {
+          await updateDoc(doc(db, "Manager", userCredential.user.uid), {
+            emailVerified: true,
+          });
+          await getDoc(doc(db, "Manager", userCredential.user.uid)).then(
+            (d) => {
+              let { emailVerified, ...rest } = d.data();
+              dispatch(uploadManager(rest as TManager));
+            }
+          );
+        }
+        if (user.data().role === "Staff") {
+          await onFetchData(user.data().managerId);
+          window.localStorage.setItem("USER_ID", user.data().managerId);
+          console.log("user.data()", user.data());
+          window.localStorage.setItem("STAFF_ID", user.data().id);
+          window.localStorage.setItem("ROLE", user.data().role);
+          Hotjar.identify("USER_ID", { email: data.userName });
+        } else {
           await onFetchData(userCredential.user.uid);
           window.localStorage.setItem("USER_ID", userCredential.user.uid);
           window.localStorage.setItem("STAFF_ID", userCredential.user.uid);
-          window.localStorage.setItem("ROLE", role);
+          window.localStorage.setItem("ROLE", user.data().role);
           Hotjar.identify("USER_ID", { email: data.userName });
-        })
-        .catch((e) => {
-          setError("password", {
-            type: "custom",
-            message: t("login.wrongPassword"),
-          });
-          setLoading(false);
-          console.log(e);
+        }
+      })
+      .catch((e) => {
+        setError("password", {
+          type: "custom",
+          message: t("login.wrongPassword"),
         });
-      } else {
-        await onFetchData(user.data().managerId);
-        window.localStorage.setItem("USER_ID", user.data().managerId);
-        console.log("user.data()", user.data())
-      window.localStorage.setItem("STAFF_ID", user.data().id);
-        window.localStorage.setItem("ROLE", role);
-        Hotjar.identify("USER_ID", { email: data.userName });
-      }
+        setLoading(false);
+        console.log(e);
+      });
   };
 
   const onFetchData = async (userId: string) => {
@@ -176,7 +177,7 @@ export default function LoginScreen() {
         dispatch(uploadPartner(data));
       }),
       getData(`/Manager/${userId}/Staff`).then((data: TStaff[]) => {
-        console.log("data staff", data, userId)
+        console.log("data staff", data, userId);
         dispatch(uploadStaff(data));
       }),
       new Promise((resolve) => {
@@ -249,9 +250,9 @@ export default function LoginScreen() {
     };
   }, []);
 
-  const onChange = (e: RadioChangeEvent) => {
-    setRole(e.target.value);
-  };
+  // const onChange = (e: RadioChangeEvent) => {
+  //   setRole(e.target.value);
+  // };
 
   return (
     <Spin spinning={loading}>
@@ -308,12 +309,12 @@ export default function LoginScreen() {
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <Radio.Group onChange={onChange} value={role}>
                   <Radio value={"Manager"}>Manager</Radio>
                   <Radio value={"Staff"}>Staff</Radio>
                 </Radio.Group>
-              </div>
+              </div> */}
 
               <div className="flex flex-col justify-center items-center gap-y-3 mt-4">
                 <button

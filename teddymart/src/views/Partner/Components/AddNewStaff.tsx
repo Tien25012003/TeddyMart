@@ -17,7 +17,11 @@ import {
   addNewStaffAccount,
   updateStaff,
 } from "state_management/slices/staffSlice";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  sendEmailVerification,
+} from "firebase/auth";
 import { create } from "domain";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "firebaseConfig";
@@ -55,8 +59,11 @@ export default function AddNewStaffForm({
   const addNewAccount = async (data: TStaff, password: string) => {
     await createUserWithEmailAndPassword(auth, data.email, password)
       .then(async (userCredential) => {
+        sendEmailVerification(userCredential.user);
+
         await setDoc(doc(db, "Manager", userCredential.user.uid), {
-          emailVerified: true,
+          emailVerified: false,
+          address: data.address,
           email: data.email,
           password: password,
           userName: data.staffName,
