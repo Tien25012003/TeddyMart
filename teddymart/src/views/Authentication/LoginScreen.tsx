@@ -56,8 +56,10 @@ export default function LoginScreen() {
   const { t } = useTranslation();
   useEffect(() => {
     const userId = window.localStorage.getItem("USER_ID");
+    const role = window.localStorage.getItem("ROLE");
     if (userId) {
-      navigate(NAV_LINK.REPORT);
+      if (role === "Staff") navigate(NAV_LINK.SALE);
+      else navigate(NAV_LINK.REPORT);
     }
     setLoading(false);
 
@@ -129,6 +131,7 @@ export default function LoginScreen() {
           );
         }
         if (user.data().role === "Staff") {
+          console.log("STAFFFF");
           await onFetchData(user.data().managerId);
           window.localStorage.setItem("USER_ID", user.data().managerId);
           console.log("user.data()", user.data());
@@ -204,7 +207,10 @@ export default function LoginScreen() {
         )
       );
       setLoading(false);
-      navigate(NAV_LINK.REPORT);
+      const role = window.localStorage.getItem("ROLE");
+      if (role === "Staff") navigate(NAV_LINK.SALE);
+      else navigate(NAV_LINK.REPORT);
+
       reset();
     });
   };
