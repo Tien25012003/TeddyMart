@@ -98,9 +98,8 @@ export default function CustomerScreen() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if(localStorage.getItem("ROLE") === "Staff")
-      setIsDisable(true);
-  },[])
+    if (localStorage.getItem("ROLE") === "Staff") setIsDisable(true);
+  }, []);
 
   const onDeleteMultiShelf = () => {
     if (selectedRows.length !== 0) {
@@ -147,7 +146,7 @@ export default function CustomerScreen() {
                 }}
                 backgroundColor={COLORS.checkbox_bg}
                 style={{ marginRight: 12 }}
-                isDisable={isDisable}
+                disabled={isDisable}
               />
               <BtnExport
                 fileName={
@@ -165,7 +164,7 @@ export default function CustomerScreen() {
                     style={{ marginRight: 10, color: "white", fontSize: 22 }}
                   />
                 }
-                isDisable={isDisable}
+                disabled={isDisable}
               />
             </div>
           </div>

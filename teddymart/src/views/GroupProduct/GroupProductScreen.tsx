@@ -57,7 +57,7 @@ export default function ProductScreen() {
   const [selectedRows, setSelectedRows] = useState([]);
   const PRODUCT = useSelector((state: RootState) => state.product);
   const WARE_HOUSE = useSelector((state: RootState) => state.warehouseSlice);
-  const [isDisable, setIsDisable] = useState(false)
+  const [isDisable, setIsDisable] = useState(false);
 
   const SHELF = useSelector((state: RootState) => state.shelf);
   const dispatch = useDispatch();
@@ -123,9 +123,8 @@ export default function ProductScreen() {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("ROLE") === 'Staff')
-      setIsDisable(true);
-  }, [])
+    if (localStorage.getItem("ROLE") === "Staff") setIsDisable(true);
+  }, []);
 
   return (
     <div className="w-full">
@@ -152,13 +151,13 @@ export default function ProductScreen() {
               }}
               backgroundColor={COLORS.checkbox_bg}
               style={{ marginRight: 12 }}
-              isDisable={isDisable}
+              disabled={isDisable}
             />
             <ButtonComponent
               label={t("product.addNewProductGroup")}
               onClick={() => setOpenAddForm(true)}
               iconLeft={<TiPlus style={{ fontSize: 22 }} />}
-              isDisable={isDisable}
+              disabled={isDisable}
             />
           </div>
         </div>

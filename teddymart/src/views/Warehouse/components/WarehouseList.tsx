@@ -34,9 +34,8 @@ export default function WarehouseList() {
   const [isDisable, setIsDisable] = useState(false);
 
   useEffect(() => {
-    if(localStorage.getItem("ROLE") === "Staff") 
-      setIsDisable(true)
-  }, [])
+    if (localStorage.getItem("ROLE") === "Staff") setIsDisable(true);
+  }, []);
 
   const OPTIONS = [
     t("button.createdAtNewest"),
@@ -103,7 +102,7 @@ export default function WarehouseList() {
               }}
               backgroundColor={COLORS.checkbox_bg}
               style={{ borderWidth: 0 }}
-              isDisable={isDisable}
+              disabled={isDisable}
             />
 
             <div className="w-3" />
@@ -120,7 +119,7 @@ export default function WarehouseList() {
                 setOpenAddForm(true);
               }}
               iconLeft={<BiPlus size={20} color="white" />}
-              isDisable={isDisable}
+              disabled={isDisable}
             />
           </div>
         </div>
