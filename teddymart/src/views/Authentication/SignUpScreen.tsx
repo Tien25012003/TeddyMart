@@ -27,6 +27,7 @@ import {
 import { useDispatch } from "react-redux";
 import { uploadManager } from "state_management/slices/managerSlice";
 import { AlertModal } from "components";
+import { createID } from "utils/appUtils";
 type Inputs = {
   userName: string;
   email: string;
@@ -76,11 +77,12 @@ export default function SignUpScreen() {
         const auth = getAuth();
         await createUserWithEmailAndPassword(auth, data.email, data.password)
           .then(async (userCredential) => {
+            const id = createID({ prefix: "M" });
             sendEmailVerification(userCredential.user);
-            await setDoc(doc(db, "Manager", userCredential.user.uid), {
+            await setDoc(doc(db, "Manager", id), {
               emailVerified: false,
               ...data,
-              userId: userCredential.user.uid,
+              userId: id,
             });
           })
           .catch((e) => {

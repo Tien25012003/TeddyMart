@@ -9,7 +9,7 @@ import { db } from "firebaseConfig";
 import emailjs from "@emailjs/browser";
 
 type params = {
-  prefix: "ORD" | "VCH" | "P" | "GP" | "PD" | "S" | "WH" | "ST";
+  prefix: "ORD" | "VCH" | "P" | "GP" | "PD" | "S" | "WH" | "ST" | "M";
 };
 const createID = ({ prefix }: params): string => {
   return `${prefix}${Math.floor(Math.random() * 10000000)}`;
