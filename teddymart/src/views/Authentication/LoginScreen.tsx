@@ -4,7 +4,12 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { NAV_LINK } from "routes/components/NAV_LINK";
 import { Button, Spin } from "antd";
-import { getData, generateReport, generateProduct } from "controller/getData";
+import {
+  getData,
+  generateReport,
+  generateProduct,
+  getDataWithQuery,
+} from "controller/getData";
 import { useDispatch } from "react-redux";
 import { uploadVoucher } from "state_management/slices/voucherSlice";
 import { uploadPartner } from "state_management/slices/partnerSlice";
@@ -87,8 +92,6 @@ export default function LoginScreen() {
           d.data().userName === data.userName) &&
         d.data().password === data.password
     );
-    console.log("user", user.data());
-
     if (!user) {
       setError("userName", {
         type: "custom",
@@ -120,29 +123,27 @@ export default function LoginScreen() {
             );
           });
         } else {
-          await updateDoc(doc(db, "Manager", userCredential.user.uid), {
+          await updateDoc(doc(db, "Manager", user.data().userId), {
             emailVerified: true,
           });
-          await getDoc(doc(db, "Manager", userCredential.user.uid)).then(
-            (d) => {
-              let { emailVerified, ...rest } = d.data();
-              dispatch(uploadManager(rest as TManager));
-            }
-          );
+          await getDoc(doc(db, "Manager", user.data().userId)).then((d) => {
+            let { emailVerified, ...rest } = d.data();
+            dispatch(uploadManager(rest as TManager));
+          });
         }
-        if (user.data().role === "Staff") {
+        if (user.data().type === "Staff") {
           console.log("STAFFFF");
           await onFetchData(user.data().managerId);
           window.localStorage.setItem("USER_ID", user.data().managerId);
           console.log("user.data()", user.data());
           window.localStorage.setItem("STAFF_ID", user.data().id);
-          window.localStorage.setItem("ROLE", user.data().role);
+          window.localStorage.setItem("ROLE", user.data().type);
           Hotjar.identify("USER_ID", { email: data.userName });
         } else {
           await onFetchData(userCredential.user.uid);
           window.localStorage.setItem("USER_ID", userCredential.user.uid);
           window.localStorage.setItem("STAFF_ID", userCredential.user.uid);
-          window.localStorage.setItem("ROLE", user.data().role);
+          window.localStorage.setItem("ROLE", user.data().type);
           Hotjar.identify("USER_ID", { email: data.userName });
         }
       })
@@ -179,7 +180,7 @@ export default function LoginScreen() {
       getData(`/Manager/${userId}/Partner`).then((data: TPartner[]) => {
         dispatch(uploadPartner(data));
       }),
-      getData(`/Manager/${userId}/Staff`).then((data: TStaff[]) => {
+      getDataWithQuery("Manager", userId).then((data: TStaff[]) => {
         console.log("data staff", data, userId);
         dispatch(uploadStaff(data));
       }),

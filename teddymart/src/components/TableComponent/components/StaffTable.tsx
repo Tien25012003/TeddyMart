@@ -157,7 +157,7 @@ const StaffTable = forwardRef<HTMLTableElement, Props>(
     const handleCheckBoxChange = (rowId: string | null) => {
       if (rowId === null) {
         if (selectedRows.length === 0 || selectedRows.length < DATA.length) {
-          setSelectedRows([...DATA.map((content) => content.id)]);
+          setSelectedRows([...DATA.map((content) => content.userId)]);
         } else {
           setSelectedRows([]);
         }
@@ -194,7 +194,7 @@ const StaffTable = forwardRef<HTMLTableElement, Props>(
 
     const [updateModalVisible, setUpdateModalVisible] = useState(false);
     const [updateDataInput, setUpdateDataInput] = useState<TStaff>({
-      id: "",
+      userId: "",
       staffName: "",
       gender: "male",
       phoneNumber: "",
@@ -209,7 +209,7 @@ const StaffTable = forwardRef<HTMLTableElement, Props>(
       setUpdateModalVisible(true);
       setUpdateDataInput(staff);
     };
-
+    console.log(DATA);
     return (
       <div className="w-full">
         <div className="max-h-96 overflow-y-auto visible">
@@ -255,15 +255,15 @@ const StaffTable = forwardRef<HTMLTableElement, Props>(
                         <input
                           className="w-15 h-15 bg-hover"
                           type="checkbox"
-                          onChange={() => handleCheckBoxChange(content.id)}
+                          onChange={() => handleCheckBoxChange(content.userId)}
                           checked={
-                            selectedRows.includes(content.id) ? true : false
+                            selectedRows.includes(content.userId) ? true : false
                           }
                         />
                       </td>
                       {options.id && (
                         <td className="border border-gray-300 p-2 text-sm">
-                          {content.id}
+                          {content.userId}
                         </td>
                       )}
 
@@ -312,7 +312,7 @@ const StaffTable = forwardRef<HTMLTableElement, Props>(
                           <Button
                             onClick={() => {
                               setOpenAlert(true);
-                              setSelectedRows([content.id]);
+                              setSelectedRows([content.userId]);
                             }}
                           >
                             <FiTrash color="red" />

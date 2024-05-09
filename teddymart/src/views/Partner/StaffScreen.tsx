@@ -27,7 +27,7 @@ const StaffScreen = () => {
   const [openAddNewSupplier, setOpenAddNewSupplier] = useState(false);
 
   const [dataInput, setDataInput] = useState<TStaff>({
-    id: "",
+    userId: "",
     staffName: "",
     phoneNumber: "",
     email: "",

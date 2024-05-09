@@ -63,7 +63,7 @@ export default function Profile() {
           <div className="flex flex-row items-center">
             <AiOutlineUser size={25} />
             <div className="w-32 ml-5">{t("signUp.userName")}</div>
-            <div>{Info.userName}</div>
+            <div>{Info.userName ?? Info.staffName}</div>
           </div>
           <div className="flex flex-row items-center">
             <AiOutlinePhone size={25} />

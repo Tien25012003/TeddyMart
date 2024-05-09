@@ -23,8 +23,9 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { create } from "domain";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "firebaseConfig";
+import { randomUUID } from "crypto";
 
 type Props = {
   openAddNewStaff: boolean;
@@ -56,21 +57,20 @@ export default function AddNewStaffForm({
       [fieldName]: value,
     });
   };
-  const addNewAccount = async (data: TStaff, password: string) => {
+  const addNewAccount = async (data: TStaff, password: string, id: string) => {
     await createUserWithEmailAndPassword(auth, data.email, password)
       .then(async (userCredential) => {
         sendEmailVerification(userCredential.user);
 
-        await setDoc(doc(db, "Manager", userCredential.user.uid), {
+        await setDoc(doc(db, "Manager", id), {
+          ...data,
           emailVerified: false,
-          address: data.address,
-          email: data.email,
-          password: password,
-          userName: data.staffName,
           managerId: manager.userId,
           shopName: manager.shopName,
-          userId: userCredential.user.uid,
-          role: "Staff",
+          userId: id,
+          password: password,
+          isActive: true,
+          type: "Staff",
         });
       })
       .catch((e) => {
@@ -79,7 +79,7 @@ export default function AddNewStaffForm({
   };
   const onAddNewCustomer = async () => {
     const password = generateRandomPassword();
-
+    const id = createID({ prefix: "S" });
     const trimmedName = data.staffName.trim();
     const trimmedPhone = data.phoneNumber.trim();
     const trimmedEmail = data.email.trim();
@@ -88,7 +88,7 @@ export default function AddNewStaffForm({
       return;
     }
     const newData: TStaff = {
-      id: isAdd ? createID({ prefix: "P" }) : data.id,
+      userId: isAdd ? id : data.userId,
       staffName: data.staffName,
       email: data.email,
       phoneNumber: data.phoneNumber,
@@ -99,36 +99,29 @@ export default function AddNewStaffForm({
       salary: data.salary,
     };
 
-    const newAccountData: TStaffAccount = {
-      id: newData.id,
-      email: data.email,
-      password: password,
-      managerId: window.localStorage.getItem("USER_ID"),
-    };
-
     if (isAdd) {
       //dispatch(addNewPartner(newData));
-      addData({ data: newData, table: "Staff", id: newData.id });
-      addStaffAccountData(newAccountData, newAccountData.id);
-      dispatch(addNewStaff({ ...data, id: newData.id }));
+      //addData({ data: newData, table: "Staff", id: newData.id });
+      //addStaffAccountData(newAccountData, newAccountData.id);
+      dispatch(addNewStaff({ ...data, userId: newData.userId }));
       sendEmail(data.email, data.staffName, password);
-      addNewAccount(data, password);
+      addNewAccount(data, password, id);
       message.success(t("partner.addSuccess"));
     } else {
       // dispatch(updatePartner({ partnerId: data.id, newData: newData }));
-      await updateData({
-        data: newData,
-        table: "Staff",
-        id: newData.id,
-      });
-      dispatch(updateStaff({ id: newData.id, newData }));
+      await updateDoc(doc(db, "/Manager", data.userId), data)
+        .then(() => {
+          console.log(">>>>>>>>>> Update Data >>>>>>>>>>");
+        })
+        .catch((e) => console.log(e));
+      dispatch(updateStaff({ id: newData.userId, newData }));
       message.success(t("partner.updateSuccess"));
     }
 
     setOpenAddNewStaff(false);
 
     setData({
-      id: "",
+      userId: "",
       staffName: "",
       gender: "male",
       phoneNumber: "",

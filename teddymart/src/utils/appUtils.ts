@@ -12,7 +12,7 @@ type params = {
   prefix: "ORD" | "VCH" | "P" | "GP" | "PD" | "S" | "WH" | "ST";
 };
 const createID = ({ prefix }: params): string => {
-  return `${prefix}${Math.floor(Math.random() * 100000)}`;
+  return `${prefix}${Math.floor(Math.random() * 10000000)}`;
 };
 
 //order

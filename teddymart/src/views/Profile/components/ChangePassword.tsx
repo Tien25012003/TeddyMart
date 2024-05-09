@@ -63,7 +63,11 @@ export default function ChangePassword({ openModal, setOpenModal }: Props) {
 
     setLoading(true);
 
-    updatePassword(user, data.password).catch((e) => console.log(e));
+    updatePassword(user, data.password)
+      .then(() => {
+        console.log("change password success", data.password, user);
+      })
+      .catch((e) => console.log(e));
     await updateDoc(doc(db, `/Manager/${Info.userId}`), {
       password: data.password,
     })

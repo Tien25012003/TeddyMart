@@ -84,7 +84,7 @@ export default function Drawer() {
           name: t("drawer.staff"),
           link: NAV_LINK.STAFF,
           icon1: <MdOutlinePeople size={20} />,
-        } 
+        },
       ].filter(Boolean) as DrawerProps[],
     },
     {
@@ -115,7 +115,7 @@ export default function Drawer() {
       link: NAV_LINK.WAREHOUSE,
       icon1: <BiBox size={25} />,
     },
-    localStorage.getItem("ROLE") !== "Staff" &&{
+    localStorage.getItem("ROLE") !== "Staff" && {
       name: t("drawer.report"),
       link: NAV_LINK.REPORT,
       icon1: <BsBarChartLine size={25} />,
@@ -169,6 +169,7 @@ export default function Drawer() {
         onClick={(e) => {
           if (e.key === "SignOut") {
             signOut(auth).then(() => {
+              console.log("log out success");
               navigate(NAV_LINK.LOGIN);
               dispatch({ type: "RESET_ALL_STORES" });
               window.localStorage.removeItem("USER_ID");

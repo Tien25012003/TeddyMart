@@ -12,7 +12,7 @@ declare type TPartner = {
   debt?: number;
 };
 declare type TStaff = {
-  id: string;
+  userId: string;
   staffName: string;
   phoneNumber: string;
   email: string;
@@ -24,17 +24,18 @@ declare type TStaff = {
 };
 
 declare type TStaffAccount = {
-  id: string,
-  email: string,
-  password: string,
-  managerId: string,
-  username?: string,
-}
+  id: string;
+  email: string;
+  password: string;
+  managerId: string;
+  username?: string;
+};
 
 declare type TManager = {
   userId: string;
   shopName?: string;
   userName?: string;
+  staffName?: string;
   photoURL?: string;
   address?: string;
   phoneNumber?: string;
