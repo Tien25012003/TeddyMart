@@ -88,15 +88,9 @@ export default function AddNewStaffForm({
       return;
     }
     const newData: TStaff = {
+      ...data,
       userId: isAdd ? id : data.userId,
-      staffName: data.staffName,
-      email: data.email,
-      phoneNumber: data.phoneNumber,
-      address: data.address,
-      note: data.note,
       gender: selectedGender as "female" | "male",
-      type: "Staff",
-      salary: data.salary,
     };
 
     if (isAdd) {
