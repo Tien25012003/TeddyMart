@@ -135,7 +135,7 @@ export default function LoginScreen() {
           console.log("STAFFFF");
           await onFetchData(user.data().managerId);
           window.localStorage.setItem("USER_ID", user.data().managerId);
-          console.log("user.data()", user.data());
+          //console.log("user.data()", user.data());
           window.localStorage.setItem("STAFF_ID", user.data().id);
           window.localStorage.setItem("ROLE", user.data().type);
           Hotjar.identify("USER_ID", { email: data.userName });
