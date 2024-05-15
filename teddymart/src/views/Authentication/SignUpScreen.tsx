@@ -77,12 +77,11 @@ export default function SignUpScreen() {
         const auth = getAuth();
         await createUserWithEmailAndPassword(auth, data.email, data.password)
           .then(async (userCredential) => {
-            const id = createID({ prefix: "M" });
             sendEmailVerification(userCredential.user);
-            await setDoc(doc(db, "Manager", id), {
+            await setDoc(doc(db, "Manager", userCredential.user.uid), {
               emailVerified: false,
               ...data,
-              userId: id,
+              userId: userCredential.user.uid,
             });
           })
           .catch((e) => {

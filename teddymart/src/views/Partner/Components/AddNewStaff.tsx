@@ -62,16 +62,18 @@ export default function AddNewStaffForm({
       .then(async (userCredential) => {
         sendEmailVerification(userCredential.user);
 
-        await setDoc(doc(db, "Manager", id), {
+        await setDoc(doc(db, "Manager", userCredential.user.uid), {
           ...data,
           emailVerified: false,
           managerId: manager.userId,
           shopName: manager.shopName,
-          userId: id,
+          userId: userCredential.user.uid,
           password: password,
           isActive: true,
           type: "Staff",
         });
+        dispatch(addNewStaff({ ...data, userId: userCredential.user.uid }));
+        sendEmail(data.email, data.email, password);
       })
       .catch((e) => {
         console.log(e);
@@ -97,13 +99,11 @@ export default function AddNewStaffForm({
       //dispatch(addNewPartner(newData));
       //addData({ data: newData, table: "Staff", id: newData.id });
       //addStaffAccountData(newAccountData, newAccountData.id);
-      dispatch(addNewStaff({ ...data, userId: newData.userId }));
-      sendEmail(data.email, data.staffName, password);
+
       addNewAccount(data, password, id);
       message.success(t("partner.addSuccess"));
     } else {
-      // dispatch(updatePartner({ partnerId: data.id, newData: newData }));
-      await updateDoc(doc(db, "/Manager", data.userId), data)
+      await updateDoc(doc(db, "/Manager", newData.userId), newData)
         .then(() => {
           console.log(">>>>>>>>>> Update Data >>>>>>>>>>");
         })
