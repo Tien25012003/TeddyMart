@@ -1,4 +1,4 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "firebaseConfig";
 
 const getData = async (link: string, order?: string) => {
@@ -10,7 +10,18 @@ const getData = async (link: string, order?: string) => {
   const data = await getDocs(collection(db, link));
   return data.docs.map((d) => d.data());
 };
-
+const getDataWithQuery = async (
+  link: string,
+  managerId: string,
+  order?: string
+) => {
+  const snapshot = query(
+    collection(db, link),
+    where("managerId", "==", managerId)
+  );
+  const data = await getDocs(snapshot);
+  return data.docs.map((d) => d.data());
+};
 const generateReport = (data: TOrder[]) => {
   // by Date
   let report = new Map<string, TReport>();
@@ -215,4 +226,4 @@ const generateProduct = (data: TOrder[], warehouse: TWarehouse[]) => {
     })),
   }));
 };
-export { getData, generateReport, generateProduct };
+export { getData, generateReport, generateProduct, getDataWithQuery };

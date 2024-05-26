@@ -36,7 +36,7 @@ export default function ChangeInfo({ openModal, setOpenModal }: Props) {
     if (openModal === true) {
       setValue("shopName", Info.shopName);
       setValue("email", Info.email);
-      setValue("userName", Info.userName);
+      setValue("userName", Info.userName ?? Info.staffName);
       setValue("phoneNumber", Info.phoneNumber);
       setValue("address", Info.address);
     }

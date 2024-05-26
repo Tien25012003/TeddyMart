@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
 import { useTranslation } from "react-i18next";
 import { Modal, message } from "antd";
-import { createID } from "utils/appUtils";
+import { createID, generateRandomPassword, sendEmail } from "utils/appUtils";
 import {
   addNewPartner,
   updatePartner,
@@ -32,7 +32,9 @@ export default function AddNewStaffForm({
   const [selectedGender, setSelectedGender] = useState<string>(
     isAdd ? "female" : data.gender.toLocaleLowerCase()
   );
-
+  const auth = getAuth();
+  const manager = useSelector((state: RootState) => state.manager);
+  console.log(auth);
   const { t } = useTranslation();
   const userId = localStorage.getItem('USER_ID')
   const dispatch = useDispatch();
@@ -42,21 +44,41 @@ export default function AddNewStaffForm({
       [fieldName]: value,
     });
   };
+  const addNewAccount = async (data: TStaff, password: string, id: string) => {
+    await createUserWithEmailAndPassword(auth, data.email, password)
+      .then(async (userCredential) => {
+        sendEmailVerification(userCredential.user);
 
+        await setDoc(doc(db, "Manager", userCredential.user.uid), {
+          ...data,
+          emailVerified: false,
+          managerId: manager.userId,
+          shopName: manager.shopName,
+          userId: userCredential.user.uid,
+          password: password,
+          isActive: true,
+          type: "Staff",
+        });
+        dispatch(addNewStaff({ ...data, userId: userCredential.user.uid }));
+        sendEmail(data.email, data.email, password);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   const onAddNewCustomer = async () => {
+    const password = generateRandomPassword();
+    const id = createID({ prefix: "S" });
     const trimmedName = data.staffName.trim();
     const trimmedPhone = data.phoneNumber.trim();
-    if (!trimmedName || !trimmedPhone) {
+    const trimmedEmail = data.email.trim();
+    if (!trimmedName || !trimmedPhone || !trimmedEmail) {
       message.warning(t("partner.fill"));
       return;
     }
     const newData: TStaff = {
-      id: isAdd ? createID({ prefix: "P" }) : data.id,
-      staffName: data.staffName,
-      email: data.email,
-      phoneNumber: data.phoneNumber,
-      address: data.address,
-      note: data.note,
+      ...data,
+      userId: isAdd ? id : data.userId,
       gender: selectedGender as "female" | "male",
       type: "Customer",
       salary: data.salary,  
@@ -89,7 +111,7 @@ export default function AddNewStaffForm({
     setOpenAddNewStaff(false);
 
     setData({
-      id: "",
+      userId: "",
       staffName: "",
       gender: "male",
       phoneNumber: "",
@@ -109,12 +131,10 @@ export default function AddNewStaffForm({
         : COLORS.defaultWhite,
     [data.staffName, data.phoneNumber]
   );
-  const color = useMemo(
-    () =>
-      data.staffName !== "" && data.phoneNumber !== ""
-        ? COLORS.defaultWhite
-        : COLORS.lightGray,
-    [data.staffName, data.phoneNumber]
+  const isDisabledButton = useMemo(
+    () => data.staffName === "" || data.phoneNumber === "" || data.email === "",
+
+    [data.staffName, data.phoneNumber, data.email]
   );
   return (
     <Modal
@@ -193,7 +213,10 @@ export default function AddNewStaffForm({
             </tr>
             <tr>
               <td className="pr-8 py-6">
-                <p>{t("staff.email")}</p>
+                <p>
+                  {t("staff.email")}
+                  <span className="text-red-600">*</span>
+                </p>
               </td>
               <td>
                 <TextInputComponent
@@ -261,10 +284,9 @@ export default function AddNewStaffForm({
         <ButtonComponent
           label={t("button.save")}
           backgroundColor={backgroundColor}
-          color={color}
-          onClick={() => {
-            onAddNewCustomer();
-          }}
+          disabled={isDisabledButton}
+          color={isDisabledButton ? COLORS.extra_gray : COLORS.mediumBlack}
+          onClick={onAddNewCustomer}
         />
         <ButtonComponent
           label={t("button.close")}

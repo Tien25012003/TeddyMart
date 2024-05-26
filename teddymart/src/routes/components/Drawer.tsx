@@ -169,6 +169,7 @@ export default function Drawer() {
         onClick={(e) => {
           if (e.key === "SignOut") {
             signOut(auth).then(() => {
+              console.log("log out success");
               navigate(NAV_LINK.LOGIN);
               dispatch({ type: "RESET_ALL_STORES" });
               window.localStorage.removeItem("USER_ID");

@@ -22,7 +22,7 @@ const staffSlice = createSlice({
       return [...action.payload];
     },
     deleteStaff: (state: TStaff[], action: PayloadAction<{ id: string }>) => {
-      return state.filter((p) => p.id !== action.payload.id);
+      return state.filter((p) => p.userId !== action.payload.id);
     },
 
     updateStaff: (
@@ -30,7 +30,7 @@ const staffSlice = createSlice({
       action: PayloadAction<{ id: string; newData: TStaff }>
     ) => {
       // Only allow to update Partner Name, email, phone number, address, total buy amount, debt, note, gender, certificate
-      const index = state.findIndex((p) => p.id === action.payload.id);
+      const index = state.findIndex((p) => p.userId === action.payload.id);
       if (index !== -1) {
         state[index] = { ...action.payload.newData };
       }
@@ -45,14 +45,14 @@ const staffSlice = createSlice({
       ADD_STAFF,
       (state: TStaff[], action: PayloadAction<TStaff>) => {
         const order = action.payload;
-        const index = state.findIndex((s) => s.id === order.id);
+        const index = state.findIndex((s) => s.userId === order.userId);
         if (index !== -1) {
           addData({
             data: {
               ...state[index],
             },
             table: "Staff",
-            id: state[index].id,
+            id: state[index].userId,
           });
         }
       }
@@ -75,6 +75,6 @@ const staffSlice = createSlice({
     // );
   },
 });
-export const { addNewStaff, updateStaff, uploadStaff, deleteStaff, addNewStaffAccount } =
+export const { addNewStaff, updateStaff, uploadStaff, deleteStaff } =
   staffSlice.actions;
 export default staffSlice.reducer;

@@ -12,8 +12,12 @@ type params = {
     | "Shelf"
     | "Staff";
 };
+
 const deleteData = async ({ id, table }: params) => {
   let userId = window.localStorage.getItem("USER_ID");
   await deleteDoc(doc(db, `/Manager/${userId}/${table}`, id));
 };
-export { deleteData };
+const deleteAccount = async ({ id }: { id: string }) => {
+  await deleteDoc(doc(db, "Manager", id));
+};
+export { deleteData, deleteAccount };

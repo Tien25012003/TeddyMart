@@ -6,12 +6,13 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "firebaseConfig";
-import { store } from "state_management/stores/store";
+import emailjs from "@emailjs/browser";
+
 type params = {
   prefix: "ORD" | "VCH" | "P" | "GP" | "PD" | "S" | "WH" |"ST";
 };
 const createID = ({ prefix }: params): string => {
-  return `${prefix}${Math.floor(Math.random() * 100000)}`;
+  return `${prefix}${Math.floor(Math.random() * 10000000)}`;
 };
 
 //order
@@ -99,6 +100,31 @@ const deleteNotificationFirebase = async (notificationIds: string[]) => {
     await deleteDoc(doc(db, `/Manager/${userId}/Notification`, notificationId));
   }
 };
+
+const sendEmail = async (toEmail: string, name: string, password: string) => {
+  emailjs.send(
+    "service_78klm4w",
+    "template_yn3eyrv",
+    {
+      name: name,
+      password: password,
+      toEmail: toEmail,
+    },
+    {
+      publicKey: "IGRuTmn5cNknr2Iuw",
+    }
+  );
+};
+function generateRandomPassword() {
+  const charset =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";
+  let password = "";
+  for (let i = 0; i < 8; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+  return password;
+}
 export {
   createID,
   addOrderFirebase,
@@ -111,4 +137,6 @@ export {
   updateProductFirebase,
   addNotificationFirebase,
   deleteNotificationFirebase,
+  sendEmail,
+  generateRandomPassword,
 };

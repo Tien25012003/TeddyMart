@@ -4,7 +4,12 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { NAV_LINK } from "routes/components/NAV_LINK";
 import { Button, Spin } from "antd";
-import { getData, generateReport, generateProduct } from "controller/getData";
+import {
+  getData,
+  generateReport,
+  generateProduct,
+  getDataWithQuery,
+} from "controller/getData";
 import { useDispatch } from "react-redux";
 import { uploadVoucher } from "state_management/slices/voucherSlice";
 import { uploadPartner } from "state_management/slices/partnerSlice";
@@ -56,8 +61,10 @@ export default function LoginScreen() {
   const { t } = useTranslation();
   useEffect(() => {
     const userId = window.localStorage.getItem("USER_ID");
+    const role = window.localStorage.getItem("ROLE");
     if (userId) {
-      navigate(NAV_LINK.REPORT);
+      if (role === "Staff") navigate(NAV_LINK.SALE);
+      else navigate(NAV_LINK.REPORT);
     }
     setLoading(false);
 
@@ -203,7 +210,10 @@ export default function LoginScreen() {
         )
       );
       setLoading(false);
-      navigate(NAV_LINK.REPORT);
+      const role = window.localStorage.getItem("ROLE");
+      if (role === "Staff") navigate(NAV_LINK.SALE);
+      else navigate(NAV_LINK.REPORT);
+
       reset();
     });
   };

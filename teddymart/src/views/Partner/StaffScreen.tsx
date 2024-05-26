@@ -10,7 +10,7 @@ import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TiPlus } from "react-icons/ti";
 import AddNewSupplierForm from "./Components/AddNewSupplier";
-import { deleteData } from "controller/deleteData";
+import { deleteAccount, deleteData } from "controller/deleteData";
 import { useDispatch } from "react-redux";
 import { deletePartner } from "state_management/slices/partnerSlice";
 import { message } from "antd";
@@ -18,6 +18,7 @@ import { PartnerTable } from "components/TableComponent";
 import AddNewStaffForm from "./Components/AddNewStaff";
 import StaffTable from "components/TableComponent/components/StaffTable";
 import { deleteStaff } from "state_management/slices/staffSlice";
+import { deleteUser, getAuth } from "firebase/auth";
 
 const StaffScreen = () => {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ const StaffScreen = () => {
   const [openAddNewSupplier, setOpenAddNewSupplier] = useState(false);
 
   const [dataInput, setDataInput] = useState<TStaff>({
-    id: "",
+    userId: "",
     staffName: "",
     phoneNumber: "",
     email: "",
@@ -81,7 +82,7 @@ const StaffScreen = () => {
   const onDeleteMultiShelf = () => {
     if (selectedRows.length !== 0) {
       selectedRows.forEach(async (item) => {
-        await deleteData({ id: item, table: "Staff" });
+        await deleteAccount({ id: item });
         dispatch(deleteStaff({ id: item }));
         message.success(t("partner.deleteStaff"));
         setOpen(false);
