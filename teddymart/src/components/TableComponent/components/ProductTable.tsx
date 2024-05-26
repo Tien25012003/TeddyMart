@@ -272,6 +272,7 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
     ]);
 
     //console.log("Products", productsFilter);
+    const role = localStorage.getItem("ROLE");
     const options: TOptions = {
       productId: true,
       productName: true,
@@ -284,7 +285,7 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
       note: true,
       quantity: false,
       totalPrice: false,
-      activities: true,
+      activities: role !== "Staff" ? true : false,
       price: false,
       numberOnShelf: false,
       ...filterOption,
@@ -307,7 +308,7 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
           options.activities && t("activities"),
           options.numberOnShelf && t("product.numberOnShelf"),
           options.numberOnShelf && t("product.stock"),
-          options.numberOnShelf && t("activities"),
+          options.numberOnShelf && options.activities && t("activities"),
         ].filter((value) => Boolean(value) !== false),
       [t, options]
     );
@@ -638,7 +639,7 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
                         </td>
                       )}
 
-                      {options.activities && (
+                      {options.activities && options.numberOnShelf && (
                         <td className="border border-gray-300 p-2 text-sm">
                           <div className="flex items-center gap-1 justify-center">
                             <Button onClick={() => onUpdate(content)}>

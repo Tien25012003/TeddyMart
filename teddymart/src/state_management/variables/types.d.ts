@@ -10,6 +10,7 @@ declare type TPartner = {
   type?: "Customer" | "Supplier";
   totalBuyAmount?: number;
   debt?: number;
+  createdAt?: string | Date;
 };
 declare type TStaff = {
   userId: string;

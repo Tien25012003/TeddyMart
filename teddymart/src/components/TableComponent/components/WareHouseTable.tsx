@@ -134,13 +134,14 @@ const WareHouseTable = forwardRef<HTMLTableElement, Props>(
   ) => {
     const { t } = useTranslation();
     const warehouses = useSelector((state: RootState) => state.warehouseSlice);
+    const role = localStorage.getItem("ROLE")
 
     const HEADER = useMemo(
       () => [
         options.warehouseID && t("warehouse.warehouseID"),
         options.warehouseName && t("warehouse.warehouseName"),
         options.address && t("warehouse.address"),
-        t("activities"),
+        role !== "Staff" && t("activities"),
       ],
       [t, options]
     );
@@ -320,23 +321,27 @@ const WareHouseTable = forwardRef<HTMLTableElement, Props>(
                         </td>
                       )}
                       {/* NÚT XÓA VÀ SỬA */}
-                      <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
-                        <Button
-                          className="mr-2"
-                          onClick={() => onUpdate(content)}
-                        >
-                          <FiEdit />
-                        </Button>
-
-                        <Button
-                          onClick={() => {
-                            setOpenAlert(true);
-                            setSelectedRows([content.warehouseId]);
-                          }}
-                        >
-                          <FiTrash color="red" />
-                        </Button>
-                      </td>
+                      {
+                        role !== "Staff" && (
+                          <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
+                          <Button
+                            className="mr-2"
+                            onClick={() => onUpdate(content)}
+                          >
+                            <FiEdit />
+                          </Button>
+  
+                          <Button
+                            onClick={() => {
+                              setOpenAlert(true);
+                              setSelectedRows([content.warehouseId]);
+                            }}
+                          >
+                            <FiTrash color="red" />
+                          </Button>
+                        </td>
+                        )
+                      }
                     </tr>
                   );
               })}

@@ -65,6 +65,7 @@ const VoucherTable = ({
     ...filterOption,
   };
   const vouchers = useSelector((state: RootState) => state.voucherSlice);
+  const role = window.localStorage.getItem("ROLE");
   const HEADER = useMemo(
     () =>
       [
@@ -73,7 +74,7 @@ const VoucherTable = ({
         options.publicDate && t("voucher.publicDate"),
         options.expirationDate && t("voucher.expirationDate"),
         options.discountAmount && t("voucher.discountAmount"),
-        t("activities"),
+        role !== "Staff" && t("activities"),
       ].filter((value) => Boolean(value) !== false),
     [t, options]
   );
@@ -189,18 +190,22 @@ const VoucherTable = ({
                     <td className="border border-gray-300 p-2 text-sm">
                       {content.discountAmount}%
                     </td>
-                    <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
-                      {/* <Button
-                        className="mr-2"
-                        onClick={() => openEditForm(content)}
-                      >
-                        <FiEdit />
-                      </Button> */}
+                    {role !== "Staff" && (
+                      <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
+                        {/* <Button
+      className="mr-2"
+      onClick={() => openEditForm(content)}
+    >
+      <FiEdit />
+    </Button> */}
 
-                      <Button onClick={() => onDelete(true, content.voucherId)}>
-                        <FiTrash color="red" />
-                      </Button>
-                    </td>
+                        <Button
+                          onClick={() => onDelete(true, content.voucherId)}
+                        >
+                          <FiTrash color="red" />
+                        </Button>
+                      </td>
+                    )}
                   </tr>
                 );
               }
