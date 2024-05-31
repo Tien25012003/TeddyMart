@@ -1,33 +1,23 @@
 import React, { useEffect, useState } from "react";
-import Header from "components/Header";
-import DropdownComponent from "components/DropdownComponent";
-import ButtonSelect from "components/ButtonSelect";
 import { AlertModal } from "components";
-import { IoMdArrowDropdown } from "react-icons/io";
 import SearchComponent from "components/SearchComponent";
 import ButtonComponent from "components/ButtonComponent";
 import { COLORS } from "constants/colors";
-import {
-  LiaBarcodeSolid,
-  LiaFileExcel,
-  LiaRecycleSolid,
-  LiaScribd,
-} from "react-icons/lia";
 import { TiPlus } from "react-icons/ti";
-import { BiFilter } from "react-icons/bi";
-import { ResponsiveContainer } from "recharts";
 import { GroupProductTable } from "components/TableComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
 import { t } from "i18next";
-import { Divider, Modal, Space, message } from "antd";
-import { addData, updateData } from "controller/addData";
+import { message } from "antd";
+import { updateData } from "controller/addData";
 import AddNewGroupProduct from "./components/AddNewGroupProduct";
 import { deleteData } from "controller/deleteData";
-import { deleteShelf, updateShelf } from "state_management/slices/shelfSlice";
+import { updateShelf } from "state_management/slices/shelfSlice";
 import { updateProduct } from "state_management/slices/productSlice";
 import { deleteGroupProduct } from "state_management/slices/groupProductSlice";
 import { updateShelfWarehouse } from "state_management/slices/warehouseSlice";
+import { info } from "../../hooks/useLogger";
+
 export type Input = {
   groupId: string;
   groupName: string;
@@ -105,6 +95,10 @@ export default function ProductScreen() {
           data: { ...shelf, currentQuantity: 0 },
           table: "Shelf",
           id: shelfID,
+        });
+        await info({
+          message: `Update shelft ${shelfID}`,
+          data: { ...shelf, currentQuantity: 0 },
         });
         dispatch(
           updateShelf({

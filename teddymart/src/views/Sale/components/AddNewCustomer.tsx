@@ -4,6 +4,7 @@ import Modal from "antd/es/modal/Modal";
 import { ButtonComponent, TextInputComponent } from "components";
 import { COLORS } from "constants/colors";
 import { addData } from "controller/addData";
+import { info } from "hooks/useLogger";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
@@ -64,6 +65,10 @@ const AddNewCustomerForm = ({
       data: data,
       id: id,
       table: "Partner",
+    });
+    await info({
+      message: "Add New Customer",
+      data: data,
     });
     dispatch(addNewPartner(data));
     message.success("New Customer added successfully!");

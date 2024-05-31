@@ -23,6 +23,7 @@ import {
 } from "state_management/slices/warehouseSlice";
 import { addData, updateData } from "controller/addData";
 import { deleteMultiOrder } from "state_management/slices/warehouseSlice";
+import { info } from "hooks/useLogger";
 
 type Props = {
   openAddNewWarehouse: boolean;
@@ -92,12 +93,24 @@ export default function AddNewWarehouseList({
       }
       dispatch(addNewWarehouse(newData));
       addData({ data: newData, table: "Ware_House", id: warehouseId });
+      await info({
+        message: "Add New Warehouse",
+        data: newData,
+      });
       message.success(t("warehouse.addSuccess"));
     } else {
       dispatch(
         updateWarehouse({ warehouseId: data.warehouseId, updatedData: data })
       );
-      await updateData({ data: data, table: "Ware_House", id: data.warehouseId });
+      await info({
+        message: "Update Warehouse",
+        data: data,
+      });
+      await updateData({
+        data: data,
+        table: "Ware_House",
+        id: data.warehouseId,
+      });
       message.success(t("warehouse.updateSuccess"));
     }
     setOpenAddNewWarehouse(false);
@@ -115,7 +128,11 @@ export default function AddNewWarehouseList({
       open={openAddNewWarehouse}
       onCancel={() => setOpenAddNewWarehouse(false)}
       footer={false}
-      title={<h1 className="text-2xl">{isAdd ? t("warehouse.addNewWarehouse") : "Update Warehouse"}</h1>}
+      title={
+        <h1 className="text-2xl">
+          {isAdd ? t("warehouse.addNewWarehouse") : "Update Warehouse"}
+        </h1>
+      }
       width={"60%"}
     >
       <div className="border hidden md:flex border-gray-100"></div>

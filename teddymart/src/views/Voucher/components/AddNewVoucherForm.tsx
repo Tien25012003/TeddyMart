@@ -2,6 +2,7 @@ import { DatePicker, DatePickerProps, Modal, Space, message } from "antd";
 import { ButtonComponent, TextInputComponent } from "components";
 import { timeFormat } from "constants/time";
 import dayjs from "dayjs";
+import { info } from "hooks/useLogger";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +22,7 @@ const AddNewVoucherForm = ({ openAddVoucher, setOpenAddVoucher }: Props) => {
   const [dateFrom, setDateFrom] = useState<Date>(new Date());
   const [dateTo, setDateTo] = useState<Date>(new Date());
   const [discountAmount, setDiscountAmount] = useState("");
-  const userId = localStorage.getItem('USER_ID')
+  const userId = localStorage.getItem("USER_ID");
   const dispatch = useDispatch();
   const formatDate = (date: Date) => {
     const y = date.getFullYear();
@@ -32,7 +33,7 @@ const AddNewVoucherForm = ({ openAddVoucher, setOpenAddVoucher }: Props) => {
   //console.log(dateTo);
   // console.log(new Date().getTime());
   // console.log(formatDate(dateTo));
-  const onAddNewVoucher = () => {
+  const onAddNewVoucher = async () => {
     const voucherId = createID({ prefix: "VCH" });
     const data: TVoucher = {
       voucherId: voucherId,
@@ -43,6 +44,10 @@ const AddNewVoucherForm = ({ openAddVoucher, setOpenAddVoucher }: Props) => {
     };
 
     dispatch(addNewVoucher(data));
+    await info({
+      message: "Add New Voucher",
+      data: data,
+    });
     addVoucherFirebase(data, userId, voucherId);
     setOpenAddVoucher(false);
     message.success("Add voucher success");

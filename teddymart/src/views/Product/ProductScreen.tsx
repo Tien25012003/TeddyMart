@@ -22,6 +22,7 @@ import { deleteProductWarehouse } from "state_management/slices/warehouseSlice";
 import { updateShelf } from "state_management/slices/shelfSlice";
 import { updateData } from "controller/addData";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
+import { info } from "hooks/useLogger";
 export type Input = {
   productId: string;
   productName: string;
@@ -116,7 +117,7 @@ export default function ProductScreen() {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const onDeleteMultiProduct = () => {
+  const onDeleteMultiProduct = async () => {
     if (selectedRows.length !== 0) {
       setLoading(true);
       selectedRows.forEach(async (item) => {
@@ -152,6 +153,7 @@ export default function ProductScreen() {
                     },
                   })
                 );
+
                 await updateData({
                   data: {
                     ...shelf,
@@ -170,6 +172,10 @@ export default function ProductScreen() {
       });
 
       dispatch(deleteProductWarehouse({ products: tmp }));
+      await info({
+        message: "Delete Product",
+        data: { products: tmp },
+      });
       setOpen(false);
       message.success(t("product.deleteProduct"));
       setSelectedRows([]);

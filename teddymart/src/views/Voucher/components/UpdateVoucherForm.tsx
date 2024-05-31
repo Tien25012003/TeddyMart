@@ -1,6 +1,7 @@
 import { DatePicker, Modal, Space } from "antd";
 import { ButtonComponent, TextInputComponent } from "components";
 import dayjs, { Dayjs } from "dayjs";
+import { info } from "hooks/useLogger";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,9 +24,9 @@ const UpdateVoucherForm = ({
   const [discountAmount, setDiscountAmount] = useState(
     data?.discountAmount.toString()
   );
-  const userId = localStorage.getItem('USER_ID')
+  const userId = localStorage.getItem("USER_ID");
   const dispatch = useDispatch();
-  const onUpdateVoucher = () => {
+  const onUpdateVoucher = async () => {
     const dataUpdate: TVoucher = {
       voucherId: data.voucherId,
       voucherName: voucherName,
@@ -39,6 +40,10 @@ const UpdateVoucherForm = ({
         updateData: dataUpdate,
       })
     );
+    await info({
+      message: "Update Voucher",
+      data: dataUpdate,
+    });
     updateVoucherFirebase(dataUpdate, userId, data.voucherId);
     setOpenUpdateVoucher(false);
   };

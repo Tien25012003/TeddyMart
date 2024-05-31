@@ -15,6 +15,7 @@ import { RootState } from "state_management/reducers/rootReducer";
 import { updateGroupProduct } from "state_management/slices/groupProductSlice";
 import { updateData } from "controller/addData";
 import { updateShelfWarehouse } from "state_management/slices/warehouseSlice";
+import { warning } from "hooks/useLogger";
 export type Input = {
   shelfId: string;
   shelfName: string;
@@ -38,7 +39,7 @@ export default function ShelfScreen() {
   const WARE_HOUSE = useSelector((state: RootState) => state.warehouseSlice);
   const PRODUCTS = useSelector((state: RootState) => state.product);
   const dispatch = useDispatch();
-  const onDeleteMultiShelf = () => {
+  const onDeleteMultiShelf = async () => {
     if (selectedRows.length !== 0) {
       selectedRows.forEach(async (item) => {
         await deleteData({ id: item, table: "Shelf" });
@@ -79,6 +80,12 @@ export default function ShelfScreen() {
           }
         });
         setOpen(false);
+      });
+      await warning({
+        message: "Delete Shelf",
+        data: {
+          listShelfs: selectedRows,
+        },
       });
       message.success(t("shelf.deleteShelf"));
       setSelectedRows([]);

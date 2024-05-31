@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^4.3.3",
+    "@firebase/logger": "^0.4.2",
     "@hotjar/browser": "^1.0.9",
     "@redux-devtools/extension": "^3.2.6",
     "@reduxjs/toolkit": "^1.9.7",

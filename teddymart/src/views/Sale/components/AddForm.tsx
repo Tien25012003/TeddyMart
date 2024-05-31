@@ -29,6 +29,7 @@ import addNotification from "react-push-notification";
 import { addNotifications } from "state_management/slices/notificationSlice";
 import { updateShelf } from "state_management/slices/shelfSlice";
 import { createSelector } from "@reduxjs/toolkit";
+import { info } from "hooks/useLogger";
 const CUS_INFO = {
   customerName: "NVA",
   gender: "Male",
@@ -59,7 +60,7 @@ const AddForm = ({
   const vouchers = useSelector((state: RootState) => state.voucherSlice);
   const groupProduct = useSelector((state: RootState) => state.groupProduct);
   const shelfs = useSelector((state: RootState) => state.shelf);
-  const userId = localStorage.getItem('USER_ID')
+  const userId = localStorage.getItem("USER_ID");
   const warehouse = useSelector((state: RootState) => state.warehouseSlice);
   // const [sum, setSum] = useState(1000);
   const [productMenu, setProductMenu] = useState<TProduct[]>([]);
@@ -171,12 +172,12 @@ const AddForm = ({
       partnerId: customerInfo.partnerId,
       partnerName: customerInfo.partnerName,
       payment: sum, ///
-      seller: localStorage.getItem('STAFF_ID'),
+      seller: localStorage.getItem("STAFF_ID"),
       status: +payment === sum * (1 - discount / 100) ? "paid" : "unpaid",
       totalPayment: +payment, ///
       type: typeAdd,
       voucherId: voucherId ?? "",
-      receiver: localStorage.getItem('STAFF_ID'),
+      receiver: localStorage.getItem("STAFF_ID"),
       warehouseName: warehouseName ?? "",
     };
     console.log("list product", listProduct);
@@ -192,6 +193,10 @@ const AddForm = ({
         isDelete: false,
       })
     );
+    await info({
+      message: "Add New Order",
+      data: data,
+    });
     setPayment((pre) => "");
     setVoucher("");
     setProductMenu([]);

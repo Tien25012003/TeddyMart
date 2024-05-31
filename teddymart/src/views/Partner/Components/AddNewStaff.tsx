@@ -26,6 +26,7 @@ import { create } from "domain";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "firebaseConfig";
 import { randomUUID } from "crypto";
+import { info } from "hooks/useLogger";
 
 type Props = {
   openAddNewStaff: boolean;
@@ -101,6 +102,10 @@ export default function AddNewStaffForm({
       //addStaffAccountData(newAccountData, newAccountData.id);
 
       addNewAccount(data, password, id);
+      await info({
+        message: "Add New Staff",
+        data: data,
+      });
       message.success(t("partner.addSuccess"));
     } else {
       await updateDoc(doc(db, "/Manager", newData.userId), newData)
@@ -108,7 +113,12 @@ export default function AddNewStaffForm({
           console.log(">>>>>>>>>> Update Data >>>>>>>>>>");
         })
         .catch((e) => console.log(e));
+      await info({
+        message: "Update Staff",
+        data: newData,
+      });
       dispatch(updateStaff({ id: newData.userId, newData }));
+
       message.success(t("partner.updateSuccess"));
     }
 

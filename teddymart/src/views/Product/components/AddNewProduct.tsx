@@ -10,6 +10,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import { storage } from "firebaseConfig";
+import { info } from "hooks/useLogger";
 import React, { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BiX, BiXCircle } from "react-icons/bi";
@@ -105,6 +106,10 @@ const AddNewProduct = ({
         };
         dispatch(addNewProduct(newProduct));
         addData({ data: newProduct, table: "Product", id: ProductID });
+        await info({
+          message: "Add New Product",
+          data: newProduct,
+        });
         message.success(t("product.addProduct"));
         setOpenAddForm(false);
       } catch (error) {
@@ -145,6 +150,10 @@ const AddNewProduct = ({
       }
       dispatch(updateProduct({ currentProduct: data, newProduct: data }));
       await updateData({ data: data, table: "Product", id: data.productId });
+      await info({
+        message: "Update Product",
+        data: data,
+      });
       message.success(t("product.editProduct"));
     }
     setOpenAddForm(false);
