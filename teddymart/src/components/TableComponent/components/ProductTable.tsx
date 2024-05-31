@@ -639,7 +639,7 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
                         </td>
                       )}
 
-                      {options.activities && options.numberOnShelf && (
+                      {options.activities && (
                         <td className="border border-gray-300 p-2 text-sm">
                           <div className="flex items-center gap-1 justify-center">
                             <Button onClick={() => onUpdate(content)}>
