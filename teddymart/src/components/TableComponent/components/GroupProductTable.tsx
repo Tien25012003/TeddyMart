@@ -82,6 +82,7 @@ const GroupProductTable = ({
     note: true,
     ...filterOption,
   };
+  const role = localStorage.getItem("ROLE");
   const HEADER = useMemo(
     () =>
       [
@@ -91,7 +92,7 @@ const GroupProductTable = ({
         options.shelf && t("group.shelfName"),
         options.note && t("note"),
 
-        t("activities"),
+        role !== "Staff" && t("activities"),
       ].filter((value) => Boolean(value) !== false),
     [t]
   );
@@ -226,25 +227,27 @@ const GroupProductTable = ({
                       </td>
                     )}
 
-                    <td className="border border-gray-300 p-2 text-sm">
-                      <div className="flex items-center gap-1 justify-center">
-                        <Button
-                          className="mr-2"
-                          onClick={() => onUpdate(content)}
-                        >
-                          <FiEdit />
-                        </Button>
+                    {role !== "Staff" && (
+                      <td className="border border-gray-300 p-2 text-sm">
+                        <div className="flex items-center gap-1 justify-center">
+                          <Button
+                            className="mr-2"
+                            onClick={() => onUpdate(content)}
+                          >
+                            <FiEdit />
+                          </Button>
 
-                        <Button
-                          onClick={() => {
-                            setOpenAlert(true);
-                            setSelectedRows([content.groupId]);
-                          }}
-                        >
-                          <FiTrash color="red" />
-                        </Button>
-                      </div>
-                    </td>
+                          <Button
+                            onClick={() => {
+                              setOpenAlert(true);
+                              setSelectedRows([content.groupId]);
+                            }}
+                          >
+                            <FiTrash color="red" />
+                          </Button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 );
             })}

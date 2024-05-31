@@ -95,6 +95,7 @@ export default function CustomerScreen() {
     certificate: "",
     note: "",
     type: "Customer",
+    createdAt: new Date()
   });
   const handleSearch = (filterValues: Record<string, any>) => {
     setFilterValues(filterValues);

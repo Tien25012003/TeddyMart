@@ -267,6 +267,8 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
       note: true,
       ...filterOption,
     };
+
+    const role = window.localStorage.getItem("ROLE");
     const HEADER = useMemo(
       () =>
         [
@@ -284,7 +286,7 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
           options.totalBuyAmount && t("partner.totalBuyAmount"),
           options.certificate && !isCustomer && t("partner.certificate"),
           options.note && t("note"),
-          t("activities"),
+          role !== "Staff" && t("activities"),
         ].filter((value) => Boolean(value) !== false),
       [t, filterOption]
     );
@@ -349,6 +351,17 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
       setUpdateDataInput(partner);
     };
 
+    const isDisabledCheckbox = (createdTime: Date) => {
+      const currentDate = new Date();
+      if (
+        createdTime.getDate() === currentDate.getDate() &&
+        createdTime.getMonth() === currentDate.getMonth() &&
+        createdTime.getFullYear() === currentDate.getFullYear()
+      )
+        return false;
+      return true;
+    };
+
     return (
       <div className="w-full">
         <div className="max-h-96 overflow-y-auto visible">
@@ -402,6 +415,7 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
                               ? true
                               : false
                           }
+                          disabled = {isDisabledCheckbox(new Date (new Date(content.createdAt)))}
                         />
                       </td>
                       {options.partnerID && (
@@ -442,7 +456,9 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
                       )}
                       {options.totalBuyAmount && (
                         <td className="border border-gray-300 p-2 text-sm">
-                          {new Intl.NumberFormat().format(content.totalBuyAmount)}
+                          {new Intl.NumberFormat().format(
+                            content.totalBuyAmount
+                          )}
                         </td>
                       )}
                       {options.certificate && !isCustomer && (
@@ -466,22 +482,24 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
                           {content.note}
                         </td>
                       )}
-                      <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
-                        <div className="flex items-center gap-1 justify-center">
-                          <Button onClick={() => onUpdate(content)}>
-                            <FiEdit />
-                          </Button>
+                      {role !== "Staff" && (
+                        <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
+                          <div className="flex items-center gap-1 justify-center">
+                            <Button onClick={() => onUpdate(content)}>
+                              <FiEdit />
+                            </Button>
 
-                          <Button
-                            onClick={() => {
-                              setOpenAlert(true);
-                              setSelectedRows([content.partnerId]);
-                            }}
-                          >
-                            <FiTrash color="red" />
-                          </Button>
-                        </div>
-                      </td>
+                            <Button
+                              onClick={() => {
+                                setOpenAlert(true);
+                                setSelectedRows([content.partnerId]);
+                              }}
+                            >
+                              <FiTrash color="red" />
+                            </Button>
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   );
               })}

@@ -60,6 +60,7 @@ const AddNewCustomerForm = ({
       type: "Customer",
       totalBuyAmount: parseInt(totalBuyAmount),
       debt: parseInt(debt),
+      createdAt: new Date(),
     };
     await addData({
       data: data,

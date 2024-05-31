@@ -61,6 +61,7 @@ export default function AddNewCustomerForm({
       type: "Customer",
       totalBuyAmount: data.totalBuyAmount,
       debt: data.debt,
+      createdAt: new Date()
     };
 
     if (isAdd) {
@@ -103,6 +104,7 @@ export default function AddNewCustomerForm({
       certificate: "",
       note: "",
       type: "Customer",
+      createdAt: new Date()
     });
   };
 

@@ -97,7 +97,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
     ref
   ) => {
     //console.log(search);
-    
+    const role = window.localStorage.getItem("ROLE");
     const { t } = useTranslation();
     const options = {
       orderId: true,
@@ -114,11 +114,11 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
       seller: type === "Export",
       status: true,
       note: true,
-      activities: true,
+      activities: role === "Staff" ? false : true,
       ...filterOption,
     };
     const bills = useSelector((state: RootState) => state.order);
-    const userId = localStorage.getItem('USER_ID')
+    const userId = localStorage.getItem("USER_ID");
     const [tmpData, setTmpData] = useState(bills);
     const [openListProduct, setOpenListProduct] = useState(false);
     const [listProduct, setListProduct] = useState<TListProduct[]>([]);
@@ -291,6 +291,17 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
       setOpenListProduct(true);
       setListProduct(listProduct);
     };
+
+    const isDisabledCheckbox = (createdTime: Date) => {
+      const currentDate = new Date();
+      if (
+        createdTime.getDate() === currentDate.getDate() &&
+        createdTime.getMonth() === currentDate.getMonth() &&
+        createdTime.getFullYear() === currentDate.getFullYear()
+      )
+        return false;
+      return true;
+    };
     return (
       <div>
         <div className="max-h-96 overflow-y-auto visible">
@@ -329,6 +340,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
             </thead>
             <tbody className="text-center">
               {tmpData.map((content, index) => {
+                console.log("content order", content);
                 if (
                   index < currentPage * rowsPerPage &&
                   index >= (currentPage - 1) * rowsPerPage
@@ -345,6 +357,9 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                               ? true
                               : false
                           }
+                          disabled={isDisabledCheckbox(
+                            new Date(content.createdAt)
+                          )}
                         />
                       </td>
 
@@ -372,7 +387,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                       )}
                       {options.receiver && (
                         <td className="border border-gray-300 p-2 text-sm">
-                          <SellerName id = {content.receiver}/>
+                          <SellerName id={content.receiver} />
                         </td>
                       )}
                       {options.listProduct && (
@@ -388,8 +403,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                       )}
                       {options.payment && (
                         <td className="border border-gray-300 p-2 text-sm">
-                          {new Intl.NumberFormat().format(content.payment) }
-                         
+                          {new Intl.NumberFormat().format(content.payment) }             
                         </td>
                       )}
                       {options.debt && (
@@ -404,7 +418,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                       )}
                       {options.totalPayment && (
                         <td className="border border-gray-300 p-2 text-sm">
-                           {new Intl.NumberFormat().format(content.totalPayment) }
+                          {new Intl.NumberFormat().format(content.totalPayment)}
                         </td>
                       )}
                       {options.voucherID && (
@@ -414,7 +428,9 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                       )}
                       {options.seller && (
                         <td className="border border-gray-300 p-2 text-sm">
-                          {content.type === "Export" ? <SellerName id = {content.seller}/> : null}
+                          {content.type === "Export" ? (
+                            <SellerName id={content.seller} />
+                          ) : null}
                         </td>
                       )}
 
