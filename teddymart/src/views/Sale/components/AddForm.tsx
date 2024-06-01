@@ -29,6 +29,7 @@ import addNotification from "react-push-notification";
 import { addNotifications } from "state_management/slices/notificationSlice";
 import { updateShelf } from "state_management/slices/shelfSlice";
 import { createSelector } from "@reduxjs/toolkit";
+import { info } from "hooks/useLogger";
 const CUS_INFO = {
   customerName: "NVA",
   gender: "Male",
@@ -138,7 +139,7 @@ const AddForm = ({
             newShelf: {
               ...shelf,
               currentQuantity: Math.max(
-                shelf.currentQuantity - product.quantity,
+                shelf?.currentQuantity - product.quantity,
                 0
               ),
             },
@@ -192,6 +193,10 @@ const AddForm = ({
         isDelete: false,
       })
     );
+    await info({
+      message: "Add New Order",
+      data: data,
+    });
     setPayment((pre) => "");
     setVoucher("");
     setProductMenu([]);

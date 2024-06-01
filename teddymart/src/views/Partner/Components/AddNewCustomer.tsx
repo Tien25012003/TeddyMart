@@ -12,6 +12,7 @@ import {
   updatePartner,
 } from "state_management/slices/partnerSlice";
 import { addData, updateData } from "controller/addData";
+import { info } from "hooks/useLogger";
 
 type Props = {
   openAddNewCustomer: boolean;
@@ -33,7 +34,7 @@ export default function AddNewCustomerForm({
   );
 
   const { t } = useTranslation();
-  const userId = localStorage.getItem('USER_ID')
+  const userId = localStorage.getItem("USER_ID");
   const dispatch = useDispatch();
   const onChange = (value: string, fieldName: string) => {
     setData({
@@ -60,11 +61,16 @@ export default function AddNewCustomerForm({
       type: "Customer",
       totalBuyAmount: data.totalBuyAmount,
       debt: data.debt,
+      createdAt: new Date()
     };
 
     if (isAdd) {
       dispatch(addNewPartner(newData));
       addData({ data: newData, table: "Partner", id: newData.partnerId });
+      await info({
+        message: "Add New Partner",
+        data: { data: newData, table: "Partner", id: newData.partnerId },
+      });
       message.success(t("partner.addSuccess"));
     } else {
       dispatch(updatePartner({ partnerId: data.partnerId, newData: newData }));
@@ -72,6 +78,14 @@ export default function AddNewCustomerForm({
         data: newData,
         table: "Partner",
         id: newData.partnerId,
+      });
+      await info({
+        message: "Update Partner",
+        data: {
+          data: newData,
+          table: "Partner",
+          id: newData.partnerId,
+        },
       });
       message.success(t("partner.updateSuccess"));
     }
@@ -90,6 +104,7 @@ export default function AddNewCustomerForm({
       certificate: "",
       note: "",
       type: "Customer",
+      createdAt: new Date()
     });
   };
 
@@ -226,7 +241,9 @@ export default function AddNewCustomerForm({
                     setValue={(value) => onChange(value, "totalBuyAmount")}
                   />
                 ) : (
-                  <span>{new Intl.NumberFormat().format(data.totalBuyAmount)}</span>
+                  <span>
+                    {new Intl.NumberFormat().format(data.totalBuyAmount)}
+                  </span>
                 )}
               </td>
             </tr>

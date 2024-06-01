@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { NAV_LINK } from "routes/components/NAV_LINK";
 import { Button, Spin } from "antd";
 import {
-  getData,
-  generateReport,
   generateProduct,
+  generateReport,
+  getData,
+  getDataRealTime,
   getDataWithQuery,
 } from "controller/getData";
 import { useDispatch } from "react-redux";
@@ -19,21 +20,21 @@ import { uploadWarehouse } from "state_management/slices/warehouseSlice";
 import { uploadOrder } from "state_management/slices/orderSlice";
 import { uploadReport } from "state_management/slices/reportSlice";
 import { useTranslation } from "react-i18next";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { uploadReportProduct } from "state_management/slices/reportProduct";
 import {
-  getDocs,
   collection,
-  updateDoc,
   doc,
   getDoc,
+  getDocs,
+  updateDoc,
 } from "firebase/firestore";
-import { db, auth } from "firebaseConfig";
+import { auth, db } from "firebaseConfig";
 import {
-  signInWithEmailAndPassword,
   getAuth,
-  signInWithPopup,
   GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
 import { uploadManager } from "state_management/slices/managerSlice";
 import { uploadShelf } from "state_management/slices/shelfSlice";
@@ -43,8 +44,7 @@ import {
 } from "state_management/slices/notificationSlice";
 import { uploadStaff } from "state_management/slices/staffSlice";
 import Hotjar from "@hotjar/browser";
-import type { RadioChangeEvent } from "antd";
-import { Radio } from "antd";
+import { error, info } from "../../hooks/useLogger";
 
 type Inputs = {
   userName: string;
@@ -81,6 +81,7 @@ export default function LoginScreen() {
   } = useForm<Inputs>();
   const onLogin: SubmitHandler<Inputs> = async (data) => {
     Hotjar.event("Login Screen --- Click Login");
+
     setLoading(true);
     // if(role === 'Manager')
     let snapshot = await getDocs(collection(db, "Manager"));
@@ -92,9 +93,13 @@ export default function LoginScreen() {
           d.data().userName === data.userName) &&
         d.data().password === data.password
     );
+    console.log("user", user);
     if (!user) {
       setError("userName", {
         type: "custom",
+        message: t("login.errUser"),
+      });
+      await error({
         message: t("login.errUser"),
       });
       setLoading(false);
@@ -106,6 +111,9 @@ export default function LoginScreen() {
         if (!userCredential.user.emailVerified) {
           setError("userName", {
             type: "custom",
+            message: t("login.errVerify"),
+          });
+          await error({
             message: t("login.errVerify"),
           });
           return;
@@ -139,7 +147,14 @@ export default function LoginScreen() {
           window.localStorage.setItem("STAFF_ID", user.data().id);
           window.localStorage.setItem("ROLE", user.data().type);
           Hotjar.identify("USER_ID", { email: data.userName });
+          await info({
+            message: "Login Success",
+          });
         } else {
+          console.log("Manager");
+          await info({
+            message: "Login Success",
+          });
           await onFetchData(userCredential.user.uid);
           window.localStorage.setItem("USER_ID", userCredential.user.uid);
           window.localStorage.setItem("STAFF_ID", userCredential.user.uid);
@@ -147,13 +162,13 @@ export default function LoginScreen() {
           Hotjar.identify("USER_ID", { email: data.userName });
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         setError("password", {
           type: "custom",
           message: t("login.wrongPassword"),
         });
         setLoading(false);
-        console.log(e);
+        console.log("wrong password");
       });
   };
 

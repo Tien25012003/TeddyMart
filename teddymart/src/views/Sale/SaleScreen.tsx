@@ -1,11 +1,10 @@
-import { Space, DatePicker } from "antd";
+import { Space } from "antd";
 import { SearchProps } from "antd/es/input/Search";
 import {
   AlertModal,
   ButtonComponent,
   ListCheckBox,
   ModalSelectDate,
-  SearchComponent,
 } from "components";
 import DropdownComponent from "components/DropdownComponent";
 import { BillTable } from "components/TableComponent";
@@ -13,35 +12,20 @@ import TextInputComponent from "components/TextInputComponent";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BiSearch, BiTrash, BiPlus } from "react-icons/bi";
-import { BsFileExcel } from "react-icons/bs";
-import { IoMdAlert } from "react-icons/io";
-import { LiaFileExcel } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
 import {
   deleteMultiOrder,
-  deleteOrder,
   updateOrder,
 } from "state_management/slices/orderSlice";
-import { IoAlertCircleOutline } from "react-icons/io5";
 import AddForm from "./components/AddForm";
 import SearchProductForm from "./components/SearchProductForm";
 import AlertDelete from "./components/AlertDelete";
 import { BtnExport } from "components";
 import { deleteOrderFirebase } from "utils/appUtils";
-import addNotification from "react-push-notification";
 import { DELETE_ORDER, UPDATE_ORDER } from "state_management/actions/actions";
 import { updateProductWarehouse } from "state_management/slices/warehouseSlice";
 import { updateData } from "controller/addData";
-const { RangePicker } = DatePicker;
-const CUS_INFO = {
-  customerName: "NVA",
-  gender: "Male",
-  phoneNumber: 123123,
-  totalBuyAmount: 123,
-  email: "123123@gmail.com",
-  debt: 0,
-};
 export default function SaleScreen() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
@@ -50,7 +34,7 @@ export default function SaleScreen() {
   const [openAddForm, setOpenAddForm] = useState(false);
   const [date, setDate] = useState<{ from: Date; to: Date }>();
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const userId = localStorage.getItem('USER_ID')
+  const userId = localStorage.getItem("USER_ID");
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [openEdit, setOpenEdit] = useState(false);
@@ -97,9 +81,8 @@ export default function SaleScreen() {
   );
 
   useEffect(() => {
-    if (localStorage.getItem("ROLE") === "Staff")
-      setIsDisable(true);
-  }, [])
+    if (localStorage.getItem("ROLE") === "Staff") setIsDisable(true);
+  }, []);
 
   const [listFilter, setListFilter] = useState(initialFilter);
   const objectFilter = useMemo(() => {
@@ -201,7 +184,7 @@ export default function SaleScreen() {
             <ButtonComponent
               label={t("button.delete")}
               onClick={() => setOpenAlertModal(true)}
-              style={{  backgroundColor: "#EA5A47", marginInline: 12 }}
+              style={{ backgroundColor: "#EA5A47", marginInline: 12 }}
               iconLeft={<BiTrash size={20} color="white" />}
               // isDisable= {isDisable}
             />

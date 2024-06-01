@@ -20,6 +20,7 @@ import {
   uploadBytes,
   deleteObject,
 } from "firebase/storage";
+import { info } from "hooks/useLogger";
 
 type Props = {
   opernAddNewSupplier: boolean;
@@ -54,7 +55,7 @@ export default function AddNewSupplierForm({
   };
 
   const { t } = useTranslation();
-  const userId = localStorage.getItem('USER_ID')
+  const userId = localStorage.getItem("USER_ID");
   const dispatch = useDispatch();
   const onChange = (value: string, fieldName: string) => {
     setData({
@@ -96,7 +97,10 @@ export default function AddNewSupplierForm({
 
         dispatch(addNewPartner(newData));
         addData({ data: newData, table: "Partner", id: partnerId });
-
+        await info({
+          message: "Add New Supplier",
+          data: newData,
+        });
         message.success(t("partner.addSuccess"));
         setOpernAddNewSupplier(false);
       } else {
@@ -115,6 +119,10 @@ export default function AddNewSupplierForm({
           })
         );
         await updateData({ data: data, table: "Partner", id: data.partnerId });
+        await info({
+          message: "Update Staff",
+          data: data,
+        });
         message.success(t("partner.updateSuccess"));
         setOpernAddNewSupplier(false);
       }
@@ -241,11 +249,17 @@ export default function AddNewSupplierForm({
                   <TextInputComponent
                     placeHolder="0"
                     width={"100%"}
-                    value={data.totalBuyAmount.toString()==="0"?"":data.totalBuyAmount.toString()}
+                    value={
+                      data.totalBuyAmount.toString() === "0"
+                        ? ""
+                        : data.totalBuyAmount.toString()
+                    }
                     setValue={(value) => onChange(value, "totalBuyAmount")}
                   />
                 ) : (
-                  <span>{new Intl.NumberFormat().format(data.totalBuyAmount)}</span>
+                  <span>
+                    {new Intl.NumberFormat().format(data.totalBuyAmount)}
+                  </span>
                 )}
               </td>
             </tr>
@@ -258,7 +272,9 @@ export default function AddNewSupplierForm({
                   <TextInputComponent
                     placeHolder="0"
                     width={"100%"}
-                    value={data.debt.toString()==="0"?"":data.debt.toString()}
+                    value={
+                      data.debt.toString() === "0" ? "" : data.debt.toString()
+                    }
                     setValue={(value) => onChange(value, "debt")}
                   />
                 ) : (

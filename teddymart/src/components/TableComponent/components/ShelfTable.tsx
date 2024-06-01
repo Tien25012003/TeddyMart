@@ -24,32 +24,7 @@ type TContent = {
   capacity: number;
   note: string;
 };
-const CONTENT: TContent[] = [
-  {
-    shelfId: "GP001",
-    shelfName: "Home Appliance",
-    capacity: 1,
-    note: "Explore essential appliances required for household needs. From refrigerators to kitchen essentials, this group provides reliable and efficient solutions to simplify daily routines at home.",
-  },
-  {
-    shelfId: "GP001",
-    shelfName: "Home Appliance",
-    capacity: 2,
-    note: "Explore essential appliances required for household needs. From refrigerators to kitchen essentials, this group provides reliable and efficient solutions to simplify daily routines at home.",
-  },
-  {
-    shelfId: "GP001",
-    shelfName: "Home Appliance",
-    capacity: 3,
-    note: "Explore essential appliances required for household needs. From refrigerators to kitchen essentials, this group provides reliable and efficient solutions to simplify daily routines at home.",
-  },
-  {
-    shelfId: "GP001",
-    shelfName: "Home Appliance",
-    capacity: 4,
-    note: "Explore essential appliances required for household needs. From refrigerators to kitchen essentials, this group provides reliable and efficient solutions to simplify daily routines at home.",
-  },
-];
+
 type TOptions = {
   shelfId?: boolean;
   shelfName?: boolean;
@@ -80,6 +55,7 @@ const ShelfTable = ({
     currentQuantity: true,
     ...filterOption,
   };
+  const role = window.localStorage.getItem("ROLE");
   const HEADER = useMemo(
     () =>
       [
@@ -88,7 +64,7 @@ const ShelfTable = ({
         options.shelfCapacity && t("shelf.capacity"),
         options.currentQuantity && t("product.numberOnShelf"),
         options.note && t("note"),
-        t("activities"),
+        role !== "Staff" && t("activities"),
       ].filter((value) => Boolean(value) !== false),
     [t]
   );
@@ -230,23 +206,25 @@ const ShelfTable = ({
                       </td>
                     )}
 
-                    <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
-                      <Button
-                        className="mr-2"
-                        onClick={() => onUpdate(content)}
-                      >
-                        <FiEdit />
-                      </Button>
+                    {role !== "Staff" && (
+                      <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
+                        <Button
+                          className="mr-2"
+                          onClick={() => onUpdate(content)}
+                        >
+                          <FiEdit />
+                        </Button>
 
-                      <Button
-                        onClick={() => {
-                          setOpenAlert(true);
-                          setSelectedRows([content.shelfId]);
-                        }}
-                      >
-                        <FiTrash color="red" />
-                      </Button>
-                    </td>
+                        <Button
+                          onClick={() => {
+                            setOpenAlert(true);
+                            setSelectedRows([content.shelfId]);
+                          }}
+                        >
+                          <FiTrash color="red" />
+                        </Button>
+                      </td>
+                    )}
                   </tr>
                 );
             })}

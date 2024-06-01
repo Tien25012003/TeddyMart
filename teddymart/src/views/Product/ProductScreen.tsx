@@ -17,11 +17,13 @@ import AddNewProduct from "./components/AddNewProduct";
 import { deleteData } from "controller/deleteData";
 import { deleteProduct } from "state_management/slices/productSlice";
 import { deleteObject, ref } from "firebase/storage";
-import { storage } from "firebaseConfig";
+import { db, storage } from "firebaseConfig";
 import { deleteProductWarehouse } from "state_management/slices/warehouseSlice";
 import { updateShelf } from "state_management/slices/shelfSlice";
 import { updateData } from "controller/addData";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
+import { info } from "hooks/useLogger";
+import { collection, query } from "firebase/firestore";
 export type Input = {
   productId: string;
   productName: string;
@@ -44,6 +46,7 @@ export default function ProductScreen() {
   const shelfs = useSelector((state: RootState) => state.shelf);
   const WAREHOUSE = useSelector((state: RootState) => state.warehouseSlice);
   const [isDisable, setIsDisable] = useState(false);
+
   const OPTIONS = [
     t("button.createdAtNewest"),
     t("button.createdAtOldest"),
@@ -116,7 +119,7 @@ export default function ProductScreen() {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const onDeleteMultiProduct = () => {
+  const onDeleteMultiProduct = async () => {
     if (selectedRows.length !== 0) {
       setLoading(true);
       selectedRows.forEach(async (item) => {
@@ -146,17 +149,18 @@ export default function ProductScreen() {
                     newShelf: {
                       ...shelf,
                       currentQuantity: Math.max(
-                        shelf?.currentQuantity - p.quantity,
+                        shelf?.currentQuantity ?? 0 - p.quantity,
                         0
                       ),
                     },
                   })
                 );
+
                 await updateData({
                   data: {
                     ...shelf,
                     currentQuantity: Math.max(
-                      shelf?.currentQuantity - p.quantity,
+                      shelf?.currentQuantity ?? 0 - p.quantity,
                       0
                     ),
                   },
@@ -170,6 +174,10 @@ export default function ProductScreen() {
       });
 
       dispatch(deleteProductWarehouse({ products: tmp }));
+      await info({
+        message: "Delete Product",
+        data: { products: tmp },
+      });
       setOpen(false);
       message.success(t("product.deleteProduct"));
       setSelectedRows([]);

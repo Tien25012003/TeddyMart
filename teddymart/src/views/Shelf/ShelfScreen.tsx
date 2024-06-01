@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SearchComponent from "components/SearchComponent";
 import ButtonComponent from "components/ButtonComponent";
 import { COLORS } from "constants/colors";
@@ -8,13 +8,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { t } from "i18next";
 import AddNewShelf from "./components/AddNewShelf";
 import { AlertModal } from "components";
-import { deleteShelf, updateShelf } from "state_management/slices/shelfSlice";
+import {
+  deleteShelf,
+  updateShelf,
+  uploadShelf,
+} from "state_management/slices/shelfSlice";
 import { deleteData } from "controller/deleteData";
 import { message } from "antd";
 import { RootState } from "state_management/reducers/rootReducer";
 import { updateGroupProduct } from "state_management/slices/groupProductSlice";
 import { updateData } from "controller/addData";
 import { updateShelfWarehouse } from "state_management/slices/warehouseSlice";
+import { warning } from "hooks/useLogger";
+import { collection, doc, onSnapshot, query } from "firebase/firestore";
+import { db } from "firebaseConfig";
 export type Input = {
   shelfId: string;
   shelfName: string;
@@ -38,7 +45,20 @@ export default function ShelfScreen() {
   const WARE_HOUSE = useSelector((state: RootState) => state.warehouseSlice);
   const PRODUCTS = useSelector((state: RootState) => state.product);
   const dispatch = useDispatch();
-  const onDeleteMultiShelf = () => {
+  console.log("on snap shot", `/Manager/${userId}/Shelf`);
+  const q = query(collection(db, `/Manager/${userId}/Shelf`));
+  const unsubscribe = useCallback(
+    () =>
+      onSnapshot(q, (querySnapshot) => {
+        dispatch(
+          uploadShelf(
+            querySnapshot.docs.map((value) => value.data()) as TShelf[]
+          )
+        );
+      }),
+    []
+  );
+  const onDeleteMultiShelf = async () => {
     if (selectedRows.length !== 0) {
       selectedRows.forEach(async (item) => {
         await deleteData({ id: item, table: "Shelf" });
@@ -80,6 +100,12 @@ export default function ShelfScreen() {
         });
         setOpen(false);
       });
+      await warning({
+        message: "Delete Shelf",
+        data: {
+          listShelfs: selectedRows,
+        },
+      });
       message.success(t("shelf.deleteShelf"));
       setSelectedRows([]);
     }
@@ -87,8 +113,8 @@ export default function ShelfScreen() {
 
   useEffect(() => {
     if (localStorage.getItem("ROLE") === "Staff") setIsDisable(true);
+    unsubscribe();
   }, []);
-
   return (
     <div className="w-full">
       <div
