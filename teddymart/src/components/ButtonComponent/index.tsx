@@ -25,6 +25,7 @@ const ButtonComponent: React.FC<ButtonProps> = ({
         backgroundColor: backgroundColor,
         padding: `${paddingVertical}px ${paddingHorizontal}px`,
         borderRadius: borderRadius,
+        borderWidth: 0,
         fontSize: fontSize,
         maxWidth,
         color: color,
@@ -45,7 +46,8 @@ const ButtonComponent: React.FC<ButtonProps> = ({
             right: 0,
             bottom: 0,
             left: 0,
-            borderRadius: borderRadius,
+            borderRadius: +borderRadius - 1,
+            borderWidth: 0,
           }}
         ></div>
       )}

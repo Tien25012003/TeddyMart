@@ -180,7 +180,7 @@ const AddForm = ({
       receiver: localStorage.getItem("STAFF_ID"),
       warehouseName: warehouseName ?? "",
     };
-    console.log("list product", listProduct);
+    //console.log("list product", listProduct);
     addOrderFirebase(data, userId, orderId);
     dispatch(addNewOrder(data));
     dispatch(
