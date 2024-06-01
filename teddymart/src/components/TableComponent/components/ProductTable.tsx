@@ -28,6 +28,7 @@ import PlaceOnShelf from "views/Warehouse/components/PlaceOnShelf";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { db } from "firebaseConfig";
 import { uploadProduct } from "state_management/slices/productSlice";
+import { uploadWarehouse } from "state_management/slices/warehouseSlice";
 export type Input = {
   productId: string;
   productName: string;
@@ -126,7 +127,6 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
     const { t } = useTranslation();
     const userId = window.localStorage.getItem("USER_ID");
     const dispatch = useDispatch();
-
     const q = query(collection(db, `/Manager/${userId}/Product`));
     const unsubscribe = useCallback(
       () =>
@@ -135,6 +135,20 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
           dispatch(
             uploadProduct(
               querySnapshot.docs.map((value) => value.data()) as TProduct[]
+            )
+          );
+        }),
+      []
+    );
+    const queryWarehouse = query(
+      collection(db, `/Manager/${userId}/Ware_House`)
+    );
+    const unsubscribe_warehouse = useCallback(
+      () =>
+        onSnapshot(queryWarehouse, (querySnapshot) => {
+          dispatch(
+            uploadWarehouse(
+              querySnapshot.docs.map((value) => value.data()) as TWarehouse[]
             )
           );
         }),
@@ -282,6 +296,7 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
 
       return listProducts ?? [];
     }, [
+      warehouses,
       warehouseName,
       productName,
       sort,
@@ -357,6 +372,7 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
     }, [rowsPerPage]);
     useEffect(() => {
       unsubscribe();
+      unsubscribe_warehouse();
     }, []);
     const handleCheckBoxChange = (product?: TProduct) => {
       const rowId = product?.productId;

@@ -1,7 +1,15 @@
 import { Button, Dropdown, MenuProps } from "antd";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import { useMemo, useState, useLayoutEffect, useRef, forwardRef } from "react";
+import {
+  useMemo,
+  useState,
+  useLayoutEffect,
+  useRef,
+  forwardRef,
+  useCallback,
+  useEffect,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { BiDetail } from "react-icons/bi";
 import { FiEdit, FiTrash } from "react-icons/fi";
@@ -13,12 +21,16 @@ import {
   HiOutlineChevronRight,
   HiOutlineChevronDoubleRight,
 } from "react-icons/hi2";
-import warehouseSlice from "state_management/slices/warehouseSlice";
+import warehouseSlice, {
+  uploadWarehouse,
+} from "state_management/slices/warehouseSlice";
 import { deleteWarehouse } from "state_management/slices/warehouseSlice";
 import AddNewWarehouseList from "views/Warehouse/components/AddNewWarehouseList";
 import { deleteData } from "controller/deleteData";
 import AlertModal from "components/AlertModal";
 import { message } from "antd";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { db } from "firebaseConfig";
 /**
  * Chưa thanh toán (Unpaid): Hóa đơn vẫn chưa được thanh toán hoặc chưa đến hạn thanh toán.
 
@@ -133,8 +145,24 @@ const WareHouseTable = forwardRef<HTMLTableElement, Props>(
     ref
   ) => {
     const { t } = useTranslation();
+    const userId = window.localStorage.getItem("USER_ID");
+    const dispatch = useDispatch();
+
+    const q = query(collection(db, `/Manager/${userId}/Ware_House`));
+    const unsubscribe = useCallback(
+      () =>
+        onSnapshot(q, (querySnapshot) => {
+          console.log(querySnapshot.docs.map((value) => value.data()));
+          dispatch(
+            uploadWarehouse(
+              querySnapshot.docs.map((value) => value.data()) as TWarehouse[]
+            )
+          );
+        }),
+      []
+    );
     const warehouses = useSelector((state: RootState) => state.warehouseSlice);
-    const role = localStorage.getItem("ROLE")
+    const role = localStorage.getItem("ROLE");
 
     const HEADER = useMemo(
       () => [
@@ -248,7 +276,9 @@ const WareHouseTable = forwardRef<HTMLTableElement, Props>(
         count: warehouse.count,
       });
     };
-
+    useEffect(() => {
+      unsubscribe();
+    }, []);
     return (
       <div className="w-full">
         <div className="max-h-96 overflow-y-auto visible">
@@ -321,16 +351,15 @@ const WareHouseTable = forwardRef<HTMLTableElement, Props>(
                         </td>
                       )}
                       {/* NÚT XÓA VÀ SỬA */}
-                      {
-                        role !== "Staff" && (
-                          <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
+                      {role !== "Staff" && (
+                        <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
                           <Button
                             className="mr-2"
                             onClick={() => onUpdate(content)}
                           >
                             <FiEdit />
                           </Button>
-  
+
                           <Button
                             onClick={() => {
                               setOpenAlert(true);
@@ -340,8 +369,7 @@ const WareHouseTable = forwardRef<HTMLTableElement, Props>(
                             <FiTrash color="red" />
                           </Button>
                         </td>
-                        )
-                      }
+                      )}
                     </tr>
                   );
               })}
