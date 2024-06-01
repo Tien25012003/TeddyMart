@@ -93,7 +93,6 @@ export default function LoginScreen() {
           d.data().userName === data.userName) &&
         d.data().password === data.password
     );
-    console.log("user", user);
     if (!user) {
       setError("userName", {
         type: "custom",
