@@ -93,6 +93,7 @@ export default function LoginScreen() {
           d.data().userName === data.userName) &&
         d.data().password === data.password
     );
+    console.log("user", user);
     if (!user) {
       setError("userName", {
         type: "custom",
@@ -105,7 +106,7 @@ export default function LoginScreen() {
       return;
     }
     // if(role === 'Manager') {
-    await signInWithEmailAndPassword(auth, data.userName, data.password)
+    await signInWithEmailAndPassword(auth, user.data().email, data.password)
       .then(async (userCredential) => {
         if (!userCredential.user.emailVerified) {
           setError("userName", {
