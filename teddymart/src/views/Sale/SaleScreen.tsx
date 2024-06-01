@@ -34,7 +34,7 @@ export default function SaleScreen() {
   const [openAddForm, setOpenAddForm] = useState(false);
   const [date, setDate] = useState<{ from: Date; to: Date }>();
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const userId = localStorage.getItem('USER_ID')
+  const userId = localStorage.getItem("USER_ID");
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [openEdit, setOpenEdit] = useState(false);
@@ -81,9 +81,8 @@ export default function SaleScreen() {
   );
 
   useEffect(() => {
-    if (localStorage.getItem("ROLE") === "Staff")
-      setIsDisable(true);
-  }, [])
+    if (localStorage.getItem("ROLE") === "Staff") setIsDisable(true);
+  }, []);
 
   const [listFilter, setListFilter] = useState(initialFilter);
   const objectFilter = useMemo(() => {
@@ -185,7 +184,7 @@ export default function SaleScreen() {
             <ButtonComponent
               label={t("button.delete")}
               onClick={() => setOpenAlertModal(true)}
-              style={{  backgroundColor: "#EA5A47", marginInline: 12 }}
+              style={{ backgroundColor: "#EA5A47", marginInline: 12 }}
               iconLeft={<BiTrash size={20} color="white" />}
               // isDisable= {isDisable}
             />
@@ -229,8 +228,7 @@ export default function SaleScreen() {
                 ]}
                 isValueIndex={true}
               />
-            </Space>\
-            
+            </Space>
           </div>
           {/* <Tabs defaultActiveKey="1" items={items} onChange={onChange} /> */}
           <BillTable

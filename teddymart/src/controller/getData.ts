@@ -1,4 +1,12 @@
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  doc,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "firebaseConfig";
 
 const getData = async (link: string, order?: string) => {
@@ -9,6 +17,11 @@ const getData = async (link: string, order?: string) => {
   }
   const data = await getDocs(collection(db, link));
   return data.docs.map((d) => d.data());
+};
+const getDataRealTime = async (link: string, order?: string) => {
+  onSnapshot(doc(db, link), (doc) => {
+    console.log("real time", doc.data());
+  });
 };
 const getDataWithQuery = async (
   link: string,
@@ -226,4 +239,10 @@ const generateProduct = (data: TOrder[], warehouse: TWarehouse[]) => {
     })),
   }));
 };
-export { getData, generateReport, generateProduct, getDataWithQuery };
+export {
+  getData,
+  generateReport,
+  generateProduct,
+  getDataWithQuery,
+  getDataRealTime,
+};

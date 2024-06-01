@@ -58,12 +58,12 @@ export default function AddNewShelf({
         note: data.note,
         currentQuantity: 0,
       };
-      dispatch(addNewShelf(newdata));
+      //dispatch(addNewShelf(newdata));
       addData({ data: newdata, table: "Shelf", id: ShelfID });
       message.success(t("shelf.shelfAddSuccess"));
     } else {
       // Update shelf
-      dispatch(updateShelf({ currentShelfId: data.shelfId, newShelf: data }));
+      //dispatch(updateShelf({ currentShelfId: data.shelfId, newShelf: data }));
       await updateData({ data: data, table: "Shelf", id: data.shelfId });
       GROUP_PRODUCT.forEach(async (g) => {
         if (g.shelfID === data.shelfId) {

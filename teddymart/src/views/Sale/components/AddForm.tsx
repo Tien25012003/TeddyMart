@@ -139,7 +139,7 @@ const AddForm = ({
             newShelf: {
               ...shelf,
               currentQuantity: Math.max(
-                shelf.currentQuantity - product.quantity,
+                shelf?.currentQuantity - product.quantity,
                 0
               ),
             },

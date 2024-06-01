@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import {
   ForwardedRef,
   LegacyRef,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -19,7 +20,7 @@ import {
 } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
-import { deleteOrder } from "state_management/slices/orderSlice";
+import { deleteOrder, uploadOrder } from "state_management/slices/orderSlice";
 import ProductTable from "./ProductTable";
 import { forwardRef } from "react";
 import { deleteOrderFirebase } from "utils/appUtils";
@@ -27,6 +28,10 @@ import DropdownComponent from "components/DropdownComponent";
 import TextComponent from "components/TextComponent";
 import { Popover } from "antd";
 import { SellerName } from "./SellerName";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { db } from "firebaseConfig";
+import { uploadReport } from "state_management/slices/reportSlice";
+import { generateReport } from "controller/getData";
 type TStatus = "unpaid" | "paid";
 const COLOR_STATUS = new Map([
   ["unpaid", "#FF0000"],
@@ -117,8 +122,33 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
       activities: role === "Staff" ? false : true,
       ...filterOption,
     };
+    const dispatch = useDispatch();
+    const userId = window.localStorage.getItem("USER_ID");
+
+    const q = query(
+      collection(db, `/Manager/${userId}/Orders`),
+      orderBy("createdAt", "desc")
+    );
+    const unsubscribe = useCallback(
+      () =>
+        onSnapshot(q, (querySnapshot) => {
+          console.log(querySnapshot.docs.map((value) => value.data()));
+          dispatch(
+            uploadOrder(
+              querySnapshot.docs.map((value) => value.data()) as TOrder[]
+            )
+          );
+          dispatch(
+            uploadReport(
+              generateReport(
+                querySnapshot.docs.map((value) => value.data()) as TOrder[]
+              )
+            )
+          );
+        }),
+      []
+    );
     const bills = useSelector((state: RootState) => state.order);
-    const userId = localStorage.getItem("USER_ID");
     const [tmpData, setTmpData] = useState(bills);
     const [openListProduct, setOpenListProduct] = useState(false);
     const [listProduct, setListProduct] = useState<TListProduct[]>([]);
@@ -150,6 +180,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
         );
         tmp = tmp_1;
       }
+
       if (search) {
         let tmp_1 = tmp.filter(
           (order) =>
@@ -157,7 +188,6 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
         );
         tmp = tmp_1;
       }
-
       if (sort) {
         switch (sort) {
           case SORT.ORDER_INCREASE: {
@@ -221,6 +251,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
       }
       setTmpData([...tmp]);
     };
+
     useEffect(() => {
       filterData();
     }, [bills, startDate, endDate, search, sort]);
@@ -302,6 +333,10 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
         return false;
       return true;
     };
+    useEffect(() => {
+      unsubscribe();
+    }, []);
+    console.log(tmpData, bills);
     return (
       <div>
         <div className="max-h-96 overflow-y-auto visible">
@@ -403,7 +438,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                       )}
                       {options.payment && (
                         <td className="border border-gray-300 p-2 text-sm">
-                          {new Intl.NumberFormat().format(content.payment) }             
+                          {new Intl.NumberFormat().format(content.payment)}
                         </td>
                       )}
                       {options.debt && (

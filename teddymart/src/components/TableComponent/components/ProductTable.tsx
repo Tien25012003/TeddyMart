@@ -3,6 +3,7 @@ import { t } from "i18next";
 import {
   ChangeEvent,
   forwardRef,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -24,6 +25,9 @@ import { TListProduct } from "./BillTable";
 import { BiExport, BiImport } from "react-icons/bi";
 import AddNewProduct from "views/Product/components/AddNewProduct";
 import PlaceOnShelf from "views/Warehouse/components/PlaceOnShelf";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { db } from "firebaseConfig";
+import { uploadProduct } from "state_management/slices/productSlice";
 export type Input = {
   productId: string;
   productName: string;
@@ -120,6 +124,22 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
     reference
   ) => {
     const { t } = useTranslation();
+    const userId = window.localStorage.getItem("USER_ID");
+    const dispatch = useDispatch();
+
+    const q = query(collection(db, `/Manager/${userId}/Product`));
+    const unsubscribe = useCallback(
+      () =>
+        onSnapshot(q, (querySnapshot) => {
+          console.log(querySnapshot.docs.map((value) => value.data()));
+          dispatch(
+            uploadProduct(
+              querySnapshot.docs.map((value) => value.data()) as TProduct[]
+            )
+          );
+        }),
+      []
+    );
     const products = useSelector((state: RootState) => state.product);
     const warehouses = useSelector((state: RootState) => state.warehouseSlice);
     const groupProduct = useSelector((state: RootState) => state.groupProduct);
@@ -308,7 +328,7 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
           options.activities && t("activities"),
           options.numberOnShelf && t("product.numberOnShelf"),
           options.numberOnShelf && t("product.stock"),
-          options.numberOnShelf && options.activities && t("activities"),
+          options.numberOnShelf && t("activities"),
         ].filter((value) => Boolean(value) !== false),
       [t, options]
     );
@@ -335,7 +355,9 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
     useEffect(() => {
       setCurrentPage(1);
     }, [rowsPerPage]);
-
+    useEffect(() => {
+      unsubscribe();
+    }, []);
     const handleCheckBoxChange = (product?: TProduct) => {
       const rowId = product?.productId;
       if (rowId === null || rowId === undefined) {
