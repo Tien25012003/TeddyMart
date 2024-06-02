@@ -26,6 +26,7 @@ import { Button, message } from "antd";
 import AddNewCustomerForm from "./Components/AddNewCustomer";
 import { deletePartner } from "state_management/slices/partnerSlice";
 import { deleteData } from "controller/deleteData";
+import { BiTrash } from "react-icons/bi";
 
 export default function CustomerScreen() {
   const [search, setSearch] = useState("");
@@ -95,7 +96,7 @@ export default function CustomerScreen() {
     certificate: "",
     note: "",
     type: "Customer",
-    createdAt: new Date()
+    createdAt: new Date(),
   });
   const handleSearch = (filterValues: Record<string, any>) => {
     setFilterValues(filterValues);
@@ -159,6 +160,7 @@ export default function CustomerScreen() {
                 }}
                 backgroundColor={COLORS.checkbox_bg}
                 style={{ marginRight: 12 }}
+                iconLeft={<BiTrash size={20} color="white" />}
               />
               <BtnExport
                 fileName={

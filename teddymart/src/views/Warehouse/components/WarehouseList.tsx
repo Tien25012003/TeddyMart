@@ -13,7 +13,7 @@ import { RootState } from "state_management/reducers/rootReducer";
 import { COLORS } from "constants/colors";
 import { Button, Checkbox, Space, Modal, message } from "antd";
 import { LiaFileExcel } from "react-icons/lia";
-import { BiPlus } from "react-icons/bi";
+import { BiPlus, BiTrash } from "react-icons/bi";
 import { WareHouseTable } from "components/TableComponent";
 import { BtnExport } from "components";
 import { createID } from "utils/appUtils";
@@ -103,6 +103,7 @@ export default function WarehouseList() {
               backgroundColor={COLORS.checkbox_bg}
               style={{ borderWidth: 0 }}
               disabled={isDisable}
+              iconLeft={<BiTrash size={20} color="white" />}
             />
 
             <div className="w-3" />

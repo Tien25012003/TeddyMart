@@ -22,6 +22,7 @@ import { updateShelfWarehouse } from "state_management/slices/warehouseSlice";
 import { warning } from "hooks/useLogger";
 import { collection, doc, onSnapshot, query } from "firebase/firestore";
 import { db } from "firebaseConfig";
+import { BiTrash } from "react-icons/bi";
 export type Input = {
   shelfId: string;
   shelfName: string;
@@ -141,6 +142,7 @@ export default function ShelfScreen() {
               backgroundColor={COLORS.checkbox_bg}
               style={{ marginRight: 12 }}
               disabled={isDisable}
+              iconLeft={<BiTrash size={20} color="white" />}
             />
             <ButtonComponent
               label={t("shelf.addNewShelf")}

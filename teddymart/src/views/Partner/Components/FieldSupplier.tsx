@@ -1,12 +1,17 @@
 import React, { useState, useRef } from "react";
 import ButtonSelect from "components/ButtonSelect";
-import { ButtonComponent, ListCheckBox, SearchComponent, TextInputComponent } from "components";
+import {
+  ButtonComponent,
+  ListCheckBox,
+  SearchComponent,
+  TextInputComponent,
+} from "components";
 import AddNewSupplier from "./AddNewSupplier";
 import { COLORS } from "constants/colors";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { LiaFileExcel } from "react-icons/lia";
 import { TiPlus } from "react-icons/ti";
-import { BiFilter, BiSearch } from "react-icons/bi";
+import { BiFilter, BiSearch, BiTrash } from "react-icons/bi";
 import { useTranslation } from "react-i18next";
 
 export default function FieldSupplier() {
@@ -46,11 +51,11 @@ export default function FieldSupplier() {
       value: true,
     },
     {
-      displayName:t("supplier.debt"),
+      displayName: t("supplier.debt"),
       value: true,
     },
     {
-      displayName:  t("supplier.certificate"),
+      displayName: t("supplier.certificate"),
       value: true,
     },
     {
@@ -72,17 +77,19 @@ export default function FieldSupplier() {
   const handleAddSupplierClick = (e: any) => {
     e.stopPropagation();
   };
-  const handleInputChange = (value: string, setValue: React.Dispatch<React.SetStateAction<string>>, fieldName: string) => {
+  const handleInputChange = (
+    value: string,
+    setValue: React.Dispatch<React.SetStateAction<string>>,
+    fieldName: string
+  ) => {
     setValue(value);
     validateForm(fieldName, value);
   };
 
   const validateForm = (fieldName: string, value: string) => {
     if (fieldName === "SupplierName") {
-
       setIsFormValid(value !== "" && phoneNumber !== "");
     } else if (fieldName === "phoneNumber") {
-
       setIsFormValid(value !== "" && SupplierName !== "");
     }
   };
@@ -101,18 +108,16 @@ export default function FieldSupplier() {
             placeholder={t("supplier.insertNameToSearch")}
             search={search}
             setSearch={setSearch}
-          //width={"250px"}
+            //width={"250px"}
           />
-          <ListCheckBox
-            listFilter={listFilter}
-            setListFilter={setListFilter}
-          />
+          <ListCheckBox listFilter={listFilter} setListFilter={setListFilter} />
         </div>
         <div className="w-100% bg-white flex items-center justify-between gap-x-2 flex-wrap">
           <ButtonComponent
             label={t("button.delete")}
-            onClick={() => { }}
+            onClick={() => {}}
             style={{ backgroundColor: "#EA5A47", marginInline: 12 }}
+            iconLeft={<BiTrash size={20} color="white" />}
           />
           <ButtonComponent
             label={t("button.importOrExportExcel")}
@@ -145,34 +150,54 @@ export default function FieldSupplier() {
           <div onClick={handleAddSupplierClick}>
             <div className="flex justify-center py-16">
               <div className="bg-white border p-5 my-4 rounded-md shadow-md w-fit">
-                <h1 className="pr-8 text-3xl">{t("supplier.addNewSupplier")}</h1>
+                <h1 className="pr-8 text-3xl">
+                  {t("supplier.addNewSupplier")}
+                </h1>
                 <hr className="h-0.5 my-4 bg-black" />
                 <div className="overflow-y-auto max-h-96">
                   <table>
                     <tbody>
-                      <tr >
+                      <tr>
                         <td className="pr-8 py-6">
-                          <p>{t("supplier.supplierName")}<span className="text-red-600">*</span></p>
+                          <p>
+                            {t("supplier.supplierName")}
+                            <span className="text-red-600">*</span>
+                          </p>
                         </td>
                         <td>
                           <TextInputComponent
-                            placeHolder=''
+                            placeHolder=""
                             width={"auto"}
                             value={SupplierName}
-                            setValue={(value) => handleInputChange(value, setSupplierName, "customerName")}
+                            setValue={(value) =>
+                              handleInputChange(
+                                value,
+                                setSupplierName,
+                                "customerName"
+                              )
+                            }
                           />
                         </td>
                       </tr>
                       <tr>
                         <td className="pr-8 py-6">
-                          <p>{t("supplier.phoneNumber")}<span className="text-red-600">*</span></p>
+                          <p>
+                            {t("supplier.phoneNumber")}
+                            <span className="text-red-600">*</span>
+                          </p>
                         </td>
                         <td>
                           <TextInputComponent
-                            placeHolder=''
+                            placeHolder=""
                             width={"auto"}
                             value={phoneNumber}
-                            setValue={(value) => handleInputChange(value, setPhoneNumber, "phoneNumber")}
+                            setValue={(value) =>
+                              handleInputChange(
+                                value,
+                                setPhoneNumber,
+                                "phoneNumber"
+                              )
+                            }
                           />
                         </td>
                       </tr>
@@ -182,9 +207,17 @@ export default function FieldSupplier() {
                           <p>{t("supplier.gender")}</p>
                         </td>
                         <td>
-                          <input type="radio" name="radio-gender" className="w-4 h-4 mr-4" />
+                          <input
+                            type="radio"
+                            name="radio-gender"
+                            className="w-4 h-4 mr-4"
+                          />
                           <label className="mr-16">Male</label>
-                          <input type="radio" name="radio-gender" className=" w-4 h-4 mr-4" />
+                          <input
+                            type="radio"
+                            name="radio-gender"
+                            className=" w-4 h-4 mr-4"
+                          />
                           <label className="mr-16">Female</label>
                         </td>
                       </tr>
@@ -194,7 +227,7 @@ export default function FieldSupplier() {
                         </td>
                         <td>
                           <TextInputComponent
-                            placeHolder=''
+                            placeHolder=""
                             width={492}
                             value={SupplierName}
                             setValue={setSupplierName}
@@ -208,7 +241,7 @@ export default function FieldSupplier() {
                         </td>
                         <td>
                           <TextInputComponent
-                            placeHolder=''
+                            placeHolder=""
                             width={492}
                             value={SupplierName}
                             setValue={setSupplierName}
@@ -221,7 +254,7 @@ export default function FieldSupplier() {
                         </td>
                         <td>
                           <TextInputComponent
-                            placeHolder=''
+                            placeHolder=""
                             width={492}
                             value={SupplierName}
                             setValue={setSupplierName}
@@ -234,7 +267,7 @@ export default function FieldSupplier() {
                         </td>
                         <td>
                           <TextInputComponent
-                            placeHolder=''
+                            placeHolder=""
                             width={492}
                             value={SupplierName}
                             setValue={setSupplierName}
@@ -247,7 +280,7 @@ export default function FieldSupplier() {
                         </td>
                         <td>
                           <TextInputComponent
-                            placeHolder=''
+                            placeHolder=""
                             width={492}
                             value={SupplierName}
                             setValue={setSupplierName}
@@ -264,10 +297,16 @@ export default function FieldSupplier() {
                             onClick={() => fileInputRef.current.click()}
                           >
                             {selectedImage ? (
-                              <img src={selectedImage} alt="Selected" style={{ width: '100%', maxHeight: '100%' }} />
+                              <img
+                                src={selectedImage}
+                                alt="Selected"
+                                style={{ width: "100%", maxHeight: "100%" }}
+                              />
                             ) : (
-                              <div className="flex flex-col items-center" >
-                                <p className="text-6xl font-thin text-gray-400">+</p>
+                              <div className="flex flex-col items-center">
+                                <p className="text-6xl font-thin text-gray-400">
+                                  +
+                                </p>
                                 <p className="text-gray-400">Upload Image</p>
                               </div>
                             )}
@@ -276,12 +315,11 @@ export default function FieldSupplier() {
                             type="file"
                             accept="image/*"
                             ref={fileInputRef}
-                            style={{ display: 'none' }}
+                            style={{ display: "none" }}
                             onChange={handleImageSelected}
                           />
                         </td>
                       </tr>
-
                     </tbody>
                   </table>
                 </div>
@@ -289,7 +327,9 @@ export default function FieldSupplier() {
                 <div className="flex justify-end gap-x-4 mt-16">
                   <ButtonComponent
                     label={t("button.save")}
-                    backgroundColor={isFormValid ? COLORS.darkYellow : COLORS.defaultWhite}
+                    backgroundColor={
+                      isFormValid ? COLORS.darkYellow : COLORS.defaultWhite
+                    }
                     color={isFormValid ? COLORS.defaultWhite : COLORS.lightGray}
                     onClick={() => isFormValid && alert("Button Clicked")}
                   />
@@ -300,7 +340,6 @@ export default function FieldSupplier() {
                     onClick={closeAddSupplier}
                   />
                 </div>
-
               </div>
             </div>
           </div>

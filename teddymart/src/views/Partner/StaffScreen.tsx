@@ -19,6 +19,7 @@ import AddNewStaffForm from "./Components/AddNewStaff";
 import StaffTable from "components/TableComponent/components/StaffTable";
 import { deleteStaff } from "state_management/slices/staffSlice";
 import { deleteUser, getAuth } from "firebase/auth";
+import { BiTrash } from "react-icons/bi";
 
 const StaffScreen = () => {
   const { t } = useTranslation();
@@ -134,6 +135,7 @@ const StaffScreen = () => {
                 }}
                 backgroundColor={COLORS.checkbox_bg}
                 style={{ marginRight: 12 }}
+                iconLeft={<BiTrash size={20} color="white" />}
               />
               <BtnExport
                 fileName={

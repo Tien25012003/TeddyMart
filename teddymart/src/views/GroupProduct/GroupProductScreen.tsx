@@ -17,6 +17,7 @@ import { updateProduct } from "state_management/slices/productSlice";
 import { deleteGroupProduct } from "state_management/slices/groupProductSlice";
 import { updateShelfWarehouse } from "state_management/slices/warehouseSlice";
 import { info } from "../../hooks/useLogger";
+import { BiTrash } from "react-icons/bi";
 
 export type Input = {
   groupId: string;
@@ -146,6 +147,7 @@ export default function ProductScreen() {
               backgroundColor={COLORS.checkbox_bg}
               style={{ marginRight: 12 }}
               disabled={isDisable}
+              iconLeft={<BiTrash size={20} color="white" />}
             />
             <ButtonComponent
               label={t("product.addNewProductGroup")}

@@ -24,6 +24,7 @@ import { addNewPartner } from "state_management/slices/partnerSlice";
 import AddNewSupplierForm from "./Components/AddNewSupplier";
 import { deletePartner } from "state_management/slices/partnerSlice";
 import { deleteData } from "controller/deleteData";
+import { BiTrash } from "react-icons/bi";
 
 export default function CustomerScreen() {
   const excelRef = useRef(null);
@@ -147,6 +148,7 @@ export default function CustomerScreen() {
                 backgroundColor={COLORS.checkbox_bg}
                 style={{ marginRight: 12 }}
                 disabled={isDisable}
+                iconLeft={<BiTrash size={20} color="white" />}
               />
               <BtnExport
                 fileName={
