@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
 import { auth } from "firebaseConfig";
 import { signOut } from "firebase/auth";
+import { link } from "fs";
 type DrawerItemProps = {
   name?: string;
   link?: string;

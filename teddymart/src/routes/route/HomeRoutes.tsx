@@ -23,6 +23,7 @@ import { useMemo } from "react";
 import Profile from "views/Profile/Profile";
 import ShelfScreen from "views/Shelf/ShelfScreen";
 import StaffScreen from "views/Partner/StaffScreen";
+import Chatbot from "views/Chatbot/Chatbot";
 
 export default function HomeRoutes() {
   const { openDrawer } = useSelector((state: RootState) => state.controlSlice);
@@ -124,6 +125,7 @@ export default function HomeRoutes() {
           })}
         </Routes>
       </div>
+      <Chatbot />
     </div>
   );
 }

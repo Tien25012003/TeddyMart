@@ -52,7 +52,7 @@
     "report": "Report",
     "signOut": "Sign out",
     "shelf": "Shelf",
-    "staff":"Staff"
+    "staff": "Staff"
   },
   "manager": {
     "userId": "User ID",
@@ -166,10 +166,10 @@
     "debt": "Debt",
     "gender": "Gender",
     "note": "Note",
-    "staff":"Staff",
-    "addNewStaff":"Add New Staff",
-    "updateStaff":"Update Staff",
-    "deleteStaff":"Delete Staff",
+    "staff": "Staff",
+    "addNewStaff": "Add New Staff",
+    "updateStaff": "Update Staff",
+    "deleteStaff": "Delete Staff",
     "addNewCustomer": "Add New Customer",
     "addNewSupplier": "Add New Supplier",
     "supplierName": "Supplier Name",
@@ -349,16 +349,16 @@
     "certificate": "Certificate",
     "uploadImage": "Upload Image"
   },
-  "staff":{
-    "id":"Staff ID",
-    "staffName":"Staff Name",
-    "phoneNumber":"Phone Number",
-    "email":"Email",
-    "address":"Address",
-    "gender":"Gender",
-    "type":"Type",
-    "salary":"Salary (VND / month)",
-    "note":"Note"
+  "staff": {
+    "id": "Staff ID",
+    "staffName": "Staff Name",
+    "phoneNumber": "Phone Number",
+    "email": "Email",
+    "address": "Address",
+    "gender": "Gender",
+    "type": "Type",
+    "salary": "Salary (VND / month)",
+    "note": "Note"
   },
   "fillData": "Please fill full required fields",
   "noData": "No data",
@@ -381,7 +381,7 @@
     "groupProduct": "Group Product",
     "profile": "Profile",
     "shelf": "Shelf",
-    "staff":"Staff"
+    "staff": "Staff"
   },
   "on": "on",
   "profile": {

@@ -52,7 +52,7 @@
     "report": "Báo cáo",
     "signOut": "Đăng xuất",
     "shelf": "Kệ",
-    "staff":"Nhân viên"
+    "staff": "Nhân viên"
   },
   "button": {
     "filter": "Bộ lọc",
@@ -140,10 +140,10 @@
     "debt": "Nợ",
     "gender": "Giới tính",
     "note": "Ghi chú",
-    "updateStaff":"Cập nhật nhân viên",
-    "deleteStaff":"Xóa nhân viên",
+    "updateStaff": "Cập nhật nhân viên",
+    "deleteStaff": "Xóa nhân viên",
 
-    "addNewStaff":"Thêm nhân viên",
+    "addNewStaff": "Thêm nhân viên",
     "addNewCustomer": "Thêm khách hàng",
     "addNewSupplier": "Thêm nhà cung cấp",
     "supplierName": "Tên nhà cung cấp",
@@ -340,17 +340,17 @@
     "certificate": "Bằng kinh doanh",
     "uploadImage": "Tải ảnh lên"
   },
-  "staff":{
-    "id":"Mã nhân viên",
-    "staffName":"Tên nhân viên",
-    "phoneNumber":"Số điện thoại",
-    "email":"Địa chỉ Email",
-    
-    "address":"Địa chỉ",
-    "gender":"Giới tính",
-    "type":"Loại nhân viên",
-    "salary":"Lương",
-    "note":"Ghi chú"
+  "staff": {
+    "id": "Mã nhân viên",
+    "staffName": "Tên nhân viên",
+    "phoneNumber": "Số điện thoại",
+    "email": "Địa chỉ Email",
+
+    "address": "Địa chỉ",
+    "gender": "Giới tính",
+    "type": "Loại nhân viên",
+    "salary": "Lương",
+    "note": "Ghi chú"
   },
   "warningTxt": "Bạn có chắc chắn muốn xóa mục này?",
   "noData": "Không có dữ liệu",
@@ -374,8 +374,7 @@
     "groupProduct": "Nhóm sản phẩm",
     "profile": "Thông tin cửa hàng",
     "shelf": "Kệ",
-    "staff":"Nhân viên"
-
+    "staff": "Nhân viên"
   },
   "on": "trên",
   "profile": {
