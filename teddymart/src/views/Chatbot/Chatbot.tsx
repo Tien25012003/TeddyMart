@@ -1,5 +1,6 @@
 import { Button, FloatButton, Tooltip } from "antd";
 import { CommentOutlined, WechatOutlined } from "@ant-design/icons";
+import Gemini from "./Gemini/Gemini";
 export default function Chatbot() {
   return (
     <>
@@ -34,6 +35,7 @@ export default function Chatbot() {
             />
           </Button>
         </Tooltip>
+        <Gemini />
       </FloatButton.Group>
     </>
   );
