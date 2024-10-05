@@ -20,3 +20,12 @@ code {
 .ant-float-btn-group {
   height: fit-content !important;
 }
+
+.react-chatbot-kit-chat-container {
+  position: relative;
+  width: auto;
+  padding-top: 20px;
+}
+.react-chatbot-kit-chat-bot-message{
+  margin-left: 2px;
+}
