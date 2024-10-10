@@ -11,11 +11,11 @@ const model = genAI.getGenerativeModel({
   model: "gemini-pro",
   generationConfig,
 });
-const Gemini = () => {
-  const question = "What is Teddy Mart?"; // hash code
-  const generateChat = async () => {
+const Gemini = {
+  // const question = "What is Teddy Mart?";
+  generateChat: async (userInput: string) => {
     try {
-      const parts = [{ text: await getDataSet({ question }) }];
+      const parts = [{ text: await getDataSet({ question: userInput }) }];
       const result = await model.generateContent({
         contents: [{ role: "user", parts }],
         generationConfig,
@@ -24,22 +24,32 @@ const Gemini = () => {
         "result",
         result?.response?.candidates![0].content.parts[0].text
       );
-      if (result?.response?.candidates) {
+      if (result?.response?.candidates && result?.response?.candidates[0]) {
+        const responseText =
+          result.response.candidates[0].content.parts[0].text;
         if (
-          result?.response?.candidates![0].content.parts[0].text ===
+          responseText ===
           "Sorry! I do not have enough information to answer this question"
         ) {
-          const result = await model.generateContent(question); // follow gemini, not use data set
-          const response = await result.response;
-          const text = response.text();
-          console.log("text", text);
+          const genimiResponse = await model.generateContent({
+            contents: [{ role: "user", parts: [{ text: userInput }] }],
+            generationConfig,
+          });
+
+          const genimiText =
+            genimiResponse.response.candidates[0].content.parts[0].text;
+          console.log("AI response:", genimiText);
+          return genimiText;
         }
+        return responseText;
       }
+
+      return "No valid response.";
     } catch (error) {
       console.log("error", error);
     }
-  };
-  return <Button onClick={generateChat}>Gemini</Button>;
+  },
+  // return <Button onClick={generateChat}>Gemini</Button>;
 };
 
 export default Gemini;
