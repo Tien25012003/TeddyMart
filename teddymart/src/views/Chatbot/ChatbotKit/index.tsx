@@ -8,6 +8,7 @@ export default function ChatbotKit() {
   return (
     <div className=''>
         <Chatbot
+        
         config={config}
         messageParser={MessageParser}
         actionProvider={ActionProvider}
