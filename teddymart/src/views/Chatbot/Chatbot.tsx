@@ -11,7 +11,6 @@ import { COLORS } from "constants/colors";
 import Gemini from "./Gemini/Gemini";
 import ChatbotKit from "./ChatbotKit";
 import Modal from "antd/es/modal/Modal";
-import { useState } from "react";
 export default function Chatbot() {
   const [showChat, setShowChat] = useState(false);
   const [started, setStarted] = useState(false);
