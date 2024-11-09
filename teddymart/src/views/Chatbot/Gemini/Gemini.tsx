@@ -31,13 +31,9 @@ const Gemini = {
           responseText ===
           "Sorry! I do not have enough information to answer this question"
         ) {
-          const genimiResponse = await model.generateContent({
-            contents: [{ role: "user", parts: [{ text: userInput }] }],
-            generationConfig,
-          });
+          const genimiResponse = await model.generateContent(userInput);
 
-          const genimiText =
-            genimiResponse.response.candidates[0].content.parts[0].text;
+          const genimiText = genimiResponse.response.text();
           console.log("AI response:", genimiText);
           return genimiText;
         }
