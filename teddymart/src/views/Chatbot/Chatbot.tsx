@@ -9,6 +9,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Resizable } from "re-resizable";
 import { COLORS } from "constants/colors";
 import Gemini from "./Gemini/Gemini";
+import ChatbotKit from "./ChatbotKit";
+import Modal from "antd/es/modal/Modal";
 export default function Chatbot() {
   const [showChat, setShowChat] = useState(false);
   const [started, setStarted] = useState(false);
@@ -81,6 +83,16 @@ export default function Chatbot() {
     }
   };
 
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <FloatButton.Group
@@ -102,8 +114,9 @@ export default function Chatbot() {
             />
           </Button>
         </Tooltip>
-        <Tooltip title="React Simple Chat bot library" placement="left">
+        <Tooltip title="React Simple Chat bot library" placement="right">
           <Button
+            onClick={showModal}
             shape="circle"
             className="bg-white w-[50px] h-[50px] my-4 flex items-center justify-center shadow overflow-hidden"
           >
@@ -271,6 +284,9 @@ export default function Chatbot() {
           </Resizable>
         </div>
       )}
+      <Modal footer={false} open={open} onOk={hideModal} onCancel={hideModal}>
+        <ChatbotKit />
+      </Modal>
     </>
   );
 }

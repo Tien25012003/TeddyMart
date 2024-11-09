@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import 'react-chatbot-kit/build/main.css';
+
 import "./index.css";
 import "./styles/global.scss";
 import App from "./App";
