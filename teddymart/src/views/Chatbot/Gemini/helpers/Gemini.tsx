@@ -1,6 +1,6 @@
 import { GOOGLE_API_KEY } from "constants/keys";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { getDataSet } from "./helpers/getDataSet";
+import { getDataSet } from "./getDataSet";
 import { Button } from "antd";
 const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
 const generationConfig = {

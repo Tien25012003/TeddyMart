@@ -14,7 +14,7 @@ code {
 .ant-float-btn-body {
   width: 50px !important;
   height: 50px !important;
-  background-color: white !important;
+  background-color: #3fbff9 !important;
   padding: 0px !important;
 }
 .ant-float-btn-group {
@@ -26,6 +26,6 @@ code {
   width: auto;
   padding-top: 20px;
 }
-.react-chatbot-kit-chat-bot-message{
+.react-chatbot-kit-chat-bot-message {
   margin-left: 2px;
 }

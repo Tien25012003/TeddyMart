@@ -93,7 +93,6 @@ export default function HomeRoutes() {
     [location, t]
   );
 
-  console.log("title", location.pathname);
   return (
     <div className="flex max-h-screen">
       <div
