@@ -1,7 +1,9 @@
 import { Button } from "antd";
 import dayjs from "dayjs";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { db } from "firebaseConfig";
 import { t } from "i18next";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import {
@@ -12,7 +14,10 @@ import {
 } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
-import { deleteVoucher } from "state_management/slices/voucherSlice";
+import {
+  deleteVoucher,
+  uploadVoucher,
+} from "state_management/slices/voucherSlice";
 import { deleteVoucherFirebase } from "utils/appUtils";
 type TContent = {
   voucherId: string;
@@ -64,7 +69,27 @@ const VoucherTable = ({
     discountAmount: true,
     ...filterOption,
   };
+  const dispatch = useDispatch();
+  const userId = window.localStorage.getItem("USER_ID");
+  const q = query(collection(db, `/Manager/${userId}/Voucher`));
+  const unsubscribe = useCallback(
+    () =>
+      onSnapshot(q, (querySnapshot) => {
+        dispatch(
+          uploadVoucher(
+            querySnapshot.docs.map((value) => value.data()) as TVoucher[]
+          )
+        );
+      }),
+    []
+  );
+
+  useEffect(() => {
+    unsubscribe();
+  }, []);
+
   const vouchers = useSelector((state: RootState) => state.voucherSlice);
+
   const role = window.localStorage.getItem("ROLE");
   const HEADER = useMemo(
     () =>

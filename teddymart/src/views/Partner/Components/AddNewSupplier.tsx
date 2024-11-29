@@ -80,9 +80,17 @@ export default function AddNewSupplierForm({
       const isPhoneExists = suppliers
         .filter((supplier) => supplier.type === "Supplier")
         .some((supplier) => supplier.phoneNumber === trimmedPhone);
-      if (isPhoneExists) {
-        message.error(t("partner.phoneExists"));
-        return;
+
+      if (isAdd) {
+        if (isPhoneExists) {
+          message.error(t("partner.phoneExists"));
+          return;
+        }
+      } else {
+        if (data?.phoneNumber !== trimmedPhone && isPhoneExists) {
+          message.error(t("partner.phoneExists"));
+          return;
+        }
       }
 
       if (isAdd) {

@@ -1,5 +1,12 @@
 import { Button } from "antd";
-import { ChangeEvent, forwardRef, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   HiOutlineChevronLeft,
   HiOutlineChevronDoubleLeft,
@@ -10,9 +17,13 @@ import { FiEdit, FiTrash } from "react-icons/fi";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { RootState } from "state_management/reducers/rootReducer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddNewCustomerForm from "views/Partner/Components/AddNewCustomer";
 import AddNewSupplierForm from "views/Partner/Components/AddNewSupplier";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { db } from "firebaseConfig";
+import { uploadProduct } from "state_management/slices/productSlice";
+import { uploadPartner } from "state_management/slices/partnerSlice";
 
 type TContentCustomer = {
   address: string;
@@ -193,6 +204,28 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
     ref
   ) => {
     const { t } = useTranslation();
+
+    const userId = window.localStorage.getItem("USER_ID");
+    const dispatch = useDispatch();
+
+    const q = query(collection(db, `/Manager/${userId}/Partner`));
+    const unsubscribe = useCallback(
+      () =>
+        onSnapshot(q, (querySnapshot) => {
+          console.log(querySnapshot.docs.map((value) => value.data()));
+          dispatch(
+            uploadPartner(
+              querySnapshot.docs.map((value) => value.data()) as TPartner[]
+            )
+          );
+        }),
+      []
+    );
+
+    useEffect(() => {
+      unsubscribe();
+    }, []);
+
     const PARTNERS = useSelector((state: RootState) => state.partnerSlice);
     const DATA = useMemo(() => {
       let listPartners = PARTNERS.filter((p) =>
@@ -415,7 +448,9 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
                               ? true
                               : false
                           }
-                          // disabled = {isDisabledCheckbox(new Date (new Date(content.createdAt)))}
+                          disabled={isDisabledCheckbox(
+                            new Date(new Date(content.createdAt))
+                          )}
                         />
                       </td>
                       {options.partnerID && (

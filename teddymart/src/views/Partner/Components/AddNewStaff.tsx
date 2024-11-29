@@ -72,6 +72,7 @@ export default function AddNewStaffForm({
           password: password,
           isActive: true,
           type: "Staff",
+          photoUrl: manager?.photoURL || "",
         });
         dispatch(addNewStaff({ ...data, userId: userCredential.user.uid }));
         sendEmail(data.email, data.email, password);

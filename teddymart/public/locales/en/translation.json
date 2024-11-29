@@ -129,7 +129,7 @@
     "customerInfo": "Customer Information",
     "supplierInfo": "Supplier Information",
 
-    "searchCusPhoneNumber": "Search customer by phone number",
+    "searchCusPhoneNumber": "Search customer by phone number or name",
     "note": "Note",
     "receiver": "Receiver",
     "listProduct": "List Product",
@@ -181,7 +181,7 @@
     "updateSuccess": "Update successfully!",
     "addSuccess": "Add new successfully!",
     "fill": "Please fill in full inforamtion",
-    "debtCheck":"Debt must be less than or equal to the total purchase amount!",
+    "debtCheck": "Debt must be less than or equal to the total purchase amount!",
     "phoneExists": "This phone number already exists!"
   },
   "product": {

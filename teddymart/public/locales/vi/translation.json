@@ -105,7 +105,7 @@
     "addNewOrder": "Thêm đơn hàng mới",
     "customerInfo": "Thông tin khách hàng",
     "supplierInfo": "Thông tin nhà cung cấp",
-    "searchCusPhoneNumber": "Tìm thông tin khách hàng theo số điện thoại",
+    "searchCusPhoneNumber": "Tìm thông tin khách hàng theo số điện thoại hoặc tên",
     "import": "Hàng nhập",
     "export": "Hàng xuất",
     "stock": "Tồn kho",
@@ -155,9 +155,8 @@
     "updateSuccess": "Cập nhật thành công",
     "addSuccess": "Thêm mới thành công!",
     "fill": "Vui lòng điền đầy đủ thông tin!",
-    "debtCheck":"Tổng số nợ phải nhỏ hơn hoặc bằng tổng số tiền mua hàng!",
+    "debtCheck": "Tổng số nợ phải nhỏ hơn hoặc bằng tổng số tiền mua hàng!",
     "phoneExists": "Số điện thoại này đã tồn tại!"
-
   },
   "product": {
     "productGroup": "Nhóm sản phẩm",

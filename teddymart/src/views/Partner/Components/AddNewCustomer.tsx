@@ -59,10 +59,18 @@ export default function AddNewCustomerForm({
       .filter((customer) => customer.type === "Customer")
       .some((customer) => customer.phoneNumber === trimmedPhone);
 
-    if (isPhoneExists) {
-      message.error(t("partner.phoneExists"));
-      return;
+    if (isAdd) {
+      if (isPhoneExists) {
+        message.error(t("partner.phoneExists"));
+        return;
+      }
+    } else {
+      if (data?.phoneNumber !== trimmedPhone && isPhoneExists) {
+        message.error(t("partner.phoneExists"));
+        return;
+      }
     }
+
     const newData: TPartner = {
       partnerId: isAdd ? createID({ prefix: "P" }) : data.partnerId,
       partnerName: data.partnerName,

@@ -62,6 +62,7 @@ const AddForm = ({
   const shelfs = useSelector((state: RootState) => state.shelf);
   const userId = localStorage.getItem("USER_ID");
   const warehouse = useSelector((state: RootState) => state.warehouseSlice);
+  const manager = useSelector((state: RootState) => state.manager);
   // const [sum, setSum] = useState(1000);
   const [productMenu, setProductMenu] = useState<TProduct[]>([]);
   const [warehouseName, setWarehouseName] = useState(listWarehouseName[0]);
@@ -99,11 +100,13 @@ const AddForm = ({
   const voucherId = getVoucherInfo(voucher)?.voucherId;
   const dispatch = useDispatch();
   const customerInfo = useMemo(() => {
-    let customer = partners.find((partner) =>
-      partner.phoneNumber.includes(searchCustomer)
+    let customer = partners.find(
+      (partner) =>
+        partner.phoneNumber.includes(searchCustomer) ||
+        partner.partnerName?.includes(searchCustomer)
     );
     return customer;
-  }, [searchCustomer]);
+  }, [partners, searchCustomer]);
 
   const sum = useMemo(() => {
     if (typeAdd === "Export") {
@@ -172,12 +175,12 @@ const AddForm = ({
       partnerId: customerInfo.partnerId,
       partnerName: customerInfo.partnerName,
       payment: sum, ///
-      seller: localStorage.getItem("STAFF_ID"),
+      seller: typeAdd === "Import" ? null : manager?.email,
       status: +payment === sum * (1 - discount / 100) ? "paid" : "unpaid",
       totalPayment: +payment, ///
       type: typeAdd,
       voucherId: voucherId ?? "",
-      receiver: localStorage.getItem("STAFF_ID"),
+      receiver: typeAdd === "Import" ? manager?.email : null,
       warehouseName: warehouseName ?? "",
     };
     //console.log("list product", listProduct);
