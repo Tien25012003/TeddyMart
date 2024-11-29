@@ -63,6 +63,7 @@ export default function AddNewSupplierForm({
       [fieldName]: value,
     });
   };
+  const suppliers = useSelector((state: RootState) => state.partnerSlice);
 
   const onAddNewSupplier = async () => {
     try {
@@ -70,6 +71,17 @@ export default function AddNewSupplierForm({
       const trimmedPhone = data.phoneNumber.trim();
       if (!trimmedName || !trimmedPhone) {
         message.warning(t("partner.fill"));
+        return;
+      }
+      if (data.debt > data.totalBuyAmount) {
+        message.error(t("partner.debtCheck"));
+        return;
+      }
+      const isPhoneExists = suppliers
+        .filter((supplier) => supplier.type === "Supplier")
+        .some((supplier) => supplier.phoneNumber === trimmedPhone);
+      if (isPhoneExists) {
+        message.error(t("partner.phoneExists"));
         return;
       }
 
@@ -93,6 +105,8 @@ export default function AddNewSupplierForm({
           totalBuyAmount: +data.totalBuyAmount,
           debt: +data.debt,
           certificate: certificateImageUrl,
+          //Nếu lỗi sửa ở đây
+          createdAt: new Date(),
         };
 
         dispatch(addNewPartner(newData));
@@ -141,6 +155,8 @@ export default function AddNewSupplierForm({
       certificate: "",
       note: "",
       type: "Supplier",
+      //Nếu lỗi sửa ở đây
+      createdAt: new Date(),
     });
     setSelectedImage("");
   };

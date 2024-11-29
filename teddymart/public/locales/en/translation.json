@@ -180,7 +180,9 @@
     "updateSupplier": "Update Supplier",
     "updateSuccess": "Update successfully!",
     "addSuccess": "Add new successfully!",
-    "fill": "Please fill in full inforamtion"
+    "fill": "Please fill in full inforamtion",
+    "debtCheck":"Debt must be less than or equal to the total purchase amount!",
+    "phoneExists": "This phone number already exists!"
   },
   "product": {
     "productGroup": "Product Group",

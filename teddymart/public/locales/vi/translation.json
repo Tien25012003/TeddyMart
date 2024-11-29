@@ -154,7 +154,10 @@
     "updateSupplier": "Thêm nhà cung cấp",
     "updateSuccess": "Cập nhật thành công",
     "addSuccess": "Thêm mới thành công!",
-    "fill": "Vui lòng điền đầy đủ thông tin!"
+    "fill": "Vui lòng điền đầy đủ thông tin!",
+    "debtCheck":"Tổng số nợ phải nhỏ hơn hoặc bằng tổng số tiền mua hàng!",
+    "phoneExists": "Số điện thoại này đã tồn tại!"
+
   },
   "product": {
     "productGroup": "Nhóm sản phẩm",

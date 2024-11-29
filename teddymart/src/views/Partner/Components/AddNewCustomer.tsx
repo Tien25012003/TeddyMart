@@ -42,12 +42,25 @@ export default function AddNewCustomerForm({
       [fieldName]: value,
     });
   };
+  const customers = useSelector((state: RootState) => state.partnerSlice);
 
   const onAddNewCustomer = async () => {
     const trimmedName = data.partnerName.trim();
     const trimmedPhone = data.phoneNumber.trim();
     if (!trimmedName || !trimmedPhone) {
       message.warning(t("partner.fill"));
+      return;
+    }
+    if (data.debt > data.totalBuyAmount) {
+      message.error(t("partner.debtCheck"));
+      return;
+    }
+    const isPhoneExists = customers
+      .filter((customer) => customer.type === "Customer")
+      .some((customer) => customer.phoneNumber === trimmedPhone);
+
+    if (isPhoneExists) {
+      message.error(t("partner.phoneExists"));
       return;
     }
     const newData: TPartner = {
