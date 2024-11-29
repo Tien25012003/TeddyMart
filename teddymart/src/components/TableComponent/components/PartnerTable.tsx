@@ -415,7 +415,7 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
                               ? true
                               : false
                           }
-                          disabled = {isDisabledCheckbox(new Date (new Date(content.createdAt)))}
+                          // disabled = {isDisabledCheckbox(new Date (new Date(content.createdAt)))}
                         />
                       </td>
                       {options.partnerID && (
