@@ -30,6 +30,7 @@ import { addNotifications } from "state_management/slices/notificationSlice";
 import { updateShelf } from "state_management/slices/shelfSlice";
 import { createSelector } from "@reduxjs/toolkit";
 import { info } from "hooks/useLogger";
+import { updateData } from "controller/addData";
 const CUS_INFO = {
   customerName: "NVA",
   gender: "Male",
@@ -128,86 +129,120 @@ const AddForm = ({
   console.log("ProductMenu", productMenu);
   console.log("voucher", voucher);
   const onAddOrder = async () => {
-    const listProduct = [
-      ...productMenu.map((product) => {
-        console.log(product.groupId);
-        const shelfID = groupProduct.find(
-          (g) => g.groupId === product.groupId
-        ).shelfID;
-        //console.log("shelfID", shelfID);
-        const shelf = shelfs.find((s) => s.shelfId === shelfID);
-        dispatch(
-          updateShelf({
-            currentShelfId: shelfID,
-            newShelf: {
-              ...shelf,
-              currentQuantity: Math.max(
-                shelf?.currentQuantity - product.quantity,
-                0
-              ),
-            },
-          })
-        );
-        return {
-          productId: product.productId,
-          productName: product.productName,
-          quantity: product.quantity,
-          numberOnShelf:
-            typeAdd === "Import"
-              ? 0
-              : Math.max(product.numberOnShelf - product.quantity, 0),
-        };
-      }),
-    ];
-    const y = new Date().getFullYear();
-    const m = new Date().getMonth();
-    const d = new Date().getDate();
-    const createdAt = new Date(y, m, d, 0, 0, 0, 0);
-    const orderId = createID({ prefix: "ORD" });
+    try {
+      const listProduct = await Promise.all(
+        productMenu.map(async (product) => {
+          console.log(product.groupId);
+          const shelfID = groupProduct.find(
+            (g) => g.groupId === product.groupId
+          )?.shelfID;
 
-    const data: TOrder = {
-      createdAt: createdAt.toISOString(),
-      debt: sum * (1 - discount / 100) - +payment,
-      discount: discount,
-      listProduct: listProduct,
-      note: note,
-      orderId: orderId,
-      partnerId: customerInfo.partnerId,
-      partnerName: customerInfo.partnerName,
-      payment: sum, ///
-      seller: typeAdd === "Import" ? null : manager?.email,
-      status: +payment === sum * (1 - discount / 100) ? "paid" : "unpaid",
-      totalPayment: +payment, ///
-      type: typeAdd,
-      voucherId: voucherId ?? "",
-      receiver: typeAdd === "Import" ? manager?.email : null,
-      warehouseName: warehouseName ?? "",
-    };
-    //console.log("list product", listProduct);
-    addOrderFirebase(data, userId, orderId);
-    dispatch(addNewOrder(data));
-    dispatch(
-      updateProductWarehouse({
-        userId: userId,
-        listUpdate: [
-          { warehouseName: warehouseName, listProduct: listProduct },
-        ],
+          if (!shelfID)
+            throw new Error(
+              `Shelf ID not found for groupId: ${product.groupId}`
+            );
+
+          const shelf = shelfs.find((s) => s.shelfId === shelfID);
+
+          if (!shelf)
+            throw new Error(`Shelf not found for shelfID: ${shelfID}`);
+
+          const updatedQuantity = Math.max(
+            shelf.currentQuantity - product.quantity,
+            0
+          );
+
+          await updateData({
+            data: {
+              ...shelf,
+              currentQuantity: updatedQuantity,
+            },
+            table: "Shelf",
+            id: shelf.shelfId,
+          });
+
+          dispatch(
+            updateShelf({
+              currentShelfId: shelfID,
+              newShelf: {
+                ...shelf,
+                currentQuantity: updatedQuantity,
+              },
+            })
+          );
+
+          return {
+            productId: product.productId,
+            productName: product.productName,
+            quantity: product.quantity,
+            numberOnShelf:
+              typeAdd === "Import"
+                ? 0
+                : Math.max(product.numberOnShelf - product.quantity, 0),
+          };
+        })
+      );
+
+      const y = new Date().getFullYear();
+      const m = new Date().getMonth();
+      const d = new Date().getDate();
+      const createdAt = new Date(y, m, d, 0, 0, 0, 0);
+      const orderId = createID({ prefix: "ORD" });
+
+      const data: TOrder = {
+        createdAt: createdAt.toISOString(),
+        debt: sum * (1 - discount / 100) - +payment,
+        discount: discount,
+        listProduct: listProduct,
+        note: note,
+        orderId: orderId,
+        partnerId: customerInfo.partnerId,
+        partnerName: customerInfo.partnerName,
+        payment: sum,
+        seller: typeAdd === "Import" ? null : manager?.email,
+        status: +payment === sum * (1 - discount / 100) ? "paid" : "unpaid",
+        totalPayment: +payment,
         type: typeAdd,
-        isDelete: false,
-      })
-    );
-    await info({
-      message: "Add New Order",
-      data: data,
-    });
-    setPayment((pre) => "");
-    setVoucher("");
-    setProductMenu([]);
-    setSelectedRows([]);
-    message.success("Add Order Success");
-    setOpenAddForm(false);
-    dispatch({ type: ADD_ORDER, payload: data });
+        voucherId: voucherId ?? "",
+        receiver: typeAdd === "Import" ? manager?.email : null,
+        warehouseName: warehouseName ?? "",
+      };
+
+      // Add the order and update Redux
+      await addOrderFirebase(data, userId, orderId);
+      dispatch(addNewOrder(data));
+
+      dispatch(
+        updateProductWarehouse({
+          userId: userId,
+          listUpdate: [
+            { warehouseName: warehouseName, listProduct: listProduct },
+          ],
+          type: typeAdd,
+          isDelete: false,
+        })
+      );
+
+      // Notify user and reset form
+      await info({
+        message: "Add New Order",
+        data: data,
+      });
+
+      setPayment("");
+      setVoucher("");
+      setProductMenu([]);
+      setSelectedRows([]);
+      message.success("Add Order Success");
+      setOpenAddForm(false);
+
+      dispatch({ type: ADD_ORDER, payload: data });
+    } catch (error) {
+      console.error("Error adding order:", error);
+      message.error("Failed to add order. Please try again.");
+    }
   };
+
   const checkProductWarehouse = (warehouseName: string) => {
     //console.log(productMenu);
     for (const item of productMenu) {

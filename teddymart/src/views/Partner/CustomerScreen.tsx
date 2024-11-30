@@ -98,6 +98,7 @@ export default function CustomerScreen() {
     type: "Customer",
     createdAt: new Date(),
   });
+  const role = localStorage.getItem("ROLE");
   const handleSearch = (filterValues: Record<string, any>) => {
     setFilterValues(filterValues);
   };
@@ -161,6 +162,7 @@ export default function CustomerScreen() {
                 backgroundColor={COLORS.checkbox_bg}
                 style={{ marginRight: 12 }}
                 iconLeft={<BiTrash size={20} color="white" />}
+                disabled={role === "Staff"}
               />
               <BtnExport
                 fileName={

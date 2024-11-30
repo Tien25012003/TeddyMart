@@ -392,9 +392,10 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                               ? true
                               : false
                           }
-                          disabled={isDisabledCheckbox(
-                            new Date(content.createdAt)
-                          )}
+                          // disabled={isDisabledCheckbox(
+                          //   new Date(content.createdAt)
+                          // )}
+                          disabled={role === "Staff"}
                         />
                       </td>
 

@@ -319,7 +319,8 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
           options.totalBuyAmount && t("partner.totalBuyAmount"),
           options.certificate && !isCustomer && t("partner.certificate"),
           options.note && t("note"),
-          role !== "Staff" && t("activities"),
+          t("activities"),
+          //role !== "Staff" && t("activities"),
         ].filter((value) => Boolean(value) !== false),
       [t, filterOption]
     );
@@ -448,9 +449,10 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
                               ? true
                               : false
                           }
-                          disabled={isDisabledCheckbox(
-                            new Date(new Date(content.createdAt))
-                          )}
+                          // disabled={isDisabledCheckbox(
+                          //   new Date(new Date(content.createdAt))
+                          // )}
+                          disabled={role === "Staff"}
                         />
                       </td>
                       {options.partnerID && (
@@ -517,13 +519,17 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
                           {content.note}
                         </td>
                       )}
-                      {role !== "Staff" && (
-                        <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
-                          <div className="flex items-center gap-1 justify-center">
+
+                      <td className="border border-gray-300 p-2 font-[500] text-sm gap-1">
+                        <div className="flex items-center gap-1 justify-center">
+                          {content.type === "Supplier" &&
+                          role === "Staff" ? null : (
                             <Button onClick={() => onUpdate(content)}>
                               <FiEdit />
                             </Button>
+                          )}
 
+                          {role !== "Staff" && (
                             <Button
                               onClick={() => {
                                 setOpenAlert(true);
@@ -532,9 +538,9 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
                             >
                               <FiTrash color="red" />
                             </Button>
-                          </div>
-                        </td>
-                      )}
+                          )}
+                        </div>
+                      </td>
                     </tr>
                   );
               })}

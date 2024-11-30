@@ -76,6 +76,8 @@ const ShelfTable = ({
     return SHELF;
   }, [search, SHELF]);
 
+  console.log("data", data);
+
   // const [selectedRows, setSelectedRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const maxPages = useMemo(
