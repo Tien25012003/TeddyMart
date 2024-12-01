@@ -46,7 +46,7 @@ export default function ShelfScreen() {
   const WARE_HOUSE = useSelector((state: RootState) => state.warehouseSlice);
   const PRODUCTS = useSelector((state: RootState) => state.product);
   const dispatch = useDispatch();
-  console.log("on snap shot", `/Manager/${userId}/Shelf`);
+
   const q = query(collection(db, `/Manager/${userId}/Shelf`));
   const unsubscribe = useCallback(
     () =>

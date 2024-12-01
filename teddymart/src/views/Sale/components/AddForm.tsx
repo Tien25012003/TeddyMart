@@ -70,7 +70,8 @@ const AddForm = ({
   const [openSearchModal, setOpenSearchModal] = useState(false);
   const [search, setSearch] = useState("");
   const [searchCustomer, setSearchCustomer] = useState("");
-  const [voucher, setVoucher] = useState(vouchers[0]?.voucherName ?? "");
+  // const [voucher, setVoucher] = useState(vouchers[0]?.voucherName ?? "");
+  const [voucher, setVoucher] = useState("");
   const [payment, setPayment] = useState("");
   const [note, setNote] = useState("");
   const [openAddCustomerForm, setOpenAddCustomerForm] = useState(false);
@@ -98,6 +99,7 @@ const AddForm = ({
   const warehouses = useSelector((state: RootState) => state.warehouseSlice);
 
   const discount = getVoucherInfo(voucher)?.discount ?? 0;
+
   const voucherId = getVoucherInfo(voucher)?.voucherId;
   const dispatch = useDispatch();
   const customerInfo = useMemo(() => {

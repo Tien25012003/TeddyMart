@@ -9,9 +9,12 @@ import {
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useMemo } from "react";
 import { COLORS } from "constants/colors";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
 import Hotjar from "@hotjar/browser";
+import { uploadReport } from "state_management/slices/reportSlice";
+import { generateProduct, generateReport } from "controller/getData";
+import { uploadReportProduct } from "state_management/slices/reportProduct";
 
 export default function ReportScreen() {
   useEffect(() => {
@@ -43,7 +46,21 @@ export default function ReportScreen() {
     to: new Date(y, m, d, 0, 0, 0, 0),
   });
   const REPORTS = useSelector((state: RootState) => state.reportSlice);
-  const [general, setGeneral] = useState<TReport>(initialValue);
+
+  /// NEW REQUIREMENTS
+  const dispatch = useDispatch();
+  const ORDERS = useSelector((state: RootState) => state.order);
+  const WAREHOUSE = useSelector((state: RootState) => state.warehouseSlice);
+
+  useEffect(() => {
+    console.log("refetch report");
+    dispatch(uploadReport(generateReport(ORDERS)));
+    dispatch(uploadReportProduct(generateProduct(ORDERS, WAREHOUSE)));
+  }, [ORDERS, WAREHOUSE, dispatch]);
+
+  ///
+
+  // const [general, setGeneral] = useState<TReport>(initialValue);
   const [cards, setCards] = useState([
     {
       name: "outcome",
