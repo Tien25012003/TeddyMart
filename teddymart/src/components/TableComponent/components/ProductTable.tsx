@@ -71,6 +71,8 @@ type TOptions = {
   activities?: boolean;
   price?: boolean;
   numberOnShelf?: boolean;
+  supplierID?: boolean;
+  warrantyTime?: boolean;
 };
 
 type TSort = {
@@ -323,6 +325,8 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
       activities: role !== "Staff" ? true : false,
       price: false,
       numberOnShelf: false,
+      supplierID: true,
+      warrantyTime: true,
       ...filterOption,
     };
     const HEADER = useMemo(
@@ -339,6 +343,8 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
           options.price && t("product.price"),
           options.totalPrice && t("sale.totalPrice"),
           options.VAT && t("product.VAT"),
+          options.supplierID && t("product.supplierID"),
+          options.warrantyTime && t("product.warrantyTime"),
           options.note && t("note"),
           options.activities && t("activities"),
           options.numberOnShelf && t("product.numberOnShelf"),
@@ -418,6 +424,8 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
         sell_price: product.sell_price,
         VAT: product.VAT,
         note: product.note,
+        supplierID: product.supplierID,
+        warrantyTime: product.warrantyTime,
       });
     };
 
@@ -671,6 +679,19 @@ const ProductTable = forwardRef<HTMLTableElement, Props>(
                           {content?.quantity - content?.numberOnShelf}
                         </td>
                       )}
+
+                      {options?.supplierID && (
+                        <td className="border border-gray-300 p-2 text-sm">
+                          {content?.supplierID || ""}
+                        </td>
+                      )}
+
+                      {options?.warrantyTime && (
+                        <td className="border border-gray-300 p-2 text-sm">
+                          {content?.warrantyTime || 0}
+                        </td>
+                      )}
+
                       {options.note && (
                         <td className="border border-gray-300 p-2 text-sm">
                           {content?.note}

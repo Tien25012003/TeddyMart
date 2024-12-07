@@ -41,6 +41,16 @@ const AddNewProduct = ({
   const fileInputRef = useRef(null);
   const GROUP = useSelector((state: RootState) => state.groupProduct);
   const PRODUCT = useSelector((state: RootState) => state.product);
+  const PARTNERS = useSelector((state: RootState) => state.partnerSlice);
+
+  const PartnerOptions = useMemo(
+    () =>
+      PARTNERS?.filter((i) => i.type === "Supplier")?.map(
+        (item) => item.partnerId
+      ),
+    [PARTNERS]
+  );
+
   const GroupOptions = GROUP.map((item) => ({
     ID: item.groupId,
     groupname: item.groupName,
@@ -103,6 +113,8 @@ const AddNewProduct = ({
           sell_price: data.sell_price,
           VAT: data.VAT,
           note: data.note,
+          supplierID: data.supplierID,
+          warrantyTime: data.warrantyTime,
         };
         dispatch(addNewProduct(newProduct));
         addData({ data: newProduct, table: "Product", id: ProductID });
@@ -167,6 +179,7 @@ const AddNewProduct = ({
       sell_price: null,
       VAT: null,
       note: "",
+      supplierID: "",
     });
     setSelectedImage(null);
     setSelectedImageFile(null);
@@ -258,6 +271,31 @@ const AddNewProduct = ({
             options={GroupOptions.map((item) => item.groupname)}
           />
         </div>
+
+        {/* WARRANTY FEATURE */}
+        <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
+          {t("product.supplierID")}{" "}
+          <p className="inline-block text-red-600">*</p>
+        </label>
+        <div className="col-span-3 inline-block">
+          <ButtonSelect
+            iconRight={
+              <IoMdArrowDown style={{ marginLeft: 50, color: "gray" }} />
+            }
+            width="100%"
+            title={t("product.supplierID")}
+            label={t("group.groupName")}
+            value={data.supplierID}
+            setValue={(value) => {
+              setData({
+                ...data,
+                supplierID: PartnerOptions[value],
+              });
+            }}
+            options={PartnerOptions}
+          />
+        </div>
+        {/* ---------- */}
 
         <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
           {t("product.productName")}{" "}
@@ -356,6 +394,21 @@ const AddNewProduct = ({
             rightContent={<div>%</div>}
           />
         </div>
+
+        {/* WARRANTY PURPOSE */}
+        <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
+          {t("product.warrantyTime")}
+        </label>
+        <div className="px-2 mt-2 col-span-3 inline-block">
+          <TextInputComponent
+            width="100%"
+            value={data.warrantyTime ? data.warrantyTime.toString() : ""}
+            setValue={(value) => onChange(value, "warrantyTime")}
+            placeHolder="0"
+            rightContent={<div>{t("product.year")}</div>}
+          />
+        </div>
+        {/* ------------- */}
 
         <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
           {t("note")}

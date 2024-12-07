@@ -14,6 +14,7 @@ import {
   BsPerson,
   BsBoxArrowInLeft,
   BsBoxes,
+  BsWrenchAdjustableCircle,
 } from "react-icons/bs";
 import { FaBarsProgress } from "react-icons/fa6";
 import { BiBox } from "react-icons/bi";
@@ -115,6 +116,11 @@ export default function Drawer() {
       name: t("drawer.warehouse"),
       link: NAV_LINK.WAREHOUSE,
       icon1: <BiBox size={25} />,
+    },
+    {
+      name: t("drawer.warranty"),
+      link: NAV_LINK.WARRANTY,
+      icon1: <BsWrenchAdjustableCircle size={25} />,
     },
     localStorage.getItem("ROLE") !== "Staff" && {
       name: t("drawer.report"),

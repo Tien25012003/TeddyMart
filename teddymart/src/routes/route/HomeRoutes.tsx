@@ -24,6 +24,7 @@ import Profile from "views/Profile/Profile";
 import ShelfScreen from "views/Shelf/ShelfScreen";
 import StaffScreen from "views/Partner/StaffScreen";
 import Chatbot from "views/Chatbot/Chatbot";
+import WarrantyScreen from "views/Warranty/WarrantyScreen";
 
 export default function HomeRoutes() {
   const { openDrawer } = useSelector((state: RootState) => state.controlSlice);
@@ -84,6 +85,11 @@ export default function HomeRoutes() {
       path: "profile",
       element: <Profile />,
       name: t("header.profile"),
+    },
+    {
+      path: "warranty",
+      element: <WarrantyScreen />,
+      name: t("header.warranty"),
     },
   ];
 

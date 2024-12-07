@@ -52,7 +52,8 @@
     "report": "Report",
     "signOut": "Sign out",
     "shelf": "Shelf",
-    "staff": "Staff"
+    "staff": "Staff",
+    "warranty": "Warranty"
   },
   "manager": {
     "userId": "User ID",
@@ -220,7 +221,10 @@
     "editProduct": "Product Edited Successfully!",
     "existedProduct": "Product Existed!",
     "numberOnShelf": "On Shelf",
-    "stock": "Stock"
+    "stock": "Stock",
+    "supplierID": "Supplier ID",
+    "warrantyTime": "Warranty Time",
+    "year": "year"
   },
   "warehouse": {
     "warehouse": "Warehouse",
@@ -383,7 +387,8 @@
     "groupProduct": "Group Product",
     "profile": "Profile",
     "shelf": "Shelf",
-    "staff": "Staff"
+    "staff": "Staff",
+    "warranty": "Warranty"
   },
   "on": "on",
   "profile": {

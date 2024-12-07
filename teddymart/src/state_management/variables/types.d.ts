@@ -66,6 +66,10 @@ declare type TProduct = {
   totalPrice?: number;
   price?: number;
   numberOnShelf?: number;
+
+  // FOR WARRANTY
+  supplierID?: string;
+  warrantyTime?: string;
 };
 
 declare type TGroupProduct = {

@@ -52,7 +52,8 @@
     "report": "Báo cáo",
     "signOut": "Đăng xuất",
     "shelf": "Kệ",
-    "staff": "Nhân viên"
+    "staff": "Nhân viên",
+    "warranty": "Bảo hành"
   },
   "button": {
     "filter": "Bộ lọc",
@@ -194,7 +195,10 @@
     "editProduct": "Sửa sản phẩm thành công!",
     "existedProduct": "Sản phẩm đã tồn tại!",
     "numberOnShelf": "Số lượng trên kệ",
-    "stock": "Tồn kho"
+    "stock": "Tồn kho",
+    "supplierID": "Mã nhà cung cấp",
+    "warrantyTime": "Thời hạn bảo hành",
+    "year": "năm"
   },
   "group": {
     "groupId": "Mã nhóm",
@@ -376,7 +380,8 @@
     "groupProduct": "Nhóm sản phẩm",
     "profile": "Thông tin cửa hàng",
     "shelf": "Kệ",
-    "staff": "Nhân viên"
+    "staff": "Nhân viên",
+    "warranty": "Bảo hành"
   },
   "on": "trên",
   "profile": {
