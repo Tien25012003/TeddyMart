@@ -2,24 +2,26 @@ import React from 'react';
 
 const MessageParser = ({ children, actions }) => {
   const parse = (value) => {
-    const message= value.trim().toLowerCase()
+    // Normalize the input: trim and replace multiple spaces with a single space
+    const message = value.trim().toLowerCase().replace(/\s+/g, ' ');
+  
     if (message.includes('hello')) {
       actions.handleHelpQ1();
-    } else if (message.includes('what is Teddy Mart') || message.includes("teddymart")) {
+    } else if (message.includes('what is teddy mart') || message.includes("teddymart")) {
       actions.handleHelpQ2();
-    } else if (message.includes('main users') || message.includes('who uses Teddy Mart')) {
+    } else if (message.includes('main users') || message.includes('who uses teddy mart')) {
       actions.handleHelpQ3();
-    } else if (message.includes('key features') || message.includes('features of Teddy Mart')) {
+    } else if (message.includes('key features') || message.includes('features of teddy mart')) {
       actions.handleHelpQ4();
-    } else if (message.includes('comprehensive features')|| message.includes("features")) {
+    } else if (message.includes('comprehensive features') || message.includes("features")) {
       actions.handleHelpQ5();
-    } else if (message.includes('reports and statistics')|| message.includes("statistics")) {
+    } else if (message.includes('reports and statistics') || message.includes("statistics")) {
       actions.handleHelpQ6();
-    } else if (message.includes('role of a cashier')|| message.includes("role")) {
+    } else if (message.includes('role of a cashier') || message.includes("role")) {
       actions.handleHelpQ7();
-    } else if (message.includes('sales management')|| message.includes("management")) {
+    } else if (message.includes('sales management') || message.includes("management")) {
       actions.handleHelpQ8();
-    } else if (message.includes('change password')|| message.includes("password")) {
+    } else if (message.includes('change password') || message.includes("password")) {
       actions.handleHelpQ9();
     } else if (message.includes('product management')) {
       actions.handleHelpQ10();
@@ -57,6 +59,7 @@ const MessageParser = ({ children, actions }) => {
       console.log('No matching action found for the input message.');
     }
   };
+  
 
 
   return (
