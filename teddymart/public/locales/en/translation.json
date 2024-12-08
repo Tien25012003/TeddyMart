@@ -419,5 +419,24 @@
     "reportProductInWH": "Product_In_Warehouse",
     "reportImport": "Import_Order",
     "reportImportExports": "Total_Import_Export_Product"
+  },
+  "warranty": {
+    "searchByID": "Search by warranty ID",
+    "addNewWarranty": "Add New Warranty Inquiry",
+    "warrantyId": "Warranty ID",
+    "customerId": "Customer ID",
+    "customerName": "Customer Name",
+    "orderId": "Order ID",
+    "productId": "Product ID",
+    "productName": "Product Name",
+    "supplierID": "Supplier ID",
+    "reason": "Reason",
+    "status": "Status",
+    "REQUEST": "Request",
+    "SEND_TO_SUPPLIER": "Send to Supplier",
+    "FIXED": "Fixed",
+    "RETURN_TO_CUSTOMER": "Return to Customer",
+    "warrantyInfo": "Warranty Information",
+    "customerPhoneNumber": "Customer Phone Number"
   }
 }

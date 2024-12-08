@@ -33,7 +33,7 @@ const addData = async ({ data, table, id }: params) => {
     .catch((e) => console.log(e));
 };
 
-const addStaffAccountData = async (data : TStaffAccount, id: string) => {
+const addStaffAccountData = async (data: TStaffAccount, id: string) => {
   await setDoc(doc(db, `Staff`, id), data)
     .then(() => {
       console.log(">>>>>>>>>> Add Data >>>>>>>>>>");

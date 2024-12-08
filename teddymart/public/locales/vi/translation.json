@@ -412,5 +412,24 @@
     "reportProductInWH": "Tổng_sản_phẩm_trong_kho",
     "reportImport": "Đơn_nhập_hàng",
     "reportImportExports": "Tổng_số_lượng_nhập_xuất"
+  },
+  "warranty": {
+    "searchByID": "Tìm kiếm theo ID của phiếu yêu cầu bảo hành",
+    "addNewWarranty": "Thêm mới yêu cầu bảo hành",
+    "warrantyId": "Mã phiếu yêu cầu bảo hành",
+    "customerId": "Mã khách hàng",
+    "customerName": "Tên khách hàng",
+    "orderId": "Mã đơn hàng",
+    "productId": "Mã sản phẩm",
+    "productName": "Tên sản phẩm",
+    "supplierID": "Mã nhà cung cấp",
+    "reason": "Lý do yêu cầu bảo hành",
+    "status": "Trạng thái quá trình bảo hành",
+    "REQUEST": "Khách hàng yêu cầu",
+    "SEND_TO_SUPPLIER": "Đã gửi cho nhà cung cấp",
+    "FIXED": "Đã xử lý",
+    "RETURN_TO_CUSTOMER": "Đã gửi lại cho khách hàng",
+    "warrantyInfo": "Thông tin phiếu yêu cầu bảo hành",
+    "customerPhoneNumber": "Số điện thoại của khách hàng"
   }
 }

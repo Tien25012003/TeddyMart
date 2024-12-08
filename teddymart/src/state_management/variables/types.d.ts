@@ -154,3 +154,15 @@ declare type TReportProduct = {
   date: Date;
   products: TRProduct[];
 };
+
+declare type TWarranty = {
+  warrantyId: string;
+  productId: string;
+  productName: string;
+  supplierID: string;
+  customerID: string;
+  customerName: string;
+  customerPhoneNumber: string;
+  reason: string;
+  status: "REQUEST" | "SEND_TO_SUPPLIER" | "FIXED" | "RETURN_TO_CUSTOMER";
+};

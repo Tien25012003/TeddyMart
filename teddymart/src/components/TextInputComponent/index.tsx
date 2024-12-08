@@ -109,7 +109,12 @@ export default function TextInputComponent({
             required={required}
             value={value}
             onChange={handleInputChange}
-            style={{ fontSize: textInputSize, color: textInputColor }}
+            style={{
+              fontSize: textInputSize,
+              color: textInputColor,
+              cursor: disabled ? "not-allowed" : undefined,
+              opacity: disabled ? 0.5 : 1,
+            }}
             readOnly={readOnly}
             onClick={onClick}
             onKeyDownCapture={(e) => {
