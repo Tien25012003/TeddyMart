@@ -1,4 +1,3 @@
-import { uuidv4 } from "@firebase/util";
 import { message } from "antd";
 import Modal from "antd/es/modal/Modal";
 import { ButtonComponent, TextInputComponent } from "components";
@@ -7,7 +6,8 @@ import { addData } from "controller/addData";
 import { info } from "hooks/useLogger";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "state_management/reducers/rootReducer";
 import { addNewPartner } from "state_management/slices/partnerSlice";
 
 const AddNewCustomerForm = ({
@@ -17,7 +17,7 @@ const AddNewCustomerForm = ({
   openAddNewCustomer: boolean;
   setOpenAddNewCustomer: (openAddForm: boolean) => void;
 }) => {
-  const [search, setSearch] = useState("");
+  const customers = useSelector((state: RootState) => state.partnerSlice);
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -48,6 +48,26 @@ const AddNewCustomerForm = ({
     }
   };
   const addNewCustomer = async () => {
+    const trimmedName = customerName.trim();
+    const trimmedPhone = phoneNumber.trim();
+
+    if (!trimmedName || !trimmedPhone) {
+      message.warning(t("partner.fill"));
+      return;
+    }
+    if (debt < totalBuyAmount) {
+      message.error(t("partner.debtCheck"));
+      return;
+    }
+    const isPhoneExists = customers
+      .filter((customer) => customer.type === "Customer")
+      .some((customer) => customer.phoneNumber === trimmedPhone);
+
+    if (isPhoneExists) {
+      message.error(t("partner.phoneExists"));
+      return;
+    }
+
     const id = "P" + Math.floor(Math.random() * 10000);
     const data: TPartner = {
       partnerId: id,
@@ -62,24 +82,20 @@ const AddNewCustomerForm = ({
       debt: parseInt(debt),
       createdAt: new Date(),
     };
-    await addData({
-      data: data,
-      id: id,
-      table: "Partner",
-    });
-    await info({
-      message: "Add New Customer",
-      data: data,
-    });
     dispatch(addNewPartner(data));
-    message.success("New Customer added successfully!");
+    addData({ data: data, table: "Partner", id: data.partnerId });
+    await info({
+      message: "Add New Partner",
+      data: { data: data, table: "Partner", id: data.partnerId },
+    });
+    message.success(t("partner.addSuccess"));
     setOpenAddNewCustomer(false);
   };
 
   const { t } = useTranslation();
   return (
     <Modal
-      title={<h1 className="text-2xl">{t("sale.addNewOrder")}</h1>}
+      title={<h1 className="text-2xl">{t("partner.addNewCustomer")}</h1>}
       open={openAddNewCustomer}
       onCancel={() => setOpenAddNewCustomer(false)}
       footer={false}
