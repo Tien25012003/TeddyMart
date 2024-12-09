@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 export default function WarrantyBadge({ status }: { status: string }) {
   const { t } = useTranslation();
-  const label = useMemo(() => t(`warranty.${status}`), []);
+  const label = t(`warranty.${status}`);
   switch (status) {
     case "REQUEST":
       return <Tag color="red">{label}</Tag>;

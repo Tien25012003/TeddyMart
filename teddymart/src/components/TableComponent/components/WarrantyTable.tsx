@@ -10,6 +10,7 @@ import {
 } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
+import AddNewWarranty from "views/Warranty/components/AddNewWarranty";
 import WarrantyBadge from "views/Warranty/components/WarrantyBadge";
 
 const SAMPLE_DATA: TWarranty[] = [
@@ -69,17 +70,19 @@ const WarrantyTable = forwardRef<HTMLTableElement, Props>(
       [t]
     );
 
-    // Change like shelf screen
     const WARRANTIES = useSelector((state: RootState) => state.warrantySlice);
     const data: TWarranty[] = useMemo(() => {
       let listWarranties = WARRANTIES;
+
       if (search) {
         listWarranties = listWarranties.filter((w) =>
           w.warrantyId.toLowerCase().includes(search.toLowerCase())
         );
       }
-      return WARRANTIES;
-    }, [WARRANTIES]);
+
+      return listWarranties;
+    }, [WARRANTIES, search]);
+
     // const WARRANTIES = useSelector((state: RootState) => state.warrantySlice);
 
     // const data: TWarranty[] = useMemo(() => {
@@ -294,6 +297,13 @@ const WarrantyTable = forwardRef<HTMLTableElement, Props>(
             </Button>
           </div>
         </div>
+        <AddNewWarranty
+          open={openModalUpdate}
+          setOpen={setOpenModalUpdate}
+          isAdd={false}
+          data={dataInput}
+          setData={setDataInput}
+        />
       </div>
     );
   }

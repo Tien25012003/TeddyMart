@@ -125,6 +125,9 @@ export default function AddNewWarranty({
           table: "Warranty",
           id: newData.warrantyId,
         });
+        dispatch(
+          updateWarranty({ currentWarranty: data, newWarranty: newData })
+        );
         await info({
           message: "Update Warranty",
           data: {
