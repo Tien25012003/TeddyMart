@@ -9,7 +9,7 @@ import { db } from "firebaseConfig";
 import emailjs from "@emailjs/browser";
 
 type params = {
-  prefix: "ORD" | "VCH" | "P" | "GP" | "PD" | "S" | "WH" | "ST" | "M";
+  prefix: "ORD" | "VCH" | "P" | "GP" | "PD" | "S" | "WH" | "ST" | "M" | "WR";
 };
 const createID = ({ prefix }: params): string => {
   return `${prefix}${Math.floor(Math.random() * 10000000)}`;
@@ -115,6 +115,7 @@ const sendEmail = async (toEmail: string, name: string, password: string) => {
     }
   );
 };
+
 function generateRandomPassword() {
   const charset =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";

@@ -1,11 +1,18 @@
-import { Divider, Modal, Space } from "antd";
+import { Divider, message, Modal, Space } from "antd";
 import { ButtonComponent, ButtonSelect, TextInputComponent } from "components";
+import { info } from "hooks/useLogger";
 import { COLORS } from "constants/colors";
+import { addData, updateData } from "controller/addData";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IoMdArrowDown } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
+import {
+  addNewWarranty,
+  updateWarranty,
+} from "state_management/slices/warrantySlice";
+import { createID } from "utils/appUtils";
 import { WARRANTY_STATUS_ENUM } from "utils/enums/warranty.enum";
 
 type Props = {
@@ -76,6 +83,73 @@ export default function AddNewWarranty({
       ...data,
       [fieldName]: value,
     });
+  };
+
+  const userId = localStorage.getItem("USER_ID");
+  const dispatch = useDispatch();
+
+  const onAddNewWaranty = async () => {
+    try {
+      const newData: TWarranty = {
+        warrantyId: isAdd ? createID({ prefix: "WR" }) : data.warrantyId,
+        productId: productInfo.productId,
+        productName: productInfo.productName,
+        supplierID: productInfo.supplierID,
+        customerID: customerInfo.partnerId,
+        customerName: customerInfo.partnerName,
+        customerPhoneNumber: customerInfo.phoneNumber,
+        reason: data.reason,
+        status: data.status,
+      };
+      if (isAdd) {
+        await addData({
+          data: newData,
+          table: "Warranty",
+          id: newData.warrantyId,
+        });
+        dispatch(addNewWarranty(newData));
+        // addData({ data: newData, table: "Warranty", id: newData.warrantyId });
+        // console.log(
+        //   "Redux state after adding warranty:",
+        //   useSelector((state: RootState) => state.warrantySlice)
+        // );
+
+        await info({
+          message: "Add New Warranty",
+          data: { data: newData, table: "Warranty", id: newData.warrantyId },
+        });
+        message.success(t("warranty.addSuccess"));
+      } else {
+        await updateData({
+          data: newData,
+          table: "Warranty",
+          id: newData.warrantyId,
+        });
+        await info({
+          message: "Update Warranty",
+          data: {
+            data: newData,
+            table: "Warranty",
+            id: newData.warrantyId,
+          },
+        });
+        message.success(t("warranty.updateSuccess"));
+      }
+      setOpen(false);
+      setData({
+        warrantyId: "",
+        productId: "",
+        productName: "",
+        supplierID: "",
+        customerID: "",
+        customerName: "",
+        customerPhoneNumber: "",
+        reason: "",
+        status: "REQUEST",
+      });
+    } catch (e) {
+      console.error("Error while adding/updating warranty:", e);
+    }
   };
 
   console.log("data", data);
@@ -216,11 +290,15 @@ export default function AddNewWarranty({
             label={t("button.save")}
             backgroundColor={backgroundColor}
             color={color}
-            onClick={() => {}}
+            onClick={() => {
+              onAddNewWaranty();
+            }}
           />
           <ButtonComponent
             label={t("button.cancel")}
-            onClick={() => {}}
+            onClick={() => {
+              setOpen(false);
+            }}
             style={{
               backgroundColor: "white",
               borderWidth: 1,
@@ -232,3 +310,9 @@ export default function AddNewWarranty({
     </Modal>
   );
 }
+// function dispatch(arg0: {
+//   payload: TWarranty;
+//   type: "warrantySlice/addNewWarranty";
+// }) {
+//   throw new Error("Function not implemented.");
+// }

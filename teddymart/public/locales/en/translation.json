@@ -437,6 +437,9 @@
     "FIXED": "Fixed",
     "RETURN_TO_CUSTOMER": "Return to Customer",
     "warrantyInfo": "Warranty Information",
-    "customerPhoneNumber": "Customer Phone Number"
+    "customerPhoneNumber": "Customer Phone Number",
+    "addSuccess": "Add new warranty successfully!",
+    "deleteSuccess": "Delete warranty successfully!",
+    "updateSuccess": "Update warranty successfully!"
   }
 }

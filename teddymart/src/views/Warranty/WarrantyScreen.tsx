@@ -1,5 +1,5 @@
-import { Spin } from "antd";
-import { ButtonComponent, SearchComponent } from "components";
+import { message, Spin } from "antd";
+import { AlertModal, ButtonComponent, SearchComponent } from "components";
 import WarrantyTable from "components/TableComponent/components/WarrantyTable";
 import { COLORS } from "constants/colors";
 import { useState } from "react";
@@ -7,6 +7,14 @@ import { useTranslation } from "react-i18next";
 import { BiTrash } from "react-icons/bi";
 import { TiPlus } from "react-icons/ti";
 import AddNewWarranty from "./components/AddNewWarranty";
+import { deleteMultiOrder } from "state_management/slices/orderSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "state_management/reducers/rootReducer";
+import { deleteData } from "controller/deleteData";
+import {
+  deleteMultiWarranty,
+  deleteWarranty,
+} from "state_management/slices/warrantySlice";
 
 export default function WarrantyScreen() {
   const { t } = useTranslation();
@@ -26,7 +34,19 @@ export default function WarrantyScreen() {
     reason: "",
     status: "REQUEST",
   });
-
+  const dispatch = useDispatch();
+  const WARRANTIES = useSelector((state: RootState) => state.warrantySlice);
+  const onDeleteMultiWarranty = () => {
+    if (selectedRows.length !== 0) {
+      selectedRows.forEach(async (item) => {
+        await deleteData({ id: item, table: "Warranty" });
+        dispatch(deleteWarranty({ warrantyId: item }));
+        setOpen(false);
+      });
+      message.success(t("warranty.deleteSuccess"));
+      setSelectedRows([]);
+    }
+  };
   return (
     <Spin spinning={false}>
       <div className="w-full">
@@ -69,7 +89,11 @@ export default function WarrantyScreen() {
               />
             </div>
           </div>
-
+          <AlertModal
+            open={open}
+            setOpen={setOpen}
+            onConfirm={onDeleteMultiWarranty}
+          />
           <div style={{ width: "100%", margin: "20px auto auto auto" }}>
             <WarrantyTable
               search={search}

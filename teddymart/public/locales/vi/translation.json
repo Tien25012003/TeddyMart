@@ -430,6 +430,9 @@
     "FIXED": "Đã xử lý",
     "RETURN_TO_CUSTOMER": "Đã gửi lại cho khách hàng",
     "warrantyInfo": "Thông tin phiếu yêu cầu bảo hành",
-    "customerPhoneNumber": "Số điện thoại của khách hàng"
+    "customerPhoneNumber": "Số điện thoại của khách hàng",
+    "addSuccess": "Thêm mới bảo thành công!",
+    "deleteSuccess": "Xóa bảo hành thành công!",
+    "updateSuccess": "Cập nhật bảo hành thành công!"
   }
 }

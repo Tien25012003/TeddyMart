@@ -8,6 +8,8 @@ import {
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from "react-icons/hi2";
+import { useSelector } from "react-redux";
+import { RootState } from "state_management/reducers/rootReducer";
 import WarrantyBadge from "views/Warranty/components/WarrantyBadge";
 
 const SAMPLE_DATA: TWarranty[] = [
@@ -68,7 +70,34 @@ const WarrantyTable = forwardRef<HTMLTableElement, Props>(
     );
 
     // Change like shelf screen
-    const data: TWarranty[] | [] = useMemo(() => SAMPLE_DATA, []);
+    const WARRANTIES = useSelector((state: RootState) => state.warrantySlice);
+    const data: TWarranty[] = useMemo(() => {
+      let listWarranties = WARRANTIES;
+      if (search) {
+        listWarranties = listWarranties.filter((w) =>
+          w.warrantyId.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      return WARRANTIES;
+    }, [WARRANTIES]);
+    // const WARRANTIES = useSelector((state: RootState) => state.warrantySlice);
+
+    // const data: TWarranty[] = useMemo(() => {
+    //   let listWarranties = WARRANTIES;
+
+    //   const isFixed = false;
+    //   if (isFixed) {
+    //     listWarranties = listWarranties.filter((w) => w.status === "FIXED");
+    //   }
+
+    //   if (search) {
+    //     listWarranties = listWarranties.filter((w) =>
+    //       w.warrantyId.toLowerCase().includes(search.toLowerCase())
+    //     );
+    //   }
+
+    //   return listWarranties;
+    // }, [WARRANTIES, search]);
 
     const maxPages = useMemo(
       () => Math.ceil(data.length / rowsPerPage),
