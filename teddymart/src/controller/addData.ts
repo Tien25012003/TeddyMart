@@ -11,7 +11,8 @@ type params = {
     | "Product"
     | "Orders"
     | "Ware_House"
-    | "Staff";
+    | "Staff"
+    | "Warranty";
 
   data:
     | TVoucher
@@ -22,7 +23,8 @@ type params = {
     | TShelf
     | TWarehouse
     | TStaff
-    | TStaffAccount;
+    | TStaffAccount
+    | TWarranty;
 };
 const addData = async ({ data, table, id }: params) => {
   let userId = window.localStorage.getItem("USER_ID");
@@ -33,7 +35,7 @@ const addData = async ({ data, table, id }: params) => {
     .catch((e) => console.log(e));
 };
 
-const addStaffAccountData = async (data : TStaffAccount, id: string) => {
+const addStaffAccountData = async (data: TStaffAccount, id: string) => {
   await setDoc(doc(db, `Staff`, id), data)
     .then(() => {
       console.log(">>>>>>>>>> Add Data >>>>>>>>>>");

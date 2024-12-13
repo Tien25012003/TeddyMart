@@ -277,24 +277,31 @@ const AddNewProduct = ({
           {t("product.supplierID")}{" "}
           <p className="inline-block text-red-600">*</p>
         </label>
-        <div className="col-span-3 inline-block">
-          <ButtonSelect
-            iconRight={
-              <IoMdArrowDown style={{ marginLeft: 50, color: "gray" }} />
-            }
-            width="100%"
-            title={t("product.supplierID")}
-            label={t("group.groupName")}
-            value={data.supplierID}
-            setValue={(value) => {
-              setData({
-                ...data,
-                supplierID: PartnerOptions[value],
-              });
-            }}
-            options={PartnerOptions}
-          />
-        </div>
+        {isAdd ? (
+          <div className="col-span-3 inline-block">
+            <ButtonSelect
+              iconRight={
+                <IoMdArrowDown style={{ marginLeft: 50, color: "gray" }} />
+              }
+              width="100%"
+              title={t("product.supplierID")}
+              label={t("product.supplierID")}
+              value={data.supplierID}
+              setValue={(value) => {
+                setData({
+                  ...data,
+                  supplierID: PartnerOptions[value],
+                });
+              }}
+              options={PartnerOptions}
+            />
+          </div>
+        ) : (
+          <div className="col-span-3 inline-block py-4">
+            <span className="p-2">{data.supplierID}</span>
+          </div>
+        )}
+
         {/* ---------- */}
 
         <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">

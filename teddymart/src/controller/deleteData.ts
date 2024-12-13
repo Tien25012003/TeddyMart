@@ -10,7 +10,8 @@ type params = {
     | "Orders"
     | "Ware_House"
     | "Shelf"
-    | "Staff";
+    | "Staff"
+    | "Warranty";
 };
 
 const deleteData = async ({ id, table }: params) => {
