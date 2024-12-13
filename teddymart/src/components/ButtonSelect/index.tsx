@@ -21,7 +21,7 @@ export default function ButtonSelect({
   minWidth = 120,
 }: Props) {
   return (
-    <div className="px-2 py-2">
+    <div className=" px-2 py-2">
       <button className="relative w-full">
         {options?.length !== 0 ? (
           <Select

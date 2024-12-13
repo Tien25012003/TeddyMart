@@ -1,33 +1,31 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { NAV_LINK } from "./NAV_LINK";
+import { Divider, Menu } from "antd";
+import { COLORS } from "constants/colors";
+import { signOut } from "firebase/auth";
+import { auth } from "firebaseConfig";
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { BiBox } from "react-icons/bi";
 import {
-  BsCart2,
-  BsTruck,
-  BsPeople,
-  BsBox,
   BsBarChartLine,
-  BsReverseLayoutTextSidebarReverse,
-  BsCaretDownFill,
-  BsFileEarmarkText,
-  BsGift,
-  BsPerson,
+  BsBox,
   BsBoxArrowInLeft,
   BsBoxes,
+  BsCaretDownFill,
+  BsCart2,
+  BsFileEarmarkText,
+  BsGift,
+  BsPeople,
+  BsPerson,
+  BsReverseLayoutTextSidebarReverse,
+  BsTruck,
   BsWrenchAdjustableCircle,
 } from "react-icons/bs";
 import { FaBarsProgress } from "react-icons/fa6";
-import { BiBox } from "react-icons/bi";
-import { MdOutlinePeople } from "react-icons/md";
-import { Menu } from "antd";
-import { useTranslation } from "react-i18next";
-import { Divider } from "antd";
-import { COLORS } from "constants/colors";
+import { MdOutlineEventNote, MdOutlinePeople } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { RootState } from "state_management/reducers/rootReducer";
-import { auth } from "firebaseConfig";
-import { signOut } from "firebase/auth";
-import { link } from "fs";
+import { NAV_LINK } from "./NAV_LINK";
 type DrawerItemProps = {
   name?: string;
   link?: string;
@@ -121,6 +119,11 @@ export default function Drawer() {
       name: t("drawer.warranty"),
       link: NAV_LINK.WARRANTY,
       icon1: <BsWrenchAdjustableCircle size={25} />,
+    },
+    {
+      name: t("drawer.event"),
+      link: NAV_LINK.EVENT,
+      icon1: <MdOutlineEventNote size={25} />,
     },
     localStorage.getItem("ROLE") !== "Staff" && {
       name: t("drawer.report"),

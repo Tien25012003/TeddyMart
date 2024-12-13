@@ -19,4 +19,5 @@ export const NAV_LINK = {
   SHELF: "/home/shelf",
   STAFF: "/home/staff",
   WARRANTY: "/home/warranty",
+  EVENT: "/home/event",
 };

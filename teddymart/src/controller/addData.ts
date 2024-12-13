@@ -1,4 +1,4 @@
-import { setDoc, doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "firebaseConfig";
 
 type params = {
@@ -12,7 +12,8 @@ type params = {
     | "Orders"
     | "Ware_House"
     | "Staff"
-    | "Warranty";
+    | "Warranty"
+    | "Event";
 
   data:
     | TVoucher
@@ -24,7 +25,8 @@ type params = {
     | TWarehouse
     | TStaff
     | TStaffAccount
-    | TWarranty;
+    | TWarranty
+    | TEvent;
 };
 const addData = async ({ data, table, id }: params) => {
   let userId = window.localStorage.getItem("USER_ID");
@@ -52,4 +54,4 @@ const updateData = async ({ data, table, id }: params) => {
     })
     .catch((e) => console.log(e));
 };
-export { addData, updateData, addStaffAccountData };
+export { addData, addStaffAccountData, updateData };

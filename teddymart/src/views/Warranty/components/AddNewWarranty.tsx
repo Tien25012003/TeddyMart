@@ -1,8 +1,8 @@
 import { Divider, message, Modal, Space } from "antd";
 import { ButtonComponent, ButtonSelect, TextInputComponent } from "components";
-import { info } from "hooks/useLogger";
 import { COLORS } from "constants/colors";
 import { addData, updateData } from "controller/addData";
+import { info } from "hooks/useLogger";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IoMdArrowDown } from "react-icons/io";

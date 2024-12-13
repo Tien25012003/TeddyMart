@@ -166,3 +166,13 @@ declare type TWarranty = {
   reason: string;
   status: "REQUEST" | "SEND_TO_SUPPLIER" | "FIXED" | "RETURN_TO_CUSTOMER";
 };
+
+declare type TEvent = {
+  eventId: string;
+  eventName: string;
+  startDate: Date;
+  endDate: Date;
+  status: string;
+  discount: number;
+  products: { id: string; productName: string }[];
+};

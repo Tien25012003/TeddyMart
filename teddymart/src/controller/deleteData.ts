@@ -11,7 +11,8 @@ type params = {
     | "Ware_House"
     | "Shelf"
     | "Staff"
-    | "Warranty";
+    | "Warranty"
+    | "Event";
 };
 
 const deleteData = async ({ id, table }: params) => {
@@ -21,4 +22,4 @@ const deleteData = async ({ id, table }: params) => {
 const deleteAccount = async ({ id }: { id: string }) => {
   await deleteDoc(doc(db, "Manager", id));
 };
-export { deleteData, deleteAccount };
+export { deleteAccount, deleteData };

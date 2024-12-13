@@ -53,7 +53,8 @@
     "signOut": "Đăng xuất",
     "shelf": "Kệ",
     "staff": "Nhân viên",
-    "warranty": "Bảo hành"
+    "warranty": "Bảo hành",
+    "event": "Sự kiện"
   },
   "button": {
     "filter": "Bộ lọc",
@@ -381,7 +382,8 @@
     "profile": "Thông tin cửa hàng",
     "shelf": "Kệ",
     "staff": "Nhân viên",
-    "warranty": "Bảo hành"
+    "warranty": "Bảo hành",
+    "event": "Sự kiện"
   },
   "on": "trên",
   "profile": {
@@ -434,5 +436,20 @@
     "addSuccess": "Thêm mới bảo thành công!",
     "deleteSuccess": "Xóa bảo hành thành công!",
     "updateSuccess": "Cập nhật bảo hành thành công!"
+  },
+  "event": {
+    "searchByName": "Tìm kiếm theo tên sự kiện",
+    "addNewEvent": "Thêm mới sự kiện",
+    "eventInfo": "Thông tin sự kiện",
+    "eventId": "Mã sự kiện",
+    "eventName": "Tên sự kiện",
+    "startDate": "Ngày bắt đầu",
+    "endDate": "Ngày kết thúc",
+    "productIds": "Danh sách sản phẩm",
+    "status": "Trạng thái",
+    "IN_PROGRESS": "Đang thực hiện",
+    "DONE": "Hoàn thành",
+    "PENDING": "Tạm dừng",
+    "NOT_START": "Chưa bắt đầu"
   }
 }

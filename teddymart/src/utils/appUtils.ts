@@ -1,3 +1,4 @@
+import emailjs from "@emailjs/browser";
 import {
   deleteDoc,
   doc,
@@ -6,10 +7,20 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "firebaseConfig";
-import emailjs from "@emailjs/browser";
 
 type params = {
-  prefix: "ORD" | "VCH" | "P" | "GP" | "PD" | "S" | "WH" | "ST" | "M" | "WR";
+  prefix:
+    | "ORD"
+    | "VCH"
+    | "P"
+    | "GP"
+    | "PD"
+    | "S"
+    | "WH"
+    | "ST"
+    | "M"
+    | "WR"
+    | "EV";
 };
 const createID = ({ prefix }: params): string => {
   return `${prefix}${Math.floor(Math.random() * 10000000)}`;
@@ -127,17 +138,17 @@ function generateRandomPassword() {
   return password;
 }
 export {
-  createID,
-  addOrderFirebase,
-  deleteOrderFirebase,
-  addVoucherFirebase,
-  updateVoucherFirebase,
-  deleteVoucherFirebase,
-  updatePartnerFirebase,
-  deletePartnerFirebase,
-  updateProductFirebase,
   addNotificationFirebase,
+  addOrderFirebase,
+  addVoucherFirebase,
+  createID,
   deleteNotificationFirebase,
-  sendEmail,
+  deleteOrderFirebase,
+  deletePartnerFirebase,
+  deleteVoucherFirebase,
   generateRandomPassword,
+  sendEmail,
+  updatePartnerFirebase,
+  updateProductFirebase,
+  updateVoucherFirebase,
 };

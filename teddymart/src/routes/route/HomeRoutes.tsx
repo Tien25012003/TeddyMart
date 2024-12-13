@@ -1,30 +1,30 @@
-import { Route, Routes } from "react-router-dom";
-import SaleScreen from "views/Sale/SaleScreen";
-import ProductScreen from "views/Product/ProductScreen";
-import ReportScreen from "views/Report/Report";
-import CustomerScreen from "views/Partner/CustomerScreen";
-import SupplierScreen from "views/Partner/SupplierScreen";
-import WarehouseScreen from "views/Warehouse/WarehouseScreen";
-import Drawer from "../components/Drawer";
-import Draft from "views/Draft/Draft";
-import VoucherScreen from "views/Voucher/VoucherScreen";
-import GroupProductScreen from "views/GroupProduct/GroupProductScreen";
+import { Header } from "components";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { RootState } from "state_management/reducers/rootReducer";
+import Chatbot from "views/Chatbot/Chatbot";
+import Draft from "views/Draft/Draft";
+import EventScreen from "views/Event/EventScreen";
+import GroupProductScreen from "views/GroupProduct/GroupProductScreen";
+import CustomerScreen from "views/Partner/CustomerScreen";
+import StaffScreen from "views/Partner/StaffScreen";
+import SupplierScreen from "views/Partner/SupplierScreen";
+import ProductScreen from "views/Product/ProductScreen";
+import Profile from "views/Profile/Profile";
+import ReportScreen from "views/Report/Report";
+import SaleScreen from "views/Sale/SaleScreen";
+import ShelfScreen from "views/Shelf/ShelfScreen";
+import VoucherScreen from "views/Voucher/VoucherScreen";
 import {
   ImportOrder,
   Warehouse,
   WarehouseList,
 } from "views/Warehouse/components";
-import { Header } from "components";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
-import { useMemo } from "react";
-import Profile from "views/Profile/Profile";
-import ShelfScreen from "views/Shelf/ShelfScreen";
-import StaffScreen from "views/Partner/StaffScreen";
-import Chatbot from "views/Chatbot/Chatbot";
+import WarehouseScreen from "views/Warehouse/WarehouseScreen";
 import WarrantyScreen from "views/Warranty/WarrantyScreen";
+import Drawer from "../components/Drawer";
 
 export default function HomeRoutes() {
   const { openDrawer } = useSelector((state: RootState) => state.controlSlice);
@@ -90,6 +90,11 @@ export default function HomeRoutes() {
       path: "warranty",
       element: <WarrantyScreen />,
       name: t("header.warranty"),
+    },
+    {
+      path: "event",
+      element: <EventScreen />,
+      name: t("header.event"),
     },
   ];
 

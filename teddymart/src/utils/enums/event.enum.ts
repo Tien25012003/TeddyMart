@@ -1,0 +1,6 @@
+export enum EVENT_STATUS_ENUM {
+  IN_PROGRESS = "IN_PROGRESS",
+  DONE = "DONE",
+  PENDING = "PENDING",
+  NOT_START = "NOT_START",
+}

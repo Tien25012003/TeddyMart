@@ -53,7 +53,8 @@
     "signOut": "Sign out",
     "shelf": "Shelf",
     "staff": "Staff",
-    "warranty": "Warranty"
+    "warranty": "Warranty",
+    "event": "Event"
   },
   "manager": {
     "userId": "User ID",
@@ -388,7 +389,8 @@
     "profile": "Profile",
     "shelf": "Shelf",
     "staff": "Staff",
-    "warranty": "Warranty"
+    "warranty": "Warranty",
+    "event": "Event"
   },
   "on": "on",
   "profile": {
@@ -441,5 +443,22 @@
     "addSuccess": "Add new warranty successfully!",
     "deleteSuccess": "Delete warranty successfully!",
     "updateSuccess": "Update warranty successfully!"
+  },
+  "event": {
+    "searchByName": "Search by event name",
+    "addNewEvent": "Add New Event",
+    "eventInfo": "Event Information",
+    "eventId": "Event ID",
+    "eventName": "Event Name",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "productIds": "List Products",
+    "status": "Status",
+    "IN_PROGRESS": "In Progress",
+    "DONE": "Done",
+    "PENDING": "Pending",
+    "NOT_START": "Not Start",
+    "addSuccess": "Add new event successfully!",
+    "discount": "Discount"
   }
 }
