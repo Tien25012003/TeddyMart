@@ -28,9 +28,6 @@ export default function AddNewEvent({
 }: Props) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const CUSTOMER = useSelector((state: RootState) => state.partnerSlice).filter(
-    (p) => p.type === "Customer"
-  );
 
   const PRODUCT = useSelector((state: RootState) => state.product);
   const ProductOptions = useMemo(
@@ -246,6 +243,7 @@ export default function AddNewEvent({
             }}
             placeHolder={t("event.startDate")}
             width="100%"
+            min={dayjs(new Date()).format("YYYY-MM-DD") }
           />
         </div>
         <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
@@ -259,6 +257,7 @@ export default function AddNewEvent({
             setValue={(value) => onChange(value, "endDate")}
             placeHolder={t("event.endDate")}
             width="100%"
+            min={dayjs(data.startDate).format("YYYY-MM-DD") }
           />
         </div>
       </div>
