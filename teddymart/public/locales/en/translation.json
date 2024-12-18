@@ -127,6 +127,7 @@
     "totalPayment": "Total Payment",
     "status": "Status",
     "debt": "Debt",
+    "eventDiscount":"Event Discount",
     "addNewOrder": "Add New Order",
     "customerInfo": "Customer Information",
     "supplierInfo": "Supplier Information",
@@ -459,6 +460,7 @@
     "PENDING": "Pending",
     "NOT_START": "Not Start",
     "addSuccess": "Add new event successfully!",
-    "discount": "Discount"
+    "discount": "Discount",
+    "maximumValue":"Maximum Discount"
   }
 }

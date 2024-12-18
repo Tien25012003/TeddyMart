@@ -36,6 +36,7 @@ const EventTable = forwardRef<HTMLTableElement, Props>(
       endDate: new Date(),
       startDate: new Date(),
       discount: 0,
+      maximumValue:0
     });
 
     const HEADER = useMemo(
@@ -47,6 +48,7 @@ const EventTable = forwardRef<HTMLTableElement, Props>(
           t("event.endDate"),
           t("event.productIds"),
           t("event.discount"),
+          t("event.maximumValue"),
           t("event.status"),
           t("activities"),
         ].filter((value) => Boolean(value) !== false),
@@ -205,7 +207,10 @@ const EventTable = forwardRef<HTMLTableElement, Props>(
                         )}
                       </td>
                       <td className="border border-gray-300 p-2 text-sm">
-                        {content.discount.toLocaleString("vi")}
+                        {content.discount.toLocaleString("vi")}%
+                      </td>
+                      <td className="border border-gray-300 p-2 text-sm">
+                        {content.maximumValue.toLocaleString("vi")}
                       </td>
                       <td className="border border-gray-300 p-2 text-sm">
                         <EventBadge status={content.status} />

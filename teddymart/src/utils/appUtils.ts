@@ -66,6 +66,30 @@ const deleteVoucherFirebase = async (vouchers: string[], userId: string) => {
   }
 };
 
+//voucher
+const addEventFirebase = async (
+  data: TEvent,
+  userId: string,
+  eventId: string
+) => {
+  await setDoc(doc(db, `/Manager/${userId}/Event`, eventId), data);
+};
+const updateEventFirebase = async (
+  data: TEvent,
+  userId: string,
+  eventId: string
+) => {
+  const voucherRef = doc(db, `/Manager/${userId}/Event`, eventId);
+  await updateDoc(voucherRef, {
+    ...data,
+  });
+};
+const deleteEventFirebase = async (events: string[], userId: string) => {
+  for (const event of events) {
+    await deleteDoc(doc(db, `/Manager/${userId}/Event`, event));
+  }
+};
+
 //Partner
 const updatePartnerFirebase = async (
   data: TPartner,
@@ -138,17 +162,16 @@ function generateRandomPassword() {
   return password;
 }
 export {
-  addNotificationFirebase,
+  addEventFirebase, addNotificationFirebase,
   addOrderFirebase,
   addVoucherFirebase,
-  createID,
-  deleteNotificationFirebase,
+  createID, deleteEventFirebase, deleteNotificationFirebase,
   deleteOrderFirebase,
   deletePartnerFirebase,
   deleteVoucherFirebase,
   generateRandomPassword,
-  sendEmail,
-  updatePartnerFirebase,
+  sendEmail, updateEventFirebase, updatePartnerFirebase,
   updateProductFirebase,
-  updateVoucherFirebase,
+  updateVoucherFirebase
 };
+

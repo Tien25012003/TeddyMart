@@ -1,27 +1,18 @@
-import { useEffect, useRef, useState } from "react";
-import TextInputComponent from "components/TextInputComponent";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import { NAV_LINK } from "routes/components/NAV_LINK";
+import Hotjar from "@hotjar/browser";
 import { Button, Spin } from "antd";
+import TextInputComponent from "components/TextInputComponent";
 import {
   generateProduct,
   generateReport,
   getData,
-  getDataRealTime,
-  getDataWithQuery,
+  getDataWithQuery
 } from "controller/getData";
-import { useDispatch } from "react-redux";
-import { uploadVoucher } from "state_management/slices/voucherSlice";
-import { uploadPartner } from "state_management/slices/partnerSlice";
-import { uploadGroupProduct } from "state_management/slices/groupProductSlice";
-import { uploadProduct } from "state_management/slices/productSlice";
-import { uploadWarehouse } from "state_management/slices/warehouseSlice";
-import { uploadOrder } from "state_management/slices/orderSlice";
-import { uploadReport } from "state_management/slices/reportSlice";
-import { useTranslation } from "react-i18next";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { uploadReportProduct } from "state_management/slices/reportProduct";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import {
   collection,
   doc,
@@ -30,20 +21,29 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "firebaseConfig";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
+import { useEffect, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { NAV_LINK } from "routes/components/NAV_LINK";
+import { uploadEvent } from "state_management/slices/eventSlice";
+import { uploadGroupProduct } from "state_management/slices/groupProductSlice";
 import { uploadManager } from "state_management/slices/managerSlice";
-import { uploadShelf } from "state_management/slices/shelfSlice";
 import {
   TNotification,
   updateNotifications,
 } from "state_management/slices/notificationSlice";
+import { uploadOrder } from "state_management/slices/orderSlice";
+import { uploadPartner } from "state_management/slices/partnerSlice";
+import { uploadProduct } from "state_management/slices/productSlice";
+import { uploadReportProduct } from "state_management/slices/reportProduct";
+import { uploadReport } from "state_management/slices/reportSlice";
+import { uploadShelf } from "state_management/slices/shelfSlice";
 import { uploadStaff } from "state_management/slices/staffSlice";
-import Hotjar from "@hotjar/browser";
+import { uploadVoucher } from "state_management/slices/voucherSlice";
+import { uploadWarehouse } from "state_management/slices/warehouseSlice";
 import { error, info } from "../../hooks/useLogger";
 
 type Inputs = {
@@ -178,6 +178,9 @@ export default function LoginScreen() {
       ),
       getData(`/Manager/${userId}/Voucher`).then((data: TVoucher[]) =>
         dispatch(uploadVoucher(data))
+      ),
+      getData(`/Manager/${userId}/Event`).then((data: TEvent[]) =>
+        dispatch(uploadEvent(data))
       ),
       getData(`/Manager/${userId}/Shelf`).then((data: TShelf[]) =>
         dispatch(uploadShelf(data))

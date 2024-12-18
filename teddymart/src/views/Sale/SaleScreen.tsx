@@ -2,6 +2,7 @@ import { Space } from "antd";
 import { SearchProps } from "antd/es/input/Search";
 import {
   AlertModal,
+  BtnExport,
   ButtonComponent,
   ListCheckBox,
   ModalSelectDate,
@@ -9,23 +10,22 @@ import {
 import DropdownComponent from "components/DropdownComponent";
 import { BillTable } from "components/TableComponent";
 import TextInputComponent from "components/TextInputComponent";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { updateData } from "controller/addData";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BiSearch, BiTrash, BiPlus } from "react-icons/bi";
+import { BiPlus, BiSearch, BiTrash } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
+import { DELETE_ORDER, UPDATE_ORDER } from "state_management/actions/actions";
 import { RootState } from "state_management/reducers/rootReducer";
 import {
   deleteMultiOrder,
   updateOrder,
 } from "state_management/slices/orderSlice";
-import AddForm from "./components/AddForm";
-import SearchProductForm from "./components/SearchProductForm";
-import AlertDelete from "./components/AlertDelete";
-import { BtnExport } from "components";
-import { deleteOrderFirebase } from "utils/appUtils";
-import { DELETE_ORDER, UPDATE_ORDER } from "state_management/actions/actions";
 import { updateProductWarehouse } from "state_management/slices/warehouseSlice";
-import { updateData } from "controller/addData";
+import { deleteOrderFirebase } from "utils/appUtils";
+import AddForm from "./components/AddForm";
+import AlertDelete from "./components/AlertDelete";
+import SearchProductForm from "./components/SearchProductForm";
 export default function SaleScreen() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
@@ -64,6 +64,11 @@ export default function SaleScreen() {
       {
         displayName: t("sale.discount"),
         key: "discount",
+        value: true,
+      },
+      {
+        displayName: t("sale.eventDiscount"),
+        key: "eventDiscount",
         value: true,
       },
       {
@@ -138,6 +143,7 @@ export default function SaleScreen() {
           status: "paid",
           totalPayment: tmp.payment,
           debt: 0,
+          eventDiscount:0
         };
         await updateData({ data: newData, table: "Orders", id: tmp.orderId });
         dispatch(

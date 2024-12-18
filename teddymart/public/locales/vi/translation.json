@@ -450,6 +450,7 @@
     "IN_PROGRESS": "Đang thực hiện",
     "DONE": "Hoàn thành",
     "PENDING": "Tạm dừng",
-    "NOT_START": "Chưa bắt đầu"
+    "NOT_START": "Chưa bắt đầu",
+    "maximumValue":"Số tiền giảm tối đa"
   }
 }

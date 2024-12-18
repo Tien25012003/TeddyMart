@@ -67,6 +67,7 @@ export default function AddNewEvent({
         startDate: data.startDate,
         status: data.status,
         discount: data.discount,
+        maximumValue: data.maximumValue
       };
       if (isAdd) {
         await addData({
@@ -112,6 +113,7 @@ export default function AddNewEvent({
         endDate: new Date(),
         status: "NOT_START",
         discount: 0,
+        maximumValue:0,
       });
     } catch (e) {
       console.error("Error while adding/updating event:", e);
@@ -159,7 +161,7 @@ export default function AddNewEvent({
           />
         </div>
         <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
-          {t("event.discount")}
+          {t("event.discount")} (%)
           <p className="inline-block text-red-600">*</p>
         </label>
         <div className="px-2 col-span-3 inline-block">
@@ -167,6 +169,19 @@ export default function AddNewEvent({
             value={data.discount.toString()}
             setValue={(value) => onChange(+value, "discount")}
             placeHolder={t("event.discount")}
+            width="100%"
+            inputType="number"
+          />
+        </div>
+        <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
+          {t("event.maximumValue")} (VND)
+          <p className="inline-block text-red-600">*</p>
+        </label>
+        <div className="px-2 col-span-3 inline-block">
+          <TextInputComponent
+            value={data.maximumValue.toString()}
+            setValue={(value) => onChange(+value, "maximumValue")}
+            placeHolder={t("event.maximumValue")}
             width="100%"
             inputType="number"
           />

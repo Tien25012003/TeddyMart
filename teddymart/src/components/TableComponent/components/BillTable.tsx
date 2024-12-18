@@ -1,37 +1,30 @@
-import { Button, Dropdown, Layout, MenuProps, Modal } from "antd";
+import { Button, Modal, Popover } from "antd";
+import { generateReport } from "controller/getData";
 import dayjs from "dayjs";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { db } from "firebaseConfig";
 import {
-  ForwardedRef,
-  LegacyRef,
+  forwardRef,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
-  useState,
+  useState
 } from "react";
 import { useTranslation } from "react-i18next";
 import { BiDetail } from "react-icons/bi";
-import { FiEdit, FiTrash } from "react-icons/fi";
+import { FiTrash } from "react-icons/fi";
 import {
-  HiOutlineChevronLeft,
   HiOutlineChevronDoubleLeft,
-  HiOutlineChevronRight,
   HiOutlineChevronDoubleRight,
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight,
 } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "state_management/reducers/rootReducer";
-import { deleteOrder, uploadOrder } from "state_management/slices/orderSlice";
-import ProductTable from "./ProductTable";
-import { forwardRef } from "react";
-import { deleteOrderFirebase } from "utils/appUtils";
-import DropdownComponent from "components/DropdownComponent";
-import TextComponent from "components/TextComponent";
-import { Popover } from "antd";
-import { SellerName } from "./SellerName";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { db } from "firebaseConfig";
+import { uploadOrder } from "state_management/slices/orderSlice";
 import { uploadReport } from "state_management/slices/reportSlice";
-import { generateReport } from "controller/getData";
+import ProductTable from "./ProductTable";
+import { SellerName } from "./SellerName";
 type TStatus = "unpaid" | "paid";
 const COLOR_STATUS = new Map([
   ["unpaid", "#FF0000"],
@@ -119,6 +112,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
       seller: type === "Export",
       status: true,
       note: true,
+      eventDiscount:true,
       activities: role === "Staff" ? false : true,
       ...filterOption,
     };
@@ -267,6 +261,7 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
           options.payment && t("sale.payment"),
           options.debt && t("sale.debt"),
           options.discount && t("sale.discount"),
+          options.eventDiscount && t("sale.eventDiscount"),
           options.totalPayment && t("sale.totalPayment"),
           options.voucherID && t("voucher.voucherID"),
           options.seller && t("sale.seller"),
@@ -450,6 +445,11 @@ const BillTable = forwardRef<HTMLTableElement, Props>(
                       {options.discount && (
                         <td className="border border-gray-300 p-2 text-sm">
                           {new Intl.NumberFormat().format(content.discount)}
+                        </td>
+                      )}
+                          {options.eventDiscount && (
+                        <td className="border border-gray-300 p-2 text-sm">
+                          {new Intl.NumberFormat().format(content.eventDiscount||0)}
                         </td>
                       )}
                       {options.totalPayment && (

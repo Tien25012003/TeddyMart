@@ -24,6 +24,7 @@ const EventScreen = () => {
     endDate: new Date(),
     startDate: new Date(),
     discount: 0,
+    maximumValue:0,
   });
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();

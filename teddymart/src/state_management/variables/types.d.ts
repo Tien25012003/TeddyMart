@@ -109,6 +109,7 @@ declare type TOrder = {
   totalPayment: number;
   status?: "paid" | "unpaid";
   debt?: number;
+  eventDiscount?:number;
   listProduct: {
     productId: string;
     productName: string;
@@ -118,6 +119,7 @@ declare type TOrder = {
   voucherId?: string;
   seller: string;
   receiver: string;
+  eventId:string;
   type: "Import" | "Export";
   warehouseName?: string;
 };
@@ -174,5 +176,6 @@ declare type TEvent = {
   endDate: Date;
   status: string;
   discount: number;
+  maximumValue:number;
   products: { id: string; productName: string }[];
 };
