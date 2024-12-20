@@ -27,10 +27,7 @@ const Gemini = {
       if (result?.response?.candidates && result?.response?.candidates[0]) {
         const responseText =
           result.response.candidates[0].content.parts[0].text;
-        if (
-          responseText ===
-          "Sorry! I do not have enough information to answer this question"
-        ) {
+        if (responseText?.includes("Sorry")) {
           const genimiResponse = await model.generateContent(userInput);
 
           const genimiText = genimiResponse.response.text();
