@@ -115,7 +115,7 @@ export default function CustomerScreen() {
   const [open, setOpen] = useState(false);
   const onDeleteMultiPartner = () => {
     if (selectedRows.length !== 0) {
-      selectedRows.forEach(async (item) => {
+      selectedRows?.forEach(async (item) => {
         await deleteData({ id: item, table: "Partner" });
         dispatch(deletePartner({ partnerId: item }));
         setOpen(false);

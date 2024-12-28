@@ -84,7 +84,7 @@ export default function AddNewGroupProduct({
         table: "Group_Product",
         id: data.groupId,
       });
-      PRODUCT.forEach(async (p) => {
+      PRODUCT?.forEach(async (p) => {
         console.log("ok", p);
         if (p.groupId === data.groupId) {
           if (p.groupName !== data.groupName) {
@@ -129,30 +129,34 @@ export default function AddNewGroupProduct({
     [data.groupName, data.shelfName, data.shelfID]
   );
 
-    return (
-        <Modal
-            title={isAdd?<h1 className="text-2xl">{t("group.addNewProductGroup")}</h1>:<h1 className="text-2xl">{t("group.editProductGroupInfo")}</h1>}
-            width={"60%"}
-            open={openAddNewGroupProduct}
-            onCancel={() => setOpenAddNewGroupProduct(false)}
-            footer={false}
-      >
-        <Divider style={{ backgroundColor: "black" }} />
-        <div className="grid grid-cols-4">
-          <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
-            {t("group.groupName")}{" "}
-            <p className="inline-block text-red-600">*</p>
-          </label>
-          <div className="px-2 col-span-3 inline-block">
-            <TextInputComponent
-              value={data.groupName}
-              setValue={(value) => {
-                onChange(value, "groupName")
-              }
-              }
-              width="100%"
-            />
-          </div>
+  return (
+    <Modal
+      title={
+        isAdd ? (
+          <h1 className="text-2xl">{t("group.addNewProductGroup")}</h1>
+        ) : (
+          <h1 className="text-2xl">{t("group.editProductGroupInfo")}</h1>
+        )
+      }
+      width={"60%"}
+      open={openAddNewGroupProduct}
+      onCancel={() => setOpenAddNewGroupProduct(false)}
+      footer={false}
+    >
+      <Divider style={{ backgroundColor: "black" }} />
+      <div className="grid grid-cols-4">
+        <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
+          {t("group.groupName")} <p className="inline-block text-red-600">*</p>
+        </label>
+        <div className="px-2 col-span-3 inline-block">
+          <TextInputComponent
+            value={data.groupName}
+            setValue={(value) => {
+              onChange(value, "groupName");
+            }}
+            width="100%"
+          />
+        </div>
 
         <label className="mt-5 self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
           {t("shelf.shelfName")} <p className="inline-block text-red-600">*</p>

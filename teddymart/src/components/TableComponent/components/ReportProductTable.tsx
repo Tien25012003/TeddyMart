@@ -52,7 +52,7 @@ const ReportProductTable = forwardRef<HTMLTableElement, Props>(
 
     const data = useMemo(() => {
       let tmp: TRProduct[] = [];
-      PRODUCTS.forEach((p) => {
+      PRODUCTS?.forEach((p) => {
         if (
           new Date(p.date).getTime() >= date.from.getTime() &&
           new Date(p.date).getTime() <= date.to.getTime()
@@ -60,7 +60,7 @@ const ReportProductTable = forwardRef<HTMLTableElement, Props>(
           if (tmp?.length === 0) {
             tmp = [...p.products];
           } else {
-            p.products.forEach((item) => {
+            p.products?.forEach((item) => {
               let index = tmp.findIndex((t) => t.productId === item.productId);
               if (index === -1) {
                 tmp.push(item);

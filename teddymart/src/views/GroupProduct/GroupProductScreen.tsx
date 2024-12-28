@@ -58,7 +58,7 @@ export default function ProductScreen() {
       selectedRows.forEach(async (item) => {
         await deleteData({ id: item, table: "Group_Product" });
         dispatch(deleteGroupProduct(GROUP.find((x) => x.groupId === item)));
-        PRODUCT.forEach(async (product) => {
+        PRODUCT?.forEach(async (product) => {
           if (product.groupId === item) {
             await updateData({
               data: { ...product, groupId: "", groupName: "" },
@@ -73,8 +73,8 @@ export default function ProductScreen() {
             );
           }
         });
-        WARE_HOUSE.forEach((w) => {
-          w.listProduct.forEach((p) => {
+        WARE_HOUSE?.forEach((w) => {
+          w.listProduct?.forEach((p) => {
             const product = PRODUCT.find(
               (temp) => temp.productId === p.productId && temp.groupId === item
             );

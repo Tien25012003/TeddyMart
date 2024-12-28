@@ -82,7 +82,7 @@ const StaffScreen = () => {
   const excelRef = useRef(null);
   const onDeleteMultiShelf = () => {
     if (selectedRows.length !== 0) {
-      selectedRows.forEach(async (item) => {
+      selectedRows?.forEach(async (item) => {
         await deleteAccount({ id: item });
         dispatch(deleteStaff({ id: item }));
         message.success(t("partner.deleteStaff"));

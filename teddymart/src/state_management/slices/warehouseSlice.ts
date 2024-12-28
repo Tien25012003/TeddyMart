@@ -178,7 +178,7 @@ const warehouseSlice = createSlice({
       action: PayloadAction<{ products: TProduct[] }>
     ) => {
       const productNames = action.payload.products.map((p) => p.productName);
-      state.forEach((s) => {
+      state?.forEach((s) => {
         const tmp = s.listProduct;
         s.listProduct = s.listProduct.filter(
           (p) => !productNames.includes(p.productName)

@@ -5,7 +5,7 @@ import {
   generateProduct,
   generateReport,
   getData,
-  getDataWithQuery
+  getDataWithQuery,
 } from "controller/getData";
 import {
   getAuth,
@@ -167,7 +167,8 @@ export default function LoginScreen() {
           message: t("login.wrongPassword"),
         });
         setLoading(false);
-        console.log("wrong password");
+
+        console.log("e login", e);
       });
   };
 

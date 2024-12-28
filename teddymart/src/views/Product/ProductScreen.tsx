@@ -134,7 +134,7 @@ export default function ProductScreen() {
   const onDeleteMultiProduct = async () => {
     if (selectedRows.length !== 0) {
       setLoading(true);
-      selectedRows.forEach(async (item) => {
+      selectedRows?.forEach(async (item) => {
         await deleteData({ id: item, table: "Product" });
         dispatch(deleteProduct({ productId: item }));
         const URL = PRODUCT.find((x) => x.productId === item)?.image;

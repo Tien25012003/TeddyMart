@@ -40,7 +40,7 @@ const generateReport = (data: TOrder[]) => {
   let report = new Map<string, TReport>();
   let reportByMonth = new Map<string, TReport>();
   let reportByYear = new Map<string, TReport>();
-  data.forEach((d) => {
+  data?.forEach((d) => {
     if (!report.has(new Date(d.createdAt).toDateString())) {
       report.set(new Date(d.createdAt).toDateString(), {
         date: new Date(d.createdAt),
@@ -194,7 +194,7 @@ const generateReport = (data: TOrder[]) => {
 
 const generateProduct = (data: TOrder[], warehouse: TWarehouse[]) => {
   let result = new Map<string, TReportProduct>();
-  data.forEach((d: TOrder) => {
+  data?.forEach((d: TOrder) => {
     const isExport = d.type === "Export" ? true : false;
     if (!result.has(new Date(d.createdAt).toDateString())) {
       result.set(new Date(d.createdAt).toDateString(), {
