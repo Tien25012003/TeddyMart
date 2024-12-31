@@ -37,25 +37,14 @@ export default function GeminiChatbot({ open, onClose }: GeminiChatbotProps) {
     const points = response
       .split(/(?<=[.!?])\s+/)
       .filter((point) => point.trim().length > 2);
-
     return (
-      <div>
-        <ul className="list-disc pl-6 mt-2 space-y-2">
-          {points.map((point, index) => {
-            const isSubPoint = point.endsWith("?");
-
-            return (
-              <li
-                key={index}
-                className={`text-gray-700 leading-relaxed ${
-                  isSubPoint ? "pl-8 list-decimal" : ""
-                }`}
-              >
-                {point.trim()}
-              </li>
-            );
-          })}
-        </ul>
+      <div className="space-y-3 mt-3">
+        {points.map((point, index) => (
+          <div key={index} className="flex items-start">
+            {/* <span className="mr-2 text-blue-600 font-bold">•</span> */}
+            <p className="text-gray-800 leading-relaxed">{point.trim()}</p>
+          </div>
+        ))}
       </div>
     );
   };
