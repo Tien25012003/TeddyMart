@@ -99,12 +99,6 @@
 ---
 <h2>Hướng dẫn cài đặt</h2>
 
-### **Yêu cầu hệ thống**
-- Node.js phiên bản ≥ 16.x.  
-- Trình quản lý package (npm hoặc yarn).  
-- Cơ sở dữ liệu Firebase đã cấu hình.  
-
----
 
 ### **Các bước cài đặt**
 
