@@ -55,7 +55,12 @@ export default function AddNewEvent({
   };
 
   const onAddNewEvent = async () => {
-    try {
+    if (!data.eventName|| !data.discount||!data.endDate||!data.startDate||!data.maximumValue||!data.status||!data.products)
+    {
+      message.error(t("event.pleaseEnterFullInfo"));
+      return;
+    }
+      try {
       const newData: TEvent = {
         eventId: isAdd ? createID({ prefix: "EV" }) : data.eventId,
         eventName: data.eventName,

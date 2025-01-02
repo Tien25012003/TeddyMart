@@ -461,6 +461,7 @@
     "NOT_START": "Not Start",
     "addSuccess": "Add new event successfully!",
     "discount": "Discount",
-    "maximumValue":"Maximum Discount"
+    "maximumValue":"Maximum Discount",
+    "pleaseEnterFullInfo":"Please fill all input fields"
   }
 }

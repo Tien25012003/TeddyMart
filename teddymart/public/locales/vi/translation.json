@@ -451,6 +451,7 @@
     "DONE": "Hoàn thành",
     "PENDING": "Tạm dừng",
     "NOT_START": "Chưa bắt đầu",
-    "maximumValue":"Số tiền giảm tối đa"
+    "maximumValue":"Số tiền giảm tối đa",
+    "pleaseEnterFullInfo":"Vui lòng nhập đầy đủ thông tin"
   }
 }
