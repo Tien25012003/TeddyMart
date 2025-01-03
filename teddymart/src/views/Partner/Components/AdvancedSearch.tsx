@@ -30,8 +30,15 @@ export default function AdvancedSearch({
   const [gender, setGender] = useState<string | null>(null);
 
   const handleSearchClick = () => {
+<<<<<<< HEAD
     const filters = {
       gender: gender?.toLowerCase() || "",
+=======
+    const validGender =
+      gender === "Nam" ? "Male" : gender === "Nữ" ? "Female" : gender;
+    const filters = {
+      gender: validGender?.toLowerCase() || "",
+>>>>>>> e70a5daeb1b501b298ab342bb6888d678b58a2fc
       debtBalanceFrom,
       debtBalanceTo,
       totalPaymentFrom,

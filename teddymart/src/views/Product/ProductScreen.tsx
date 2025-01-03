@@ -92,16 +92,6 @@ export default function ProductScreen() {
       displayName: t("product.image"),
       value: true,
     },
-    {
-      id: 6,
-      displayName: t("product.supplierID"),
-      value: true,
-    },
-    {
-      id: 7,
-      displayName: t("product.warrantyTime"),
-      value: true,
-    },
   ]);
 
   const filterOptions = {
@@ -111,8 +101,6 @@ export default function ProductScreen() {
     sell_price: listFilter[2].value,
     costPrice: listFilter[3].value,
     note: listFilter[4].value,
-    supplierID: listFilter[6].value,
-    warrantyTime: listFilter[7].value,
   };
 
   const [dataInput, setDataInput] = useState<TProduct>({

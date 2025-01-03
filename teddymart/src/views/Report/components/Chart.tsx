@@ -190,7 +190,7 @@ function Chart({ time, options }: Props) {
               margin={{
                 top: 5,
                 right: 30,
-                left: 20,
+                left: 80,
                 bottom: 5,
               }}
             >
