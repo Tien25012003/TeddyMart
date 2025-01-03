@@ -50,7 +50,7 @@ const WarrantyTable = forwardRef<HTMLTableElement, Props>(
       productName: "",
       supplierID: "",
       reason: "",
-      status: "REQUEST",
+      status: "NEW",
     });
 
     const HEADER = useMemo(

@@ -443,7 +443,8 @@
     "customerPhoneNumber": "Customer Phone Number",
     "addSuccess": "Add new warranty successfully!",
     "deleteSuccess": "Delete warranty successfully!",
-    "updateSuccess": "Update warranty successfully!"
+    "updateSuccess": "Update warranty successfully!",
+    "NEW":"New"
   },
   "event": {
     "searchByName": "Search by event name",

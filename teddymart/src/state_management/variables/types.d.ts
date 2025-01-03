@@ -109,7 +109,7 @@ declare type TOrder = {
   totalPayment: number;
   status?: "paid" | "unpaid";
   debt?: number;
-  eventDiscount?:number;
+  eventDiscount?: number;
   listProduct: {
     productId: string;
     productName: string;
@@ -119,7 +119,7 @@ declare type TOrder = {
   voucherId?: string;
   seller: string;
   receiver: string;
-  eventId:string;
+  eventId: string;
   type: "Import" | "Export";
   warehouseName?: string;
 };
@@ -166,7 +166,12 @@ declare type TWarranty = {
   customerName: string;
   customerPhoneNumber: string;
   reason: string;
-  status: "REQUEST" | "SEND_TO_SUPPLIER" | "FIXED" | "RETURN_TO_CUSTOMER";
+  status:
+    | "NEW"
+    | "REQUEST"
+    | "SEND_TO_SUPPLIER"
+    | "FIXED"
+    | "RETURN_TO_CUSTOMER";
 };
 
 declare type TEvent = {
@@ -176,6 +181,6 @@ declare type TEvent = {
   endDate: Date;
   status: string;
   discount: number;
-  maximumValue:number;
+  maximumValue: number;
   products: { id: string; productName: string }[];
 };

@@ -2,7 +2,7 @@ import { message, Spin } from "antd";
 import { AlertModal, ButtonComponent, SearchComponent } from "components";
 import WarrantyTable from "components/TableComponent/components/WarrantyTable";
 import { COLORS } from "constants/colors";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BiTrash } from "react-icons/bi";
 import { TiPlus } from "react-icons/ti";
@@ -14,8 +14,10 @@ import { deleteData } from "controller/deleteData";
 import {
   deleteMultiWarranty,
   deleteWarranty,
+  uploadWarranty,
 } from "state_management/slices/warrantySlice";
-
+import { collection, doc, onSnapshot, query } from "firebase/firestore";
+import { db } from "firebaseConfig";
 export default function WarrantyScreen() {
   const { t } = useTranslation();
   const [search, setSearch] = useState("");
@@ -32,7 +34,7 @@ export default function WarrantyScreen() {
     productName: "",
     supplierID: "",
     reason: "",
-    status: "REQUEST",
+    status: "NEW",
   });
   const dispatch = useDispatch();
   const WARRANTIES = useSelector((state: RootState) => state.warrantySlice);
@@ -47,6 +49,23 @@ export default function WarrantyScreen() {
       setSelectedRows([]);
     }
   };
+  const userId = window.localStorage.getItem("USER_ID");
+  const q = query(collection(db, `/Manager/${userId}/Warranty`));
+  const unsubscribe = useCallback(
+    () =>
+      onSnapshot(q, (querySnapshot) => {
+        dispatch(
+          uploadWarranty(
+            querySnapshot.docs.map((value) => value.data()) as TWarranty[]
+          )
+        );
+      }),
+    []
+  );
+  useEffect(() => {
+    if (localStorage.getItem("ROLE") === "Staff") setIsDisable(true);
+    unsubscribe();
+  }, []);
   return (
     <Spin spinning={false}>
       <div className="w-full">

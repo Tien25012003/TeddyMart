@@ -435,7 +435,8 @@
     "customerPhoneNumber": "Số điện thoại của khách hàng",
     "addSuccess": "Thêm mới bảo thành công!",
     "deleteSuccess": "Xóa bảo hành thành công!",
-    "updateSuccess": "Cập nhật bảo hành thành công!"
+    "updateSuccess": "Cập nhật bảo hành thành công!",
+    "NEW":"Mới khởi tạo"
   },
   "event": {
     "searchByName": "Tìm kiếm theo tên sự kiện",

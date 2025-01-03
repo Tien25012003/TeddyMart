@@ -63,19 +63,13 @@ export default function AddNewWarranty({
   );
 
   const backgroundColor = useMemo(
-    () =>
-      data.productId !== "" && data.reason !== ""
-        ? COLORS.darkYellow
-        : COLORS.defaultWhite,
-    [data.productId, data.reason]
+    () => (data.productId !== "" ? COLORS.darkYellow : COLORS.defaultWhite),
+    [data.productId]
   );
 
   const color = useMemo(
-    () =>
-      data.productId !== "" && data.reason !== ""
-        ? COLORS.defaultWhite
-        : COLORS.lightGray,
-    [data.productId, data.reason]
+    () => (data.productId !== "" ? COLORS.defaultWhite : COLORS.lightGray),
+    [data.productId]
   );
 
   const onChange = (value: string, fieldName: string) => {
@@ -148,7 +142,7 @@ export default function AddNewWarranty({
         customerName: "",
         customerPhoneNumber: "",
         reason: "",
-        status: "REQUEST",
+        status: "NEW",
       });
     } catch (e) {
       console.error("Error while adding/updating warranty:", e);
@@ -253,7 +247,6 @@ export default function AddNewWarranty({
 
         <label className="self-center font-bold md:text-right mb-1 md:mb-0 pr-4">
           {t("warranty.reason")}
-          <p className="inline-block text-red-600">*</p>
         </label>
         <div className="px-2 col-span-3 inline-block">
           <TextInputComponent
