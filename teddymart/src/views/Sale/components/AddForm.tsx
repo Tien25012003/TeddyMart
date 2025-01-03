@@ -22,7 +22,7 @@ import { updateProductWarehouse } from "state_management/slices/warehouseSlice";
 import {
   addNotificationFirebase,
   addOrderFirebase,
-  createID
+  createID,
 } from "utils/appUtils";
 import AddNewCustomerForm from "./AddNewCustomer";
 const CUS_INFO = {
@@ -38,17 +38,17 @@ type ListProduct = {
   productName: string;
   quantity: number;
 };
-const MAP_LABEL= new Map([
-  ["IN_PROGRESS","Đang diễn ra"],
-  ["DONE","Hoàn thành"],
-  ["NOT_START","Chưa diễn ra"],
-  ["PENDING","Tạm dừng"]
-])
+const MAP_LABEL = new Map([
+  ["IN_PROGRESS", "Đang diễn ra"],
+  ["DONE", "Hoàn thành"],
+  ["NOT_START", "Chưa diễn ra"],
+  ["PENDING", "Tạm dừng"],
+]);
 const MAP_COLOR = new Map([
   ["IN_PROGRESS", "#1E90FF"], // Blue for ongoing events
-  ["DONE", "#32CD32"],        // Green for completed events
-  ["NOT_START", "#808080"],   // Gray for not started events
-  ["PENDING", "#FFD700"]      // Yellow for paused events
+  ["DONE", "#32CD32"], // Green for completed events
+  ["NOT_START", "#808080"], // Gray for not started events
+  ["PENDING", "#FFD700"], // Yellow for paused events
 ]);
 const AddForm = ({
   openAddForm,
@@ -82,7 +82,7 @@ const AddForm = ({
   const [note, setNote] = useState("");
   const [openAddCustomerForm, setOpenAddCustomerForm] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [selectedEvent,setSelectedEvent]=useState<TEvent>();
+  const [selectedEvent, setSelectedEvent] = useState<TEvent>();
   const getVoucherInfo = (voucherName: string) => {
     if (typeAdd === "Export") {
       let item = vouchers.find((value) => value.voucherName === voucherName);
@@ -132,14 +132,16 @@ const AddForm = ({
       0
     );
   }, [productMenu]);
-  const eventDiscount=useMemo(()=>selectedEvent
-  ?
-      Math.min(
-        sum * ((selectedEvent?.discount || 100) / 100),
-        selectedEvent?.maximumValue || 0
-      )
-  
-  : 0,[selectedEvent,sum])
+  const eventDiscount = useMemo(
+    () =>
+      selectedEvent
+        ? Math.min(
+            sum * ((selectedEvent?.discount || 100) / 100),
+            selectedEvent?.maximumValue || 0
+          )
+        : 0,
+    [selectedEvent, sum]
+  );
   console.log("Sum", sum);
   console.log("ProductMenu", productMenu);
   console.log("voucher", voucher);
@@ -206,7 +208,7 @@ const AddForm = ({
 
       const data: TOrder = {
         createdAt: createdAt.toISOString(),
-        debt: sum * (1 - discount / 100) - +payment-(+eventDiscount||0),
+        debt: sum * (1 - discount / 100) - +payment - (+eventDiscount || 0),
         eventDiscount: eventDiscount,
         discount: discount,
         listProduct: listProduct,
@@ -216,11 +218,14 @@ const AddForm = ({
         partnerName: customerInfo.partnerName,
         payment: sum,
         seller: typeAdd === "Import" ? null : manager?.email,
-        status: +payment === sum * (1 - discount / 100)-(+eventDiscount||0) ? "paid" : "unpaid",
+        status:
+          +payment === sum * (1 - discount / 100) - (+eventDiscount || 0)
+            ? "paid"
+            : "unpaid",
         totalPayment: +payment,
         type: typeAdd,
         voucherId: voucherId ?? "",
-        eventId: selectedEvent.eventId||"",
+        eventId: selectedEvent?.eventId || "",
         receiver: typeAdd === "Import" ? manager?.email : null,
         warehouseName: warehouseName ?? "",
       };
@@ -250,7 +255,7 @@ const AddForm = ({
       setVoucher("");
       setProductMenu([]);
       setSelectedRows([]);
-      setSelectedEvent(undefined)
+      setSelectedEvent(undefined);
       message.success("Add Order Success");
       setOpenAddForm(false);
 
@@ -423,7 +428,7 @@ const AddForm = ({
             onClick={() => setOpenAddProductForm(true)}
           /> */}
         </div>
-        
+
         <div className="my-5">
           <ProductTable
             filterOption={{
@@ -478,7 +483,7 @@ const AddForm = ({
           />
         </Card>
       )}
-        {typeAdd === "Export" && (
+      {typeAdd === "Export" && (
         <Card
           title={<h1 className=" text-2xl">{t("event.eventInfo")}</h1>}
           bordered={true}
@@ -489,47 +494,70 @@ const AddForm = ({
             marginBlock: 12,
           }}
         >
-         <div className="overflow-x-auto gap-2 flex flex-row">
-          {events
-            ?.filter((event) => {
-              const startDate = new Date(event.startDate); // Convert to Date
-              const endDate = new Date(event.endDate);     // Convert to Date
+          <div className="overflow-x-auto gap-2 flex flex-row">
+            {events
+              ?.filter((event) => {
+                const startDate = new Date(event.startDate); // Convert to Date
+                const endDate = new Date(event.endDate); // Convert to Date
 
-              return (
-                startDate.getTime() <= new Date().getTime() &&
-                endDate.getTime() >= new Date().getTime() && event.status==="IN_PROGRESS"
-              );
-            })
-            .map((event, index) => (
-              <div
-                key={index}
-                className={`bg-white border border-gray-200 shadow-sm rounded-md inline-flex min-w-fit items-center gap-4 p-4 mb-4 hover:shadow-lg transition-shadow duration-300 ${event?.eventId===selectedEvent?.eventId&&"border-green-600"}`}
-              >
-                <div className="flex flex-col gap-1 flex-grow">
-                  <p className="text-lg font-semibold text-gray-800">{event.eventName}</p>
-                  <p className="text-sm text-gray-500">{t("event.status")}: <span className={`font-medium text-blue-600`}>{t("event.IN_PROGRESS")}</span></p>
-                  <p className="text-sm text-gray-500">{t("event.discount")}: <span className="font-medium text-green-600">{event.discount?.toLocaleString("vi")}%</span></p>
-                  <p className="text-sm text-gray-500">{t("event.maximumValue")}: <span className="font-medium text-red-600">{event.maximumValue?.toLocaleString("vi")} VNĐ</span></p>
-                </div>
-                <button className={`${event.status==="IN_PROGRESS"?"bg-blue-600":"bg-gray-400"} text-white px-4 py-2 rounded-md font-medium ${event.status==="IN_PROGRESS"&&"hover:bg-blue-700"} transition-colors duration-300`}
-                  disabled={event.status!=="IN_PROGRESS"?true:false}
-                  onClick={()=>{
-                    if (event.eventId===selectedEvent?.eventId)
-                    {
-                      setSelectedEvent(undefined)
-                    }
-                    else{
-                      setSelectedEvent(event)
-                    }
-                  }}
+                return (
+                  startDate.getTime() <= new Date().getTime() &&
+                  endDate.getTime() >= new Date().getTime() &&
+                  event.status === "IN_PROGRESS"
+                );
+              })
+              .map((event, index) => (
+                <div
+                  key={index}
+                  className={`bg-white border border-gray-200 shadow-sm rounded-md inline-flex min-w-fit items-center gap-4 p-4 mb-4 hover:shadow-lg transition-shadow duration-300 ${
+                    event?.eventId === selectedEvent?.eventId &&
+                    "border-green-600"
+                  }`}
                 >
-                  {
-                    event.eventId===selectedEvent?.eventId?"Huỷ":"Chọn"
-                  }
-                </button>
-              </div>
-            ))}
-          
+                  <div className="flex flex-col gap-1 flex-grow">
+                    <p className="text-lg font-semibold text-gray-800">
+                      {event.eventName}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {t("event.status")}:{" "}
+                      <span className={`font-medium text-blue-600`}>
+                        {t("event.IN_PROGRESS")}
+                      </span>
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {t("event.discount")}:{" "}
+                      <span className="font-medium text-green-600">
+                        {event.discount?.toLocaleString("vi")}%
+                      </span>
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {t("event.maximumValue")}:{" "}
+                      <span className="font-medium text-red-600">
+                        {event.maximumValue?.toLocaleString("vi")} VNĐ
+                      </span>
+                    </p>
+                  </div>
+                  <button
+                    className={`${
+                      event.status === "IN_PROGRESS"
+                        ? "bg-blue-600"
+                        : "bg-gray-400"
+                    } text-white px-4 py-2 rounded-md font-medium ${
+                      event.status === "IN_PROGRESS" && "hover:bg-blue-700"
+                    } transition-colors duration-300`}
+                    disabled={event.status !== "IN_PROGRESS" ? true : false}
+                    onClick={() => {
+                      if (event.eventId === selectedEvent?.eventId) {
+                        setSelectedEvent(undefined);
+                      } else {
+                        setSelectedEvent(event);
+                      }
+                    }}
+                  >
+                    {event.eventId === selectedEvent?.eventId ? "Huỷ" : "Chọn"}
+                  </button>
+                </div>
+              ))}
           </div>
         </Card>
       )}
@@ -568,7 +596,7 @@ const AddForm = ({
           <h1 className=" text-base font-medium">{t("sale.eventDiscount")}:</h1>
           <h1 className=" text-base italic">
             {new Intl.NumberFormat().format(eventDiscount)}
-        </h1>
+          </h1>
           <Tooltip title={t("sale.tooltipPayment")}>
             <h1 className=" text-base font-medium">{t("sale.totalPrice")}:</h1>
           </Tooltip>
@@ -588,7 +616,11 @@ const AddForm = ({
           </h1> */}
           <h1 className=" text-base italic">
             {new Intl.NumberFormat().format(
-              +(sum * (1 - (discount ?? 0) / 100) - +payment - (+eventDiscount||0))
+              +(
+                sum * (1 - (discount ?? 0) / 100) -
+                +payment -
+                (+eventDiscount || 0)
+              )
             )}
           </h1>
         </div>
