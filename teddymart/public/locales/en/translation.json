@@ -127,7 +127,7 @@
     "totalPayment": "Total Payment",
     "status": "Status",
     "debt": "Debt",
-    "eventDiscount":"Event Discount",
+    "eventDiscount": "Event Discount",
     "addNewOrder": "Add New Order",
     "customerInfo": "Customer Information",
     "supplierInfo": "Supplier Information",
@@ -185,7 +185,9 @@
     "addSuccess": "Add new successfully!",
     "fill": "Please fill in full inforamtion",
     "debtCheck": "Debt must be less than or equal to the total purchase amount!",
-    "phoneExists": "This phone number already exists!"
+    "phoneExists": "This phone number already exists!",
+    "male": "Male",
+    "female": "Female"
   },
   "product": {
     "productGroup": "Product Group",
@@ -461,7 +463,7 @@
     "NOT_START": "Not Start",
     "addSuccess": "Add new event successfully!",
     "discount": "Discount",
-    "maximumValue":"Maximum Discount",
-    "pleaseEnterFullInfo":"Please fill all input fields"
+    "maximumValue": "Maximum Discount",
+    "pleaseEnterFullInfo": "Please fill all input fields"
   }
 }

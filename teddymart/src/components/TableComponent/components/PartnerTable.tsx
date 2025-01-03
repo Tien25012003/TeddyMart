@@ -468,7 +468,9 @@ const PartnerTable = forwardRef<HTMLTableElement, Props>(
                       )}
                       {options.gender && isCustomer && (
                         <td className="border border-gray-300 p-2 text-sm">
-                          {content.type === "Customer" ? content.gender : null}
+                          {content.type === "Customer"
+                            ? t(`partner.${content.gender}`)
+                            : null}
                         </td>
                       )}
                       {options.phoneNumber && (

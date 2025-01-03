@@ -158,7 +158,9 @@
     "addSuccess": "Thêm mới thành công!",
     "fill": "Vui lòng điền đầy đủ thông tin!",
     "debtCheck": "Tổng số nợ phải nhỏ hơn hoặc bằng tổng số tiền mua hàng!",
-    "phoneExists": "Số điện thoại này đã tồn tại!"
+    "phoneExists": "Số điện thoại này đã tồn tại!",
+    "male": "Nam",
+    "female": "Nữ"
   },
   "product": {
     "productGroup": "Nhóm sản phẩm",
@@ -451,7 +453,7 @@
     "DONE": "Hoàn thành",
     "PENDING": "Tạm dừng",
     "NOT_START": "Chưa bắt đầu",
-    "maximumValue":"Số tiền giảm tối đa",
-    "pleaseEnterFullInfo":"Vui lòng nhập đầy đủ thông tin"
+    "maximumValue": "Số tiền giảm tối đa",
+    "pleaseEnterFullInfo": "Vui lòng nhập đầy đủ thông tin"
   }
 }
